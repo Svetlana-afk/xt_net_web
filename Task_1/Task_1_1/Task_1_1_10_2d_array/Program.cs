@@ -14,7 +14,9 @@ namespace Task_1_1_10_2d_array
             FillArray(arr);
             Console.WriteLine("Сгенерированный случайным образом 2D массив:");
             PrintArray(arr);
-            Console.WriteLine("Сумма чисел на четных позициях: {0}", SumArray(arr));            
+            Console.WriteLine("Сумма чисел на четных позициях: {0}", SumArray(arr));
+            Console.WriteLine("Другая! Сумма чисел на четных позициях: {0}", AnotherSumArray(arr));
+
         }
         static void FillArray(int[,] arr)
         {
@@ -48,8 +50,24 @@ namespace Task_1_1_10_2d_array
                 for (int j = 0; j < arr.GetLength(1); ++j)
                 {
                     if ((j + i) % 2 == 0) { sum += arr[i, j]; }
+                }                
+            }
+
+            return sum;
+        }
+
+        static int AnotherSumArray(int[,] arr)
+        {
+            int sum = 0;
+            int n = 0;
+            for (int i = 0; i < arr.GetLength(0); ++i)
+            {
+                if (i % 2 == 0) { n = 0; } else { n = 1; }
+
+                for (int j = n; j < arr.GetLength(1); j+=2)
+                {
+                    sum += arr[i, j];
                 }
-                Console.WriteLine();
             }
 
             return sum;
