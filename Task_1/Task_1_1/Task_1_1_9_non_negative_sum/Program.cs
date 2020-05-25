@@ -23,15 +23,12 @@ namespace Task_1_1_9_non_negative_sum
             for (int i = 0; i < arr.Length; i++)
             {
                 arr[i] = rand.Next(-20, 20);
-
             }
-
         }
         static void PrintArray(int[] arr)
         {
             for (int i = 0; i < arr.Length; i++)
             {
-
                 Console.Write("{0:D}  ", arr[i]);
             }
         }

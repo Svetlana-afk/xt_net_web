@@ -32,9 +32,7 @@ namespace Task_1_1_8_no_positive
                         arr[i, j, k] = rand.Next(-20, 20);
                     }
                 }                  
-
             }
-
         }
 
         static void PrintArray(int[,,] arr)
@@ -51,9 +49,7 @@ namespace Task_1_1_8_no_positive
                 }
                 Console.WriteLine();
                 Console.WriteLine();
-
             }
-
         }
 
         static void NoPositive(int[,,] arr)
@@ -64,14 +60,10 @@ namespace Task_1_1_8_no_positive
                 {
                     for (int k = 0; k < arr.GetLength(2); ++k)
                     {
-                        if (arr[i, j, k] > 0) { arr[i, j, k] = 0; }
-                         
+                        if (arr[i, j, k] > 0) { arr[i, j, k] = 0; }                        
                     }
                 }
-
             }
-
         }
-
     }
 }
