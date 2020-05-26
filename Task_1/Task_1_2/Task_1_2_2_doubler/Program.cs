@@ -19,7 +19,7 @@ namespace Task_1_2_2_doubler
 
         static StringBuilder Doubler(string str1, string str2)
         {
-            StringBuilder doubler  = new StringBuilder("");
+            StringBuilder doubler = new StringBuilder("");
             
             foreach (var ch in str1)
             {

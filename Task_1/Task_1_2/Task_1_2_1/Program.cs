@@ -18,18 +18,14 @@ namespace Task_1_2_1
         //Функция AverageWordLength возвращает значение в виде числа с плавающей точкой
         static float AverageWordLength(string str) 
         {
-            int countOfWords = 0;
             int sumOfСhars = 0;
             char[] delimiterChars = { ' ', ',', '.', ':', '\t', '!', '?'};
-            string[] arrayOfWords = str.Split(delimiterChars);
+            string[] arrayOfWords = str.Split(delimiterChars, StringSplitOptions.RemoveEmptyEntries);
+            int countOfWords = arrayOfWords.Length;
             foreach (var word in arrayOfWords)
-            {              
-                if (word.Length != 0) 
-                {
-                    countOfWords += 1;
-                    sumOfСhars += word.Length;               
-                }              
-            }
+            {   
+                    sumOfСhars += word.Length;   
+            }            
             return (float)sumOfСhars / countOfWords;
         }
     }
