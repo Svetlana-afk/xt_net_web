@@ -10,35 +10,38 @@ namespace Task_1_1_1_rectangle
     {
         static void Main(string[] args)
         {
-            int a;
-            int b;
+            int a=-1;
+            int b=-1;
             int c;
+            bool succesA = false;
+            bool succesB = false;
 
-            Console.WriteLine("Введите значение длины стороны А прямоугольника");
-            String astr = Console.ReadLine();
-            a = Int16.Parse(astr);
-            Console.WriteLine("Введите значение длины стороны B прямоугольника");
-            String bstr = Console.ReadLine();
-            b = Int16.Parse(bstr);
+           
+            while (!succesA || a <= 0) 
+            {
+                Console.WriteLine("Введите значение длины стороны А прямоугольника:");
+                succesA = Int32.TryParse(Console.ReadLine(), out a);
+            }
+
+            while (!succesB || b <= 0)
+            {
+                Console.WriteLine("Введите значение длины стороны B прямоугольника:");
+                succesB = Int32.TryParse(Console.ReadLine(), out b);
+            }
+
             c = rectangleSquare(a, b);
-            Console.WriteLine(c);
-
+            Console.WriteLine("Площадь прямоугольника {0}", c);
+            return;
+          
         }
 
         static int rectangleSquare(int a, int b)
         {
-            if (a <= 0)
+            if (a <= 0||b <= 0)
             {
-                Console.WriteLine("Неверное значение A, число должно быть больше 0");
+                Console.WriteLine("Неверное значение одного из параметров, это должны быть числа больше 0");
                 return -1;
             }
-
-            if (b <= 0)
-            {
-                Console.WriteLine("Неверное значение B, число должно быть больше 0");
-                return -1;
-            }
-
             return a * b;
         }
     }

@@ -18,10 +18,10 @@ namespace Task_1_1_2_triangle
         }
         static void DrawTriangle(byte rowCount)
         {
-            string starStr = "";
+            StringBuilder starStr = new StringBuilder("", rowCount);
             for (int i = 1; i <= rowCount; i++)
             {
-                starStr = starStr + "*";
+                starStr.Append("*");
                 Console.WriteLine(starStr);
             }
         }
