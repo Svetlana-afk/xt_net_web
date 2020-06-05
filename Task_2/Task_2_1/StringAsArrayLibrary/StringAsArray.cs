@@ -1,35 +1,29 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Task_2_1_1
+namespace StringAsArrayLibrary
 {
-    class StringAsArray
+    public class StringAsArray
     {
         private char[] _charArray;
 
-        public int Length => _charArray.Length; 
-        
+        public int Length => _charArray.Length;
+
         public StringAsArray(int length)
         {
-            if (length <= 0) 
+            if (length <= 0)
             {
                 throw new ArgumentException("Length must be greater than 0");
-            }            
+            }
             _charArray = new char[length];
         }
-        public StringAsArray(char[] charArr) 
+        public StringAsArray(char[] charArr)
         {
             _charArray = new char[charArr.Length];
-            Array.Copy(charArr, _charArray, charArr.Length);            
+            Array.Copy(charArr, _charArray, charArr.Length);
         }
         public StringAsArray(StringAsArray str)
         {
-            _charArray = str.ToCharArray();            
+            _charArray = str.ToCharArray();
         }
 
         public char this[int i]
@@ -43,7 +37,7 @@ namespace Task_2_1_1
             for (int i = 0; i < _charArray.Length; i++)
             {
                 if (_charArray[i] == ch)
-                { 
+                {
                     return true;
                 }
             }
@@ -52,16 +46,16 @@ namespace Task_2_1_1
 
         public int IndexOf(char ch, int startIndex, int endIndex)
         {
-            if (startIndex < 0 || endIndex > _charArray.Length) 
+            if (startIndex < 0 || endIndex > _charArray.Length)
             {
                 throw new ArgumentException("Index out of Range");
-            }           
+            }
 
             for (int i = startIndex; i < endIndex; i++)
             {
-                if (_charArray[i] == ch) 
+                if (_charArray[i] == ch)
                 {
-                    return i; 
+                    return i;
                 }
             }
             return -1;
@@ -73,9 +67,9 @@ namespace Task_2_1_1
 
         public char[] ToCharArray()
         {
-            char[]  charArray = new char[this.Length];
+            char[] charArray = new char[this.Length];
             Array.Copy(_charArray, charArray, this.Length);
-            
+
             return charArray;
         }
 
@@ -88,11 +82,11 @@ namespace Task_2_1_1
         {
             int result = 0;
             if (obj == null) return 1;
-            
+
             StringAsArray src = obj as StringAsArray;
-            if (src == null) 
-            { 
-                throw new Exception("No Comparable, it isn't StringAsArray"); 
+            if (src == null)
+            {
+                throw new Exception("No Comparable, it isn't StringAsArray");
             }
             int length = (this.Length <= src.Length) ? this.Length : src.Length;
             for (int i = 0; i < length; i++)
@@ -100,7 +94,7 @@ namespace Task_2_1_1
                 result = this._charArray[i].CompareTo(src.ToCharArray()[i]);
 
                 if (result > 0) { return 1; }
-                if (result < 0) { return - 1; }
+                if (result < 0) { return -1; }
             }
             return result;
         }
@@ -108,14 +102,14 @@ namespace Task_2_1_1
         public override bool Equals(object obj)
         {
             StringAsArray src = obj as StringAsArray;
-            if (src == null) 
+            if (src == null)
             {
                 return false;
             }
-                           
-            if (src.Length != this.Length) 
-            { 
-                return false; 
+
+            if (src.Length != this.Length)
+            {
+                return false;
             }
 
             for (int i = 0; i < src.Length; i++)
@@ -138,21 +132,21 @@ namespace Task_2_1_1
             foreach (char elem in _charArray)
             {
                 hashCode = 5 * hashCode + elem;
-            }              
-            
+            }
+
             return hashCode;
         }
 
         public void Replace(int index, char ch)
         {
             if (index < 0 || index > _charArray.Length)
-            { 
-                throw new ArgumentException("Index out of Range"); 
+            {
+                throw new ArgumentException("Index out of Range");
             }
             _charArray[index] = ch;
-        }       
+        }
 
-        public static StringAsArray operator + (StringAsArray strA, StringAsArray strB)
+        public static StringAsArray operator +(StringAsArray strA, StringAsArray strB)
         {
             var sumLength = strA.Length + strB.Length;
             StringAsArray resultStr = new StringAsArray(sumLength);
