@@ -16,8 +16,7 @@ namespace Task_2_1_2
             Console.WriteLine("Пожалуйста, введите Ваше имя.");
             User user = new User(Console.ReadLine());
             Console.WriteLine("Здравствуйте, {0}!", user.Name);
-            Point p = new Point(2, 3);
-            Line line = new Line(p, 5);
+            
             while (succes) 
             {
                 Console.WriteLine("{0}, выберите действие: " +
