@@ -8,10 +8,17 @@ namespace Task_2_1_2
 {
     class Ring : Disk
     {
-        public double InnerRadius{get; set;}
+        public double InnerRadius{get; private set;}
         public Ring(Point center, double radius, double innerRadius) : base(center, radius)
         {
-            InnerRadius = innerRadius;
+            if (innerRadius > 0 && innerRadius<this.Radius)
+            {
+                InnerRadius = innerRadius;
+            }
+            else
+            {
+                throw new Exception("Внуторенний радиус кольца должен быть положительным числом и меньше внешнего радиуса");
+            }
         }
         public override double Perimeter() => 2 * Math.PI * this.Radius + 2 * Math.PI * this.InnerRadius;
         public override double GetArea() => base.GetArea() - InnerRadius*InnerRadius*Math.PI;
