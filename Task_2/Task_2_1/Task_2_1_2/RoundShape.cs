@@ -21,7 +21,8 @@ namespace Task_2_1_2
             {
                 throw new Exception("Радиус должен быть положительным числом.");
             }
-        }       
+        }
 
+        public abstract double Length();
     }
 }

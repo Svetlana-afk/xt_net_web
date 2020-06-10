@@ -13,9 +13,6 @@ namespace Task_2_1_2
         {
             Center = center;
         }
-
-        public abstract double Perimeter();
-
-        public virtual void Output() { }
+        public abstract string GetInfo();
     }
 }

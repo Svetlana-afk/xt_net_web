@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Task_2_1_2
 {
-    class Square: PolygonalShape
+    class Square: ClosedPolygonalShape
     {
         private const int COUNT_VERTICES = 4;
         public Square(Point center, double side) : base(center, COUNT_VERTICES)
@@ -19,13 +19,13 @@ namespace Task_2_1_2
 
         public override double Perimeter() => COUNT_VERTICES * this.Sides[0].Length;
         public double GetArea() => this.Sides[0].Length* this.Sides[0].Length;
-        public override void Output()
+        public override string GetInfo()
         {
-            Console.WriteLine("Квадрат: " +
-                "\r\n   центр в точке: ({0},{1})" +
-                "\r\n   сторона: a = {2}" +
-                "\r\n   периметр: {3}" +
-                "\n\r   площадь: {4}", this.Center.X, this.Center.Y, this.Sides[0].Length, this.Perimeter(), this.GetArea());
+            return String.Format("Квадрат: " +
+                    "\r\n   центр в точке: ({0},{1})" +
+                    "\r\n   сторона: a = {2}" +
+                    "\r\n   периметр: {3}" +
+                    "\n\r   площадь: {4}", this.Center.X, this.Center.Y, this.Sides[0].Length, this.Perimeter(), this.GetArea());
         }
     }
 }

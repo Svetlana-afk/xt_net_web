@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Task_2_1_2
 {
-    class Line : PolygonalShape
+    class Line : OpenPolygonalShape
     {
         private const int COUNT_VERTICES = 1;
         public Line(Point center, double length) : base(center, COUNT_VERTICES)
@@ -15,12 +15,12 @@ namespace Task_2_1_2
             Sides[0] = new Side(length);
         }
 
-        public override double Perimeter() => this.Sides[0].Length;
-        public override void Output()
+        public override double Length() => this.Sides[0].Length;
+        public override string GetInfo()
         {
-            Console.WriteLine("Линия: " +
-                "\r\n   центр в точке: ({0},{1})," +
-                "\r\n   длина: {2}", this.Center.X, this.Center.Y, this.Sides[0].Length);
+            return String.Format("Линия: " +
+                    "\r\n   центр в точке: ({0},{1})," +
+                    "\r\n   длина: {2}", this.Center.X, this.Center.Y, this.Sides[0].Length);
         }
     }
 }

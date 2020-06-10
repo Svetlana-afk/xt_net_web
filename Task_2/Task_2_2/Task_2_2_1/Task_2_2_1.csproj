@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7623FFFF-BB59-45C3-9BB9-36DF0E5264B9}</ProjectGuid>
+    <ProjectGuid>{DECDAE87-A5A3-48FF-B9B2-1D8536EC09DE}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Task_2_1_2</RootNamespace>
-    <AssemblyName>Task_2_1_2</AssemblyName>
+    <RootNamespace>Task_2_2_1</RootNamespace>
+    <AssemblyName>Task_2_2_1</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,25 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Circle.cs" />
-    <Compile Include="ClosedPolygonalShape.cs" />
-    <Compile Include="Disk.cs" />
-    <Compile Include="FigureCreator.cs" />
-    <Compile Include="IFillable.cs" />
-    <Compile Include="Line.cs" />
-    <Compile Include="OpenPolygonalShape.cs" />
-    <Compile Include="Point.cs" />
-    <Compile Include="PolygonalShape.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rectangle.cs" />
-    <Compile Include="Ring.cs" />
-    <Compile Include="RoundShape.cs" />
-    <Compile Include="Shape.cs" />
-    <Compile Include="Side.cs" />
-    <Compile Include="Square.cs" />
-    <Compile Include="Triangle.cs" />
-    <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

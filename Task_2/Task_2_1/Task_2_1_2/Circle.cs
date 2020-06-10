@@ -8,15 +8,15 @@ namespace Task_2_1_2
 {
     class Circle : RoundShape
     {
-        public override double Perimeter() => 2*Math.PI*this.Radius;
+        public override double Length() => 2*Math.PI*this.Radius;
 
         public Circle(Point center, double radius) : base(center, radius) {}
-        public override void Output() 
+        public override string GetInfo()
         {
-            Console.WriteLine("Окружность: " +
-                "\r\n   центр в точке: ({0},{1})," +
-                "\r\n   радиус: {2}" +
-                "\r\n   длина окружности: {3}", this.Center.X, this.Center.Y, this.Radius, this.Perimeter());
+            return String.Format("Окружность: " +
+                    "\r\n   центр в точке: ({0},{1})," +
+                    "\r\n   радиус: {2}" +
+                    "\r\n   длина окружности: {3}", this.Center.X, this.Center.Y, this.Radius, this.Length());
         }
                
     }  

@@ -30,24 +30,14 @@ namespace Task_2_1_2
                     switch (choise)
                     {
                         case 1:
-                            Console.WriteLine("{0}, выберите тип фигуры:" +
-                               "\r\n 1. Окружность; " +
-                               "\r\n 2. Круг; " +
-                               "\r\n 3. Кольцо;" +
-                               "\r\n 4. Линия; " +
-                               "\r\n 5. Треугольник; " +
-                               "\r\n 6. Прямоугольник; " +
-                               "\r\n 7. Квадрад; ", user.Name);
-                            if (Int32.TryParse(Console.ReadLine(), out choise) && (choise <= 7) && (choise > 0)) 
-                            {                                
-                                shapes.Add(FigureCreator.Create((FigureCreator.FigureType)choise));
-                            }           
+
+                            ShapeMenu();
                             break;
 
                         case 2:
                             foreach (var item in shapes)
                             {
-                                item.Output();
+                                Console.WriteLine(item.GetInfo()); 
                             }
                             break;
 
@@ -73,7 +63,23 @@ namespace Task_2_1_2
                 {
                     Console.WriteLine("Некорректный ввод.");
                 }               
-            }            
+            }  
+            
+            void ShapeMenu() 
+            {
+                Console.WriteLine("{0}, выберите тип фигуры:" +
+                               "\r\n 1. Окружность; " +
+                               "\r\n 2. Круг; " +
+                               "\r\n 3. Кольцо;" +
+                               "\r\n 4. Линия; " +
+                               "\r\n 5. Треугольник; " +
+                               "\r\n 6. Прямоугольник; " +
+                               "\r\n 7. Квадрад; ", user.Name);
+                if (Int32.TryParse(Console.ReadLine(), out choise) && (choise <= 7) && (choise > 0))
+                {
+                    shapes.Add(FigureCreator.Create((FigureCreator.FigureType)choise));
+                }
+            }
         }
              
         

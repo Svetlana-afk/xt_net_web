@@ -11,13 +11,13 @@ namespace Task_2_1_2
         public Disk(Point center, double radius) : base(center, radius) { }
         public virtual double GetArea() => this.Radius * this.Radius * Math.PI;
 
-        public override void Output()
+        public override string GetInfo()
         {
-            Console.WriteLine("Это круг: " +
-                "\r\n   центр в точке: ({0},{1})," +
-                "\r\n   радиус: {2}" +
-                "\r\n   длина окружности: {3}" +
-                "\n\r площадью: {4}", this.Center.X, this.Center.Y, this.Radius, this.Perimeter(),this.GetArea());
+            return String.Format("Круг: " +
+                        "\r\n   центр в точке: ({0},{1})," +
+                        "\r\n   радиус: {2}" +
+                        "\r\n   длина окружности: {3}" +
+                        "\n\r   площадью: {4}", this.Center.X, this.Center.Y, this.Radius, this.Length(),this.GetArea());
         }
 
     }
