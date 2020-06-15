@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Task_2_2_1
 {
-    class AppleBon : Bonus
+    public class AppleBon : Bonus
     {
-        int ForceUp { get; set;}
-        public AppleBon(int forceUp) 
+        public int PowerUp { get; set;}
+        public AppleBon(int powerUp, int x, int y, Field field) : base(x, y, field)        
         {
-            ForceUp = forceUp;
+            PowerUp = powerUp;
         }
     }
 }

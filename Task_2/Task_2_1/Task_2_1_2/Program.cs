@@ -25,7 +25,7 @@ namespace Task_2_1_2
                     "\r\n 3. Очистить холст; " +
                     "\r\n 4. Сменить пользователя; " +
                     "\r\n 5. Выход.", user.Name);
-                if (Int32.TryParse(Console.ReadLine(), out choise) && (choise <= 5) && (choise > 0))
+                if (int.TryParse(Console.ReadLine(), out choise) && (choise <= 5) && (choise > 0))
                 {
                     switch (choise)
                     {
@@ -72,7 +72,7 @@ namespace Task_2_1_2
                                "\r\n 5. Равносторонний треугольник; " +
                                "\r\n 6. Прямоугольник; " +
                                "\r\n 7. Квадрад; ", user.Name);
-                if (Int32.TryParse(Console.ReadLine(), out choise) && (choise <= 7) && (choise > 0))
+                if (int.TryParse(Console.ReadLine(), out choise) && (choise <= 7) && (choise > 0))
                 {
                     shapes.Add(FigureCreator.Create((FigureCreator.FigureType)choise));
                 }

@@ -7,9 +7,22 @@ using System.Threading.Tasks;
 
 namespace Task_2_2_1
 {
-    abstract class Character : Item
-    {
+    public abstract class Character : Item
+    {        
+        public int power;
+        public int speed;
+
         public Character(int x, int y, Field field) : base(x, y, field) { }
-        protected abstract void Move(Direction direction);
+        protected void Move(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Left: this.X += 1; break;
+                case Direction.Up: this.Y += 1; break;
+                case Direction.Right: this.X -= 1; break;
+                case Direction.Down: this.Y -= 1; break;
+                case Direction.None: break;
+            }
+        }        
     }
 }

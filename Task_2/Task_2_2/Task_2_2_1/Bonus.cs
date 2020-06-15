@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Task_2_2_1
 {
-    abstract class Bonus
+    public abstract class Bonus : Item
     {
+        public Bonus(int x, int y, Field field) : base(x, y, field) { }
     }
 }

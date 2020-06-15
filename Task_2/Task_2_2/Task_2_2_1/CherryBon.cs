@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Task_2_2_1
 {
-    class CherryBon : Bonus
+    public class CherryBon : Bonus
     {
-        int SpeedUp { get; set; }
-        public CherryBon(int speedUp)
+        public int SpeedUp { get; set; }        
+        public CherryBon(int speedUp, int x, int y, Field field) : base(x, y, field)
         {
             SpeedUp = speedUp;
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Task_2_2_1
 {
-    abstract class Obstacle : Item
+    public abstract class Obstacle : Item
     {
         public Obstacle(int x, int y, Field field) : base(x, y, field) { }
     }
