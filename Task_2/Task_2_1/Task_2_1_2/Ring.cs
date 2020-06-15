@@ -25,7 +25,7 @@ namespace Task_2_1_2
 
         public override string GetInfo()
         {
-            return String.Format("Кольцо: " +
+            return string.Format("Кольцо: " +
                     "\r\n   центр в точке: ({0},{1})," +
                     "\r\n   внешний радиус: {2}" +
                     "\r\n   внутренний радиус:{3}" +

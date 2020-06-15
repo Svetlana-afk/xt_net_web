@@ -21,7 +21,7 @@ namespace Task_2_1_2
         public double GetArea() => this.Sides[0].Length* this.Sides[0].Length;
         public override string GetInfo()
         {
-            return String.Format("Квадрат: " +
+            return string.Format("Квадрат: " +
                     "\r\n   центр в точке: ({0},{1})" +
                     "\r\n   сторона: a = {2}" +
                     "\r\n   периметр: {3}" +

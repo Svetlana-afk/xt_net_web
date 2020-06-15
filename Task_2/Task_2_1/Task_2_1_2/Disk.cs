@@ -13,7 +13,7 @@ namespace Task_2_1_2
 
         public override string GetInfo()
         {
-            return String.Format("Круг: " +
+            return string.Format("Круг: " +
                         "\r\n   центр в точке: ({0},{1})," +
                         "\r\n   радиус: {2}" +
                         "\r\n   длина окружности: {3}" +

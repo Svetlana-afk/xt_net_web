@@ -18,7 +18,7 @@ namespace Task_2_1_2
         public override double Length() => this.Sides[0].Length;
         public override string GetInfo()
         {
-            return String.Format("Линия: " +
+            return string.Format("Линия: " +
                     "\r\n   центр в точке: ({0},{1})," +
                     "\r\n   длина: {2}", this.Center.X, this.Center.Y, this.Sides[0].Length);
         }

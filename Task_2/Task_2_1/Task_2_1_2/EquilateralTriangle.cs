@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Task_2_1_2
 {
-    class Triangle : ClosedPolygonalShape, IFillable
+    class EquilateralTriangle : ClosedPolygonalShape, IFillable
     {
         //for simplicity, consider an equilateral triangle
         private const int COUNT_VERTICES = 3;
-        public Triangle(Point center, double sideA) : base(center, COUNT_VERTICES)
+        public EquilateralTriangle(Point center, double sideA) : base(center, COUNT_VERTICES)
         {
             this.Sides[0] = new Side(sideA);
             this.Sides[1] = new Side(sideA);

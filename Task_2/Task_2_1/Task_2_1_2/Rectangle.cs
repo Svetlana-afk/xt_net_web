@@ -22,7 +22,7 @@ namespace Task_2_1_2
 
         public override string GetInfo()
         {
-            return String.Format("Прямоугольник: " +
+            return string.Format("Прямоугольник: " +
                     "\r\n   центр в точке: ({0},{1})," +
                     "\r\n   стороны: a = {2}, b = {3}" +
                     "\r\n   периметр: {4}" +

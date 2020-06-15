@@ -60,7 +60,7 @@
     <Compile Include="Shape.cs" />
     <Compile Include="Side.cs" />
     <Compile Include="Square.cs" />
-    <Compile Include="Triangle.cs" />
+    <Compile Include="EquilateralTriangle.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>

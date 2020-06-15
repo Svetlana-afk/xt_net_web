@@ -35,10 +35,7 @@ namespace Task_2_1_2
                             break;
 
                         case 2:
-                            foreach (var item in shapes)
-                            {
-                                Console.WriteLine(item.GetInfo()); 
-                            }
+                            GetShapesInfo();
                             break;
 
                         case 3:
@@ -72,13 +69,20 @@ namespace Task_2_1_2
                                "\r\n 2. Круг; " +
                                "\r\n 3. Кольцо;" +
                                "\r\n 4. Линия; " +
-                               "\r\n 5. Треугольник; " +
+                               "\r\n 5. Равносторонний треугольник; " +
                                "\r\n 6. Прямоугольник; " +
                                "\r\n 7. Квадрад; ", user.Name);
                 if (Int32.TryParse(Console.ReadLine(), out choise) && (choise <= 7) && (choise > 0))
                 {
                     shapes.Add(FigureCreator.Create((FigureCreator.FigureType)choise));
                 }
+            }
+            void GetShapesInfo() 
+            {
+                foreach (var item in shapes)
+                {
+                    Console.WriteLine(item.GetInfo());
+                }                
             }
         }
              

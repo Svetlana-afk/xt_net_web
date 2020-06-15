@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,199 +14,158 @@ namespace Task_2_1_2
         {
             None = 0,
             Circle = 1,
-            Disc = 2,
+            Disk = 2,
             Ring = 3,
             Line = 4,
             Triangle = 5,
             Rectangle = 6,
             Square = 7
         }
-        private static Point CreatePoint() 
+
+        public static int GetIntFromInput(string str) 
         {
             bool succes = false;
             int x = -1;
-            int y = -1;
             while (!succes)
             {
-                Console.WriteLine("Введите координату X центра фигуры:");
-                succes = Int32.TryParse(Console.ReadLine(), out x);
-                if (!succes)
-                {
-                    Console.WriteLine("Некорректный ввод");
-                }
-            }
-            succes = false;
-            while (!succes)
-            {
-                Console.WriteLine("Введите координату Y центра фигуры:");
-                succes = Int32.TryParse(Console.ReadLine(), out y);
+                Console.WriteLine(str);
+                succes = int.TryParse(Console.ReadLine(), out x);
                 if (!succes)
                 {
                     Console.WriteLine("Некорректный ввод.");
                 }
             }
+            return x;
+        }
+        public static double GetPositiveDoubleFromInput(string str)
+        {
+            bool succes = false;
+            double x = -1;
+            while (!succes)
+            {
+                Console.WriteLine(str);
+                succes = double.TryParse(Console.ReadLine(), out x);
+                succes = succes && (x > 0);
+                if (!succes || x <= 0)
+                {
+                    Console.WriteLine("Некорректный ввод.");
+                }
+            }
+            return x;
+        }
+        private static Point CreatePoint()
+        {
+            int x = GetIntFromInput("Введите координату X центра фигуры:");
+            int y = GetIntFromInput("Введите координату Y центра фигуры:");
             return new Point(x, y);
         }
+        private static Circle CreateCircle()
+        {                       
+            Point p = CreatePoint();
+            double radius = GetPositiveDoubleFromInput("Введите Радиус окружности:");
+            Circle circle = new Circle(p, radius);
+            Console.WriteLine("Окружность создана!");
+            return circle;
+        }
+
+        private static Disk CreateDisk()
+        {            
+            Point p = CreatePoint();
+            double radius = GetPositiveDoubleFromInput("Введите Радиус Круга:");
+            Disk disk = new Disk(p, radius);
+            Console.WriteLine("Круг создан!");
+            return disk;
+        }
+
+        private static Ring CreateRing()
+        {
+            Point p = CreatePoint();
+            double outerRadius = GetPositiveDoubleFromInput("Введите внешний Радиус кольца:");
+
+            double innerRadius = -1;
+            bool succes = false;          
+            
+            while (!succes || innerRadius >= outerRadius)
+            {
+                Console.WriteLine("Введите внутренний Радиус кольца:");
+                succes = double.TryParse(Console.ReadLine(), out innerRadius);
+                succes = succes && (innerRadius > 0) && (innerRadius < outerRadius);
+                if (!succes)
+                {
+                    Console.WriteLine("Некорректный ввод.");
+                }
+            }
+            Ring ring = new Ring(p, outerRadius, innerRadius);
+            Console.WriteLine("Кольцо создано!");
+            return ring;
+        }
+
+        private static Line CreateLine()
+        {
+            Point p = CreatePoint();
+            double length = GetPositiveDoubleFromInput("Введите длину линии:");
+           
+            Line line = new Line(p, length);
+            Console.WriteLine("Линия создана!");
+            return line;
+        }
+        private static EquilateralTriangle CreateEquilateralTriangle()
+        {
+            Point p = CreatePoint();
+            double sideA = GetPositiveDoubleFromInput("Введите длину стороны равностороннего треугольника:");                     
+           
+            EquilateralTriangle triangle = new EquilateralTriangle(p, sideA);
+            Console.WriteLine("Равносторонний треугольник создан!");
+            return triangle;
+        }
+
+        private static Rectangle CreateRectangle() 
+        {
+            Point p = CreatePoint();
+            double sideA = GetPositiveDoubleFromInput("Введите длину стороны A прямоугольника:");
+            double sideB = GetPositiveDoubleFromInput("Введите длину стороны B прямоугольника:");
+            
+            Rectangle rectangle = new Rectangle(p, sideA, sideB);
+            Console.WriteLine("Прямоугольник создан!");
+            return rectangle;
+        }
+
+        private static Square CreateSquare() 
+        {
+            Point p = CreatePoint();
+            double sideA = GetPositiveDoubleFromInput("Введите длину стороны квадрата:");            
+
+            Square square = new Square(p, sideA);
+            Console.WriteLine("Квадрат создан!");
+            return square;
+        }
+
         public static Shape Create(FigureType figureType) 
         {
            
             switch (figureType) 
             {
-                case (FigureType)1:
-                    double radius = -1;
-                    bool succes = false;   
-                    succes = false;
-                    Point p = CreatePoint();
+                case FigureType.Circle:
+                    return CreateCircle();                    
 
-                    while (!succes || radius <= 0)
-                    {
-                        Console.WriteLine("Введите Радиус окружности:");
-                        succes = Double.TryParse(Console.ReadLine(), out radius);
-                        if (!succes || radius <= 0)
-                        {
-                            Console.WriteLine("Некорректный ввод.");
-                        }
-                    } 
-                    Shape circle = new Circle(p, radius);
-                    Console.WriteLine("Окружность создана!");
-                    return circle;
+                case FigureType.Disk:
+                    return CreateDisk();
 
-                case (FigureType)2:                    
-                    radius = -1;
-                    succes = false;
-                    p = CreatePoint();
+                case FigureType.Ring:
+                    return CreateRing();                    
 
-                    while (!succes || radius <= 0)
-                    {
-                        Console.WriteLine("Введите Радиус круга:");
-                        succes = Double.TryParse(Console.ReadLine(), out radius);
-                        if (!succes || radius <= 0)
-                        {
-                            Console.WriteLine("Некорректный ввод.");
-                        }
-                    }
-                    Shape disk = new Disk(p, radius);
-                    Console.WriteLine("Круг создан!");
-                    return disk;
+                case FigureType.Line:
+                    return CreateLine();                    
 
-                case (FigureType)3:
-                    radius = -1;
-                    double innerRadius = -1;
-                    succes = false;
-                    p = CreatePoint();
-                    while (!succes)
-                    {
-                        Console.WriteLine("Введите внешний Радиус кольца:");
-                        succes = Double.TryParse(Console.ReadLine(), out radius);
-                        succes = succes && (radius > 0);
-                        if (!succes)
-                        {
-                            Console.WriteLine("Некорректный ввод.");
-                        }
-                    }
-                    succes = false;
-                    while (!succes || innerRadius >= radius)
-                    {
-                        Console.WriteLine("Введите внутренний Радиус кольца:");
-                        succes = Double.TryParse(Console.ReadLine(), out innerRadius);
-                        succes = succes && (innerRadius > 0)&& (innerRadius < radius);
-                        if (!succes)
-                        {
-                            Console.WriteLine("Некорректный ввод.");
-                        }
-                    }                    
-                    Shape ring = new Ring(p, radius, innerRadius);
-                    Console.WriteLine("Кольцо создано!");
-                    return ring;
+                case FigureType.Triangle:
+                    return CreateEquilateralTriangle();                    
 
-                case (FigureType)4:
-                    double length = -1;
-                    succes = false;
-                    p = CreatePoint();
+                case FigureType.Rectangle:
+                    return CreateRectangle();                   
 
-                    while (!succes)
-                    {
-                        Console.WriteLine("Введите длину линии:");
-                        succes = Double.TryParse(Console.ReadLine(), out length);
-                        succes = succes && (length > 0);
-                        if (!succes)
-                        {
-                            Console.WriteLine("Некорректный ввод.");
-                        }
-                    }
-                    Shape line = new Line(p, length);
-                    Console.WriteLine("Линия создана!");
-                    return line;
-
-                case (FigureType)5:
-                    double sideA = -1;                    
-                    succes = false;
-                    p = CreatePoint();
-
-                    while (!succes)
-                    {
-                        Console.WriteLine("Введите длину стороны равностороннего треугольника:");
-                        succes = Double.TryParse(Console.ReadLine(), out sideA);
-                        succes = succes && (sideA > 0);
-                        if (!succes)
-                        {
-                            Console.WriteLine("Некорректный ввод.");
-                        }
-                    }
-                    Shape triangle = new Triangle(p, sideA);
-                    Console.WriteLine("Треугольник создан!");
-                    return triangle;
-
-                case (FigureType)6:
-                    sideA = -1;
-                    double sideB = -1;
-                    succes = false;
-                    p = CreatePoint();
-
-                    while (!succes)
-                    {
-                        Console.WriteLine("Введите длину стороны A прямоугольника:");
-                        succes = Double.TryParse(Console.ReadLine(), out sideA);
-                        succes = succes && (sideA > 0);
-                        if (!succes)
-                        {
-                            Console.WriteLine("Некорректный ввод.");
-                        }
-                    }
-                    succes = false;
-                    while(!succes)
-                    {
-                        Console.WriteLine("Введите длину стороны B прямоугольника:");
-                        succes = Double.TryParse(Console.ReadLine(), out sideB);
-                        succes = succes && (sideB > 0);
-                        if (!succes)
-                        {
-                            Console.WriteLine("Некорректный ввод.");
-                        }
-                    }
-                    Shape rectangle = new Rectangle(p, sideA, sideB);
-                    Console.WriteLine("Прямоугольник создан!");
-                    return rectangle;
-
-                case (FigureType)7:
-                    sideA = -1;                    
-                    succes = false;
-                    p = CreatePoint();
-
-                    while (!succes)
-                    {
-                        Console.WriteLine("Введите длину стороны квадрата:");
-                        succes = Double.TryParse(Console.ReadLine(), out sideA);
-                        succes = succes && (sideA > 0);
-                        if (!succes)
-                        {
-                            Console.WriteLine("Некорректный ввод.");
-                        }
-                    }
+                case FigureType.Square:
+                    return CreateSquare();
                     
-                    Shape sqare = new Square(p, sideA);
-                    Console.WriteLine("Квадрат создан!");
-                    return sqare;
                 default: return null;
             }
 
