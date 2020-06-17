@@ -47,20 +47,28 @@ namespace Task_2_2_1
             LittleRedRidingHood redHood = (LittleRedRidingHood)field.CreateItem(TypeOfItem.LittleRedRidingHood);
             field.MakeBorder();            
             field.CreateTreeObstracle();
-            field.CreateItem(TypeOfItem.CherryBon);
-            field.CreateItem(TypeOfItem.AppleBon);
+            CherryBon cherry = (CherryBon)field.CreateItem(TypeOfItem.CherryBon);
+            AppleBon apple = (AppleBon)field.CreateItem(TypeOfItem.AppleBon);
             Wolf wolf = (Wolf)field.CreateItem(TypeOfItem.Wolf);
             Bear bear = (Bear)field.CreateItem(TypeOfItem.Bear);
             
             while (true)
-            {                
+            {
+                if (cherry.IsEat())
+                {
+                    cherry = (CherryBon)field.CreateItem(TypeOfItem.CherryBon);
+                }
+                if (apple.IsEat())
+                {
+                    apple = (AppleBon)field.CreateItem(TypeOfItem.AppleBon);
+                }
                 PrintGridField(field);
                 direct = rand.Next(1, 4);
                 wolf.Move((Direction)direct);
                 direct = rand.Next(1, 4);
-                bear.Move(((Direction)direct));                
+                bear.Move((Direction)direct);
                 System.Threading.Thread.Sleep(500);
-                Console.Clear();  
+                Console.Clear();                 
             }
         }        
     }

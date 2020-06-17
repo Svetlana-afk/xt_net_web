@@ -18,7 +18,7 @@ namespace Task_2_2_1
             {
                
                 case (Direction.Left):
-                    if (!(Field.GridField[this.X - 1, this.Y] is Obstacle))
+                    if (!(Field.GridField[this.X - 1, this.Y] is Obstacle||Field.GridField[this.X - 1, this.Y] is Monster))
                     {
                         Field.GridField[this.X, this.Y] = null;
                         this.X -= 1;
@@ -32,7 +32,7 @@ namespace Task_2_2_1
                     }
 
                 case (Direction.Up):
-                    if (!(Field.GridField[this.X, this.Y - 1] is Obstacle))
+                    if (!(Field.GridField[this.X, this.Y - 1] is Obstacle || Field.GridField[this.X, this.Y - 1] is Monster))
                     {
                         Field.GridField[this.X, this.Y] = null;
                         this.Y -= 1;
@@ -45,7 +45,7 @@ namespace Task_2_2_1
                         goto case Direction.Right;
                     }
                 case (Direction.Right):
-                    if (!(Field.GridField[this.X + 1, this.Y] is Obstacle))
+                    if (!(Field.GridField[this.X + 1, this.Y] is Obstacle || Field.GridField[this.X + 1, this.Y] is Monster))
                     {
                         Field.GridField[this.X, this.Y] = null;
                         this.X += 1;
@@ -58,7 +58,7 @@ namespace Task_2_2_1
                         goto case Direction.Down;
                     }
                 case (Direction.Down):
-                    if (!(Field.GridField[this.X, this.Y + 1] is Obstacle))
+                    if (!(Field.GridField[this.X, this.Y + 1] is Obstacle || Field.GridField[this.X, this.Y + 1] is Monster))
                     {
                         Field.GridField[this.X, this.Y] = null;
                         this.Y += 1;
