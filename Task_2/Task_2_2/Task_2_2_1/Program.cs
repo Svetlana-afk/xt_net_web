@@ -10,11 +10,8 @@ namespace Task_2_2_1
     {
         static void Main(string[] args)
         {
-            Field field = new Field(20, 15);
-            field.MakeBorder();
-            field.CreateRockObstracle();
-            field.CreateCherryBonus();
-            PrintGridField(field);            
+            Field field = StartGame(20, 20);
+            PrintGridField(field);
         }        
         public static void PrintGridField(Field field)
         {
@@ -26,11 +23,22 @@ namespace Task_2_2_1
                         Console.Write('#');
                     else if (field.GridField[i, j] is CherryBon)
                         Console.Write('o');
-                    else
-                        Console.Write(' ');
+                    else if (field.GridField[i, j] is AppleBon)
+                        Console.Write('d');
+                    else Console.Write(' ');
                 }
                 Console.WriteLine();
-            }
+            }            
+        }
+        public static Field StartGame(int width, int height)
+        {
+            Field field = new Field(width, height);
+            field.MakeBorder();
+            field.CreateRockObstracle();
+            field.CreateCherryBonus();
+            field.CreateAppleBonus();
+
+            return field;
         }
     }
 }

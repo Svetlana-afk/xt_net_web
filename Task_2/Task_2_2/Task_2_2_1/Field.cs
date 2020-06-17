@@ -47,7 +47,14 @@ namespace Task_2_2_1
             Random random = new Random();
             for (int i = 0; i < (this.Height*this.Width)/20; i++)
             {
-                Rock rock = new Rock(random.Next(2, this.Width - 2), random.Next(2, this.Height - 2), this);
+                int x = 0;
+                int y = 0;
+                while (GridField[x, y] != null)
+                {
+                    x = random.Next(2, this.Width - 2);
+                    y = random.Next(2, this.Height - 2);
+                }
+                Rock rock = new Rock(x, y, this);
                 GridField[rock.X, rock.Y] = rock;
             }
         }
@@ -55,10 +62,34 @@ namespace Task_2_2_1
         {
             Random random = new Random();
             int speedUp = 2;
-            
-            CherryBon cherry = new CherryBon(speedUp, random.Next(2, this.Width - 2), random.Next(2, this.Height - 2), this);
-            GridField[cherry.X, cherry.Y] = cherry;
-            
+            int x = 0;
+            int y = 0;
+            while (GridField[x, y] != null)
+            {
+                x = random.Next(2, this.Width - 2);
+                y = random.Next(2, this.Height - 2);
+            }
+
+            CherryBon cherry = new CherryBon(speedUp, x, y, this);
+            GridField[cherry.X, cherry.Y] = cherry;            
         }
+        public void CreateAppleBonus()
+        {
+            Random random = new Random();
+            int powerUp = 4;
+            int x = 0;
+            int y = 0;
+            while (GridField[x, y] != null) 
+            {
+                x = random.Next(2, this.Width - 2);
+                y = random.Next(2, this.Height - 2);
+            }
+
+            AppleBon apple = new AppleBon(powerUp, x, y, this);
+            GridField[apple.X, apple.Y] = apple;
+        }
+
+       
+
     }
 }
