@@ -42,26 +42,17 @@ namespace Task_2_2_1
                 GridField[Width-1, i] = rock;
             }  
         }
-        public void CreateRockObstracle() 
-        {
-            Random random = new Random();
+        public void CreateTreeObstracle() 
+        {            
             for (int i = 0; i < (this.Height*this.Width)/20; i++)
             {
-                int x = 0;
-                int y = 0;
-                while (GridField[x, y] != null)
-                {
-                    x = random.Next(2, this.Width - 2);
-                    y = random.Next(2, this.Height - 2);
-                }
-                Rock rock = new Rock(x, y, this);
-                GridField[rock.X, rock.Y] = rock;
+                CreateItem(TypeOfItem.Tree);
             }
         }
-        public void CreateCherryBonus()
+        
+        public Item CreateItem(TypeOfItem type)
         {
             Random random = new Random();
-            int speedUp = 2;
             int x = 0;
             int y = 0;
             while (GridField[x, y] != null)
@@ -69,27 +60,38 @@ namespace Task_2_2_1
                 x = random.Next(2, this.Width - 2);
                 y = random.Next(2, this.Height - 2);
             }
-
-            CherryBon cherry = new CherryBon(speedUp, x, y, this);
-            GridField[cherry.X, cherry.Y] = cherry;            
-        }
-        public void CreateAppleBonus()
-        {
-            Random random = new Random();
-            int powerUp = 4;
-            int x = 0;
-            int y = 0;
-            while (GridField[x, y] != null) 
+            switch (type) 
             {
-                x = random.Next(2, this.Width - 2);
-                y = random.Next(2, this.Height - 2);
-            }
-
-            AppleBon apple = new AppleBon(powerUp, x, y, this);
-            GridField[apple.X, apple.Y] = apple;
+                case (TypeOfItem.Tree):
+                    Tree tree = new Tree(x, y, this);
+                    GridField[tree.X, tree.Y] = tree;
+                    return tree;
+                case (TypeOfItem.Rock):
+                    Rock rock = new Rock(x, y, this);
+                    GridField[rock.X, rock.Y] = rock;
+                    return rock;
+                case (TypeOfItem.CherryBon):
+                    int speedUp = 1;
+                    CherryBon cherry = new CherryBon(speedUp, x, y, this);
+                    GridField[cherry.X, cherry.Y] = cherry;
+                    return cherry;
+                case (TypeOfItem.AppleBon):
+                    int healthUp = 1;
+                    AppleBon apple = new AppleBon(healthUp, x, y, this);
+                    GridField[apple.X, apple.Y] = apple;
+                    return apple;
+                case (TypeOfItem.Wolf):
+                    Wolf wolf = new Wolf(x, y, 3, 1, this);
+                    GridField[wolf.X, wolf.Y] = wolf;
+                    return wolf;
+                case (TypeOfItem.Bear):
+                    Bear bear = new Bear(x, y, 3, 1, this);
+                    GridField[bear.X, bear.Y] = bear;
+                    return bear;
+                
+                default: return null;
+            }            
         }
-
-       
 
     }
 }

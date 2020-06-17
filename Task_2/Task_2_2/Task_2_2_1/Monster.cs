@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,10 @@ namespace Task_2_2_1
 {
     public abstract class Monster : Character
     {
-        public Monster(int x, int y, Field field) : base(x, y, field) { }
+        int Power { get; set;}
+        public Monster(int x, int y, int speed, int power, Field field) : base(x, y, speed, field) 
+        {
+            Power = power;
+        }
     }
 }

@@ -21,11 +21,18 @@ namespace Task_2_2_1
                 {
                     if (field.GridField[i, j] is Rock)
                         Console.Write('#');
-                    else if (field.GridField[i, j] is CherryBon)
+                    if (field.GridField[i, j] is Tree)
+                        Console.Write('%');
+                    if (field.GridField[i, j] is CherryBon)
                         Console.Write('o');
-                    else if (field.GridField[i, j] is AppleBon)
+                    if (field.GridField[i, j] is AppleBon)
                         Console.Write('d');
-                    else Console.Write(' ');
+                    if (field.GridField[i, j] is Wolf)
+                        Console.Write('W');
+                    if (field.GridField[i, j] is Bear)
+                        Console.Write('B');
+                    if (field.GridField[i, j] is null) 
+                        Console.Write(' ');
                 }
                 Console.WriteLine();
             }            
@@ -34,9 +41,11 @@ namespace Task_2_2_1
         {
             Field field = new Field(width, height);
             field.MakeBorder();
-            field.CreateRockObstracle();
-            field.CreateCherryBonus();
-            field.CreateAppleBonus();
+            field.CreateTreeObstracle();
+            field.CreateItem(TypeOfItem.CherryBon);
+            field.CreateItem(TypeOfItem.AppleBon);
+            field.CreateItem(TypeOfItem.Wolf);
+            field.CreateItem(TypeOfItem.Bear);           
 
             return field;
         }

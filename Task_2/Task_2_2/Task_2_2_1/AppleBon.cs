@@ -8,10 +8,10 @@ namespace Task_2_2_1
 {
     public class AppleBon : Bonus
     {
-        public int PowerUp { get; set;}
-        public AppleBon(int powerUp, int x, int y, Field field) : base(x, y, field)        
+        public int HealthUp { get; set;}
+        public AppleBon(int healthUp, int x, int y, Field field) : base(x, y, field)        
         {
-            PowerUp = powerUp;
+            HealthUp = healthUp;
         }
     }
 }

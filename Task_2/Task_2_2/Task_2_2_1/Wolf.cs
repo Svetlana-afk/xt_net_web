@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Task_2_2_1
 {
-    class Wolf : Monster
+    public class Wolf : Monster
     {
-        public Wolf(int x, int y, Field field) : base(x, y, field) { }
+        public Wolf(int x, int y, int speed, int power, Field field) : base(x, y, speed, power, field) { }
     }
 }

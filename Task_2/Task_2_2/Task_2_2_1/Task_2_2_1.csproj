@@ -58,7 +58,7 @@
     <Compile Include="Obstacle.cs" />
     <Compile Include="Rock.cs" />
     <Compile Include="Tree.cs" />
-    <Compile Include="Walls.cs" />
+    <Compile Include="TypeOfItem.cs" />
     <Compile Include="Wolf.cs" />
   </ItemGroup>
   <ItemGroup>
