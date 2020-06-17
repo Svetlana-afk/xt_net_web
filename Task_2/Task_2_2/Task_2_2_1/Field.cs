@@ -81,14 +81,18 @@ namespace Task_2_2_1
                     GridField[apple.X, apple.Y] = apple;
                     return apple;
                 case (TypeOfItem.Wolf):
-                    Wolf wolf = new Wolf(x, y, 3, 1, this);
+                    Wolf wolf = new Wolf(x, y, this);
                     GridField[wolf.X, wolf.Y] = wolf;
                     return wolf;
                 case (TypeOfItem.Bear):
-                    Bear bear = new Bear(x, y, 3, 1, this);
+                    Bear bear = new Bear(x, y, this);
                     GridField[bear.X, bear.Y] = bear;
                     return bear;
-                
+                case (TypeOfItem.LittleRedRidingHood):
+                    LittleRedRidingHood redHood= new LittleRedRidingHood(2, Height-2, this);
+                    GridField[redHood.X, redHood.Y] = redHood;
+                    return redHood;
+
                 default: return null;
             }            
         }

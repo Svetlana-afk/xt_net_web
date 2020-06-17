@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 
 namespace Task_2_2_1
 {
-    public class LittleRedRidingHood : Character
-    {   
+    public  class LittleRedRidingHood : Character
+    {
         int Health { get; set; }
-        public LittleRedRidingHood(int x, int y, int speed, int health, Field field) : base(x, y, speed, field) 
+        public LittleRedRidingHood(int x, int y, Field field) : base(x, y,  field) 
         {
-            Health = health;
+            Speed = 2;
+            Health = 5;
         }
         public void ChangeSpeed(int bonus)
         {
