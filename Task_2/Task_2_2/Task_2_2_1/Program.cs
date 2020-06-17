@@ -9,8 +9,9 @@ namespace Task_2_2_1
     class Program
     {
         static void Main(string[] args)
-        {   
-            Field field = StartGame(20, 20);
+        {
+            Field field = new Field(20, 20);
+            StartGame(field);
         }        
         public static void PrintGridField(Field field)
         {
@@ -38,88 +39,29 @@ namespace Task_2_2_1
                 Console.WriteLine();
             }            
         }
-        public static Field StartGame(int width, int height)
+        public static void StartGame(Field field)
         {
-            int direction;
-
             Random rand = new Random();
-            int direct;            
+            int direct; 
             
-            Field field = new Field(width, height);
-            Item rh = field.CreateItem(TypeOfItem.LittleRedRidingHood);
+            LittleRedRidingHood redHood = (LittleRedRidingHood)field.CreateItem(TypeOfItem.LittleRedRidingHood);
             field.MakeBorder();            
             field.CreateTreeObstracle();
             field.CreateItem(TypeOfItem.CherryBon);
             field.CreateItem(TypeOfItem.AppleBon);
             Wolf wolf = (Wolf)field.CreateItem(TypeOfItem.Wolf);
-            field.CreateItem(TypeOfItem.Bear);
+            Bear bear = (Bear)field.CreateItem(TypeOfItem.Bear);
             
             while (true)
             {                
                 PrintGridField(field);
                 direct = rand.Next(1, 4);
-                switch(direct)
-                {
-                    case (1):
-                        if (!(field.GridField[wolf.X - 1, wolf.Y] is Obstacle))
-                        {
-                            field.GridField[wolf.X, wolf.Y] = null;
-                            wolf.Move((Direction)direct);
-                            field.GridField[wolf.X, wolf.Y] = wolf;
-                            break;
-                        }
-                        else 
-                        {
-                            direct = 2;
-                            goto case 2;
-                        }                            
-                       
-                    case (2):
-                        if (!(field.GridField[wolf.X, wolf.Y - 1] is Obstacle))
-                        {
-                            field.GridField[wolf.X, wolf.Y] = null;
-                            wolf.Move((Direction)direct);
-                            field.GridField[wolf.X, wolf.Y] = wolf;
-                            break;
-                        }
-                        else 
-                        {
-                            direct = 3;
-                            goto case 3;
-                        }
-                            
-
-                    case (3):
-                        if (!(field.GridField[wolf.X+1, wolf.Y] is Obstacle))
-                        {
-                            field.GridField[wolf.X, wolf.Y] = null;
-                            wolf.Move((Direction)direct);
-                            field.GridField[wolf.X, wolf.Y] = wolf; break;
-                        }
-                        else
-                        {
-                            direct = 4;
-                            goto case 4;
-                        }
-                    case (4):
-                        if (!(field.GridField[wolf.X, wolf.Y+1] is Obstacle))
-                        {
-                            field.GridField[wolf.X, wolf.Y] = null;
-                            wolf.Move((Direction)direct);
-                            field.GridField[wolf.X , wolf.Y] = wolf; 
-                            break;
-                        }
-                        else
-                        {
-                            direct = 1;
-                            goto case 1;
-                        }
-                }
+                wolf.Move((Direction)direct);
+                direct = rand.Next(1, 4);
+                bear.Move(((Direction)direct));                
                 System.Threading.Thread.Sleep(500);
                 Console.Clear();  
             }
-
-            return field;
         }        
     }
 }

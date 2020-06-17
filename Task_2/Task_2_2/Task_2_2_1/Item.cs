@@ -10,11 +10,11 @@ namespace Task_2_2_1
     {
         public int X { get; set; }
         public int Y { get; set; }
-
-        Field field;
+        public Field Field { get; set; }
 
         public Item(int x, int y, Field field) 
         {
+            Field = field;
             if (x >= 0 && x <= field.Width)
             {
                 this.X = x;

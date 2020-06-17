@@ -13,7 +13,7 @@ namespace Task_2_2_1
 
         public Character(int x, int y, Field field) : base(x, y, field) { }
         
-        public void Move(Direction direction)
+        public virtual void Move(Direction direction)
         {
             switch (direction)
             {
