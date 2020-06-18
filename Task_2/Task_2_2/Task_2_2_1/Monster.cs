@@ -18,6 +18,7 @@ namespace Task_2_2_1
             if ((Field.GridField[x, y] is LittleRedRidingHood))
             {
                 ((LittleRedRidingHood)Field.GridField[x, y]).DecreaseHealth(Power);
+                return false;
             }
 
             if (!(Field.GridField[x, y] is Obstacle || Field.GridField[x, y] is Monster))

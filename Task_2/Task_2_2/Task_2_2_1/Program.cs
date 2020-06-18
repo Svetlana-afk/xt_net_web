@@ -42,7 +42,8 @@ namespace Task_2_2_1
         public static void StartGame(Field field)
         {
             Random rand = new Random();
-            int direct; 
+            int direct;
+            bool game = true;
             
             LittleRedRidingHood redHood = (LittleRedRidingHood)field.CreateItem(TypeOfItem.LittleRedRidingHood);
             field.MakeBorder();            
@@ -52,7 +53,7 @@ namespace Task_2_2_1
             Wolf wolf = (Wolf)field.CreateItem(TypeOfItem.Wolf);
             Bear bear = (Bear)field.CreateItem(TypeOfItem.Bear);
             
-            while (true)
+            while (game)
             {
                 if (cherry.IsEat())
                 {
@@ -62,14 +63,51 @@ namespace Task_2_2_1
                 {
                     apple = (AppleBon)field.CreateItem(TypeOfItem.AppleBon);
                 }
+                // CheckBonuses(apple, cherry, field);
+
+                if (Console.KeyAvailable) 
+                {                                        
+                    ConsoleKeyInfo key = Console.ReadKey();
+                        switch (key.Key) 
+                    {
+                        case ConsoleKey.LeftArrow:
+                            redHood.Move(Direction.Left);
+                            break;
+                        case ConsoleKey.UpArrow:
+                            redHood.Move(Direction.Up);
+                            break;
+                        case ConsoleKey.RightArrow:
+                            redHood.Move(Direction.Right);
+                            break;
+                        case ConsoleKey.DownArrow:
+                            redHood.Move(Direction.Down);
+                            break;
+                    }
+                }
+                Console.WriteLine("Жизней у Красной Шапочки:{0}", redHood.Health);
                 PrintGridField(field);
                 direct = rand.Next(1, 4);
                 wolf.Move((Direction)direct);
                 direct = rand.Next(1, 4);
                 bear.Move((Direction)direct);
                 System.Threading.Thread.Sleep(500);
-                Console.Clear();                 
+                Console.Clear();
+                if (!redHood.IsAlive()) 
+                {
+                    game = false;
+                }
             }
-        }        
+        }
+        public static void CheckBonuses(AppleBon apple, CherryBon cherry, Field field) 
+        {
+            if (cherry.IsEat())
+            {
+                cherry = (CherryBon)field.CreateItem(TypeOfItem.CherryBon);
+            }
+            if (apple.IsEat())
+            {
+                apple = (AppleBon)field.CreateItem(TypeOfItem.AppleBon);
+            }
+        }
     }
 }
