@@ -9,12 +9,16 @@ namespace Task_2_2_1
     public abstract class Bonus : Item
     {
         public Bonus(int x, int y, Field field) : base(x, y, field) { }
-        public bool IsEat()
+        public bool IsEated()
         {
             if (!(Field.GridField[this.X, this.Y] is Bonus))
+            {
                 return true;
-            else
+            }
+            else 
+            {
                 return false;
+            }                
         }
     }
     

@@ -13,5 +13,9 @@ namespace Task_2_2_1
         {
             HealthUp = healthUp;
         }
+        public override void Print()
+        {
+            Console.Write('d');
+        }
     }
 }

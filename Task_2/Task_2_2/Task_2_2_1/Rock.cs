@@ -9,5 +9,9 @@ namespace Task_2_2_1
     class Rock : Obstacle
     {
         public Rock(int x, int y, Field field) : base(x, y, field) { }
-    }
+        public override void Print()
+        {
+            Console.Write('#');
+        }
+    }    
 }

@@ -19,22 +19,14 @@ namespace Task_2_2_1
             {
                 for (int i = 0; i < field.Width; i++)
                 {
-                    if (field.GridField[i, j] is Rock)
-                        Console.Write('#');
-                    if (field.GridField[i, j] is Tree)
-                        Console.Write('%');
-                    if (field.GridField[i, j] is CherryBon)
-                        Console.Write('o');
-                    if (field.GridField[i, j] is AppleBon)
-                        Console.Write('d');
-                    if (field.GridField[i, j] is Wolf)
-                        Console.Write('W');
-                    if (field.GridField[i, j] is Bear)
-                        Console.Write('B');
-                    if (field.GridField[i, j] is LittleRedRidingHood)
-                        Console.Write('*');
-                    if (field.GridField[i, j] is null) 
-                        Console.Write(' ');                    
+                    if (field.GridField[i, j] is null)
+                    {
+                        Console.Write(' ');
+                    }
+                    else
+                    { 
+                        field.GridField[i, j].Print(); 
+                    }              
                 }
                 Console.WriteLine();
             }            
@@ -43,7 +35,6 @@ namespace Task_2_2_1
         {
             Random rand = new Random();
             int direct;
-            bool game = true;
             
             LittleRedRidingHood redHood = (LittleRedRidingHood)field.CreateItem(TypeOfItem.LittleRedRidingHood);
             field.MakeBorder();            
@@ -53,18 +44,16 @@ namespace Task_2_2_1
             Wolf wolf = (Wolf)field.CreateItem(TypeOfItem.Wolf);
             Bear bear = (Bear)field.CreateItem(TypeOfItem.Bear);
             
-            while (game)
-            {
-                if (cherry.IsEat())
+            while (true)
+            {                
+                if (cherry.IsEated())
                 {
                     cherry = (CherryBon)field.CreateItem(TypeOfItem.CherryBon);
                 }
-                if (apple.IsEat())
+                if (apple.IsEated())
                 {
                     apple = (AppleBon)field.CreateItem(TypeOfItem.AppleBon);
-                }
-                // CheckBonuses(apple, cherry, field);
-
+                }               
                 if (Console.KeyAvailable) 
                 {                                        
                     ConsoleKeyInfo key = Console.ReadKey();
@@ -92,22 +81,13 @@ namespace Task_2_2_1
                 bear.Move((Direction)direct);
                 System.Threading.Thread.Sleep(500);
                 Console.Clear();
-                if (!redHood.IsAlive()) 
+                if (!redHood.IsAlive())
                 {
-                    game = false;
+                    Console.Clear();
+                    Console.WriteLine("                GAME OVER");
+                    break;
                 }
             }
-        }
-        public static void CheckBonuses(AppleBon apple, CherryBon cherry, Field field) 
-        {
-            if (cherry.IsEat())
-            {
-                cherry = (CherryBon)field.CreateItem(TypeOfItem.CherryBon);
-            }
-            if (apple.IsEat())
-            {
-                apple = (AppleBon)field.CreateItem(TypeOfItem.AppleBon);
-            }
-        }
+        }        
     }
 }

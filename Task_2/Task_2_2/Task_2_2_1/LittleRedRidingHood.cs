@@ -15,6 +15,11 @@ namespace Task_2_2_1
             Speed = 2;
             Health = 5;
         }
+        public override void Print()
+        {
+            Console.Write('*');
+        }
+
         private void _Move(int x, int y) 
         {            
             if (Field.GridField[x, y] is null)
@@ -92,8 +97,7 @@ namespace Task_2_2_1
                     _Move(this.X, this.Y + 1);
                     break;
             }
-
-        }
+        }       
     }   
 
 }

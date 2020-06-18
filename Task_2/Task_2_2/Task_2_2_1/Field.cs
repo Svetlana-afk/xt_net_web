@@ -48,8 +48,7 @@ namespace Task_2_2_1
             {
                 CreateItem(TypeOfItem.Tree);
             }
-        }
-        
+        }        
         public Item CreateItem(TypeOfItem type)
         {
             Random random = new Random();
@@ -92,7 +91,6 @@ namespace Task_2_2_1
                     LittleRedRidingHood redHood= new LittleRedRidingHood(2, Height-2, this);
                     GridField[redHood.X, redHood.Y] = redHood;
                     return redHood;
-
                 default: return null;
             }            
         }

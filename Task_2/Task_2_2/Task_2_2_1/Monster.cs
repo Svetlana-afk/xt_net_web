@@ -12,6 +12,10 @@ namespace Task_2_2_1
     {
         public int Power { get; set;}
         public Monster(int x, int y, Field field) : base(x, y, field) { }
+        public override void Print()
+        {
+            Console.Write('*');
+        }
 
         private bool _Move(int x, int y) 
         {
@@ -31,40 +35,36 @@ namespace Task_2_2_1
             }
             return false;
         }
+        
         public override void Move(Direction direction) 
         {
             switch (direction)
-            {
-               
+            {               
                 case (Direction.Left):
                     if (_Move(this.X - 1, this.Y)) 
                     {
                         break;
                     }
-
                     goto case Direction.Up;
                 case (Direction.Up):
                     if (_Move(this.X, this.Y - 1))
                     {
                         break;
                     }
-
                     goto case Direction.Right;                   
                 case (Direction.Right):
                     if (_Move(this.X + 1, this.Y))
                     {
                         break;
                     }
-
                     goto case Direction.Down;
                 case (Direction.Down):
                     if (_Move(this.X, this.Y + 1))
                     {
                         break;
                     }
-
                     goto case Direction.Left;
             }
-        }
+        }        
     }
 }

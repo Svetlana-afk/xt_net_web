@@ -25,8 +25,9 @@ namespace Task_2_2_1
             {
                 this.Y = y;
             }
-            else throw new ArgumentException("Координаты должны быть больше ноля и укладываться в размер игрового поля");
-            
+            else throw new ArgumentException("Координаты должны быть больше ноля и укладываться в размер игрового поля");            
         }
+        public abstract void Print();
+        
     }
 } 

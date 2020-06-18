@@ -15,7 +15,9 @@ namespace Task_2_2_1
         {
             SpeedUp = speedUp;
         }
-        
-
+        public override void Print()
+        {
+            Console.Write('o');
+        }
     }
 }

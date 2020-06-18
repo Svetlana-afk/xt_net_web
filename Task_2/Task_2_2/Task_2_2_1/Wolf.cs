@@ -13,5 +13,9 @@ namespace Task_2_2_1
             Speed = 3;
             Power = 1;
         }
+        public override void Print()
+        {
+            Console.Write('W');
+        }
     }
 }
