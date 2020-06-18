@@ -15,16 +15,26 @@ namespace Task_2_2_1
             Speed = 2;
             Health = 5;
         }
-        public void ChangeSpeed(int bonus)
+        public void ChangeSpeed(int count)
         {
-            Speed += bonus;
+            Speed += count;
         }
-        public void ChangeHealth(int bonus)
+        public void IncreaseHealth(int count)
         {
-            Health += bonus;
+            Health += count;
         }
-    }
-
-    
+        public void DecreaseHealth(int count) 
+        {
+            Health -= count;
+        }
+        public bool IsAlive() 
+        {
+            if (Health > 0) 
+            {
+                return true;
+            }
+            return false;
+        }
+    }   
 
 }
