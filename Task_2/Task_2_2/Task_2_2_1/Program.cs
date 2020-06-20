@@ -60,9 +60,9 @@ namespace Task_2_2_1
 
                 Console.WriteLine("Жизней у Красной Шапочки:{0}", redHood.Health);
                 Console.WriteLine("Скорость у Красной Шапочки{0}", redHood.Speed);
-
                 PrintGridField(field);
 
+                //RedHood move
                 if (counter % (MAX_SPEED - redHood.Speed + 1) == 0)
                 {
                     if (Console.KeyAvailable)
@@ -85,13 +85,13 @@ namespace Task_2_2_1
                         }
                     }
                 }
-
+                //wolf move
                 if (counter % (MAX_SPEED - wolf.Speed + 1) == 0)
                 {
                     direct = rand.Next(1, 4);
                     wolf.Move((Direction)direct);
                 }
-
+                //bear move
                 if ((counter % (MAX_SPEED - bear.Speed + 1)) == 0)
                 {
                     direct = rand.Next(1, 4);
