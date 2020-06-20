@@ -62,7 +62,10 @@ namespace Task_2_2_1
         }
         private void IncreaseSpeed(int count)
         {
-            Speed += count;
+            if (Speed<3)
+            {
+                Speed += count;
+            }           
         }
         private void IncreaseHealth(int count)
         {

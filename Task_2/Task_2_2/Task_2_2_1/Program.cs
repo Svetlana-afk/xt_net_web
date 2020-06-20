@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,8 +35,10 @@ namespace Task_2_2_1
         public static void StartGame(Field field)
         {
             Random rand = new Random();
+            const int MAX_SPEED = 3;
             int direct;
-            
+            int counter = 0;
+
             LittleRedRidingHood redHood = (LittleRedRidingHood)field.CreateItem(TypeOfItem.LittleRedRidingHood);
             field.MakeBorder();            
             field.CreateTreeObstracle();
@@ -45,7 +48,7 @@ namespace Task_2_2_1
             Bear bear = (Bear)field.CreateItem(TypeOfItem.Bear);
             
             while (true)
-            {                
+            {
                 if (cherry.IsEated())
                 {
                     cherry = (CherryBon)field.CreateItem(TypeOfItem.CherryBon);
@@ -53,32 +56,49 @@ namespace Task_2_2_1
                 if (apple.IsEated())
                 {
                     apple = (AppleBon)field.CreateItem(TypeOfItem.AppleBon);
-                }               
-                if (Console.KeyAvailable) 
-                {                                        
-                    ConsoleKeyInfo key = Console.ReadKey();
-                        switch (key.Key) 
+                }
+
+                Console.WriteLine("Жизней у Красной Шапочки:{0}", redHood.Health);
+                Console.WriteLine("Скорость у Красной Шапочки{0}", redHood.Speed);
+
+                PrintGridField(field);
+
+                if (counter % (MAX_SPEED - redHood.Speed + 1) == 0)
+                {
+                    if (Console.KeyAvailable)
                     {
-                        case ConsoleKey.LeftArrow:
-                            redHood.Move(Direction.Left);
-                            break;
-                        case ConsoleKey.UpArrow:
-                            redHood.Move(Direction.Up);
-                            break;
-                        case ConsoleKey.RightArrow:
-                            redHood.Move(Direction.Right);
-                            break;
-                        case ConsoleKey.DownArrow:
-                            redHood.Move(Direction.Down);
-                            break;
+                        ConsoleKeyInfo key = Console.ReadKey();
+                        switch (key.Key)
+                        {
+                            case ConsoleKey.LeftArrow:
+                                redHood.Move(Direction.Left);
+                                break;
+                            case ConsoleKey.UpArrow:
+                                redHood.Move(Direction.Up);
+                                break;
+                            case ConsoleKey.RightArrow:
+                                redHood.Move(Direction.Right);
+                                break;
+                            case ConsoleKey.DownArrow:
+                                redHood.Move(Direction.Down);
+                                break;
+                        }
                     }
                 }
-                Console.WriteLine("Жизней у Красной Шапочки:{0}", redHood.Health);
-                PrintGridField(field);
-                direct = rand.Next(1, 4);
-                wolf.Move((Direction)direct);
-                direct = rand.Next(1, 4);
-                bear.Move((Direction)direct);
+
+                if (counter % (MAX_SPEED - wolf.Speed + 1) == 0)
+                {
+                    direct = rand.Next(1, 4);
+                    wolf.Move((Direction)direct);
+                }
+
+                if ((counter % (MAX_SPEED - bear.Speed + 1)) == 0)
+                {
+                    direct = rand.Next(1, 4);
+                    bear.Move((Direction)direct);
+                }
+                counter += 1;
+
                 System.Threading.Thread.Sleep(500);
                 Console.Clear();
                 if (!redHood.IsAlive())
