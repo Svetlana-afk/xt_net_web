@@ -16,7 +16,7 @@ namespace Task_3_1_1
             counting.GenerateCircleOfPeople();
             Console.WriteLine("Сгенерирован круг людей из {0} человек.", counting.NumberOfParticipants); 
             counting.NumberToCrossedOut = GetStep(counting.NumberOfParticipants);
-            counting.makeCounting2();            
+            counting.MakeCounting2();            
             Console.WriteLine("После считалочки осталось:");
             counting.PrintCircleOfPeople();  
         }

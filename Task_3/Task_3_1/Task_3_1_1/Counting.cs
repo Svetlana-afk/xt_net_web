@@ -15,7 +15,7 @@ namespace Task_3_1_1
         public LinkedList<Person> CircleOfPeople { get; private set; }
 
         //Вариант1
-        public void makeCounting()
+        public void MakeCounting()
         {
             int i = 1;
             int removeAt = NumberToCrossedOut - 1;
@@ -37,7 +37,7 @@ namespace Task_3_1_1
         }
         
         //Вариант2
-        public void makeCounting2()
+        public void MakeCounting2()
         {
             int i = 1;
             int removeAt = NumberToCrossedOut - 1;
