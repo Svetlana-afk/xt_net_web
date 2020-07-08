@@ -18,7 +18,7 @@ namespace Task_1_2_4_validator
         static string Validator(string str)
         {
             StringBuilder validString = new StringBuilder(str);
-            string[] endOfSentence = { "! ", ". ", "? ","?! ", "... ",".\" ", "!\" " , "?\" "};
+            string[] endOfSentence = { "! ", ". ", "? ","?! ", "... ",".\" ", "!\" " , "?\" ", "\""};
             if (char.IsLetter(str[0]))
             {
                 validString.Replace(str[0], char.ToUpper(str[0]), 0, 1);
