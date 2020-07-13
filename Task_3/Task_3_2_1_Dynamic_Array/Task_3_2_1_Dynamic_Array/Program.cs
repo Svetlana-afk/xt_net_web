@@ -44,6 +44,7 @@ namespace Task_3_2_1_Dynamic_Array
             }
             Console.WriteLine("\r\nДлина массива: {0}", darr.Length);
             Console.WriteLine("Емкость массива: {0}", darr.Capasity);
+            List<>
         }
     }
 }

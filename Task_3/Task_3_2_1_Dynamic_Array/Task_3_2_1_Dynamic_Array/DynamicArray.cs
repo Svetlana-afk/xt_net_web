@@ -163,7 +163,20 @@ namespace Task_3_2_1_Dynamic_Array
                 }
                 Arr[index] = item;
             }
-        }        
+        }
+        /// <summary>
+        ///  Копирует элементы Dynamic Array новый массив.
+        /// </summary>
+        /// <returns>Массив, содержащий копии элементов Dynamic Array</returns>
+        public T[] ToArray() 
+        {
+            T[] array = new T[Length];
+            for (int i = 0; i < Length; i++)
+            {
+                array[i] = Arr[i];
+            }
+            return array;
+        }
 
         public IEnumerator<T> GetEnumerator()
         {            
