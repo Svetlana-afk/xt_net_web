@@ -63,24 +63,32 @@ namespace Task_3_2_1_Dynamic_Array
         {
             get
             {
-                if (index <= Length)
+                if (Math.Abs(index) >= Length)
+                {
+                    throw new ArgumentOutOfRangeException(); 
+                }
+                if (index >= 0)
                 {
                     return Arr[index];
                 }
                 else
                 {
-                    throw new ArgumentOutOfRangeException();
+                    return Arr[Length + index];
                 }
             }
             set
             {
-                if (index <= Length)
+                if (Math.Abs(index) >= Length)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+                if (index >= 0)
                 {
                     Arr[index] = value;
                 }
                 else
                 {
-                    throw new ArgumentOutOfRangeException();
+                    Arr[Length + index] = value;
                 }
             }
         }

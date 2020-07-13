@@ -24,7 +24,9 @@ namespace Task_3_2_1_Dynamic_Array
             printDynamicArray<int>(darr);
             Console.WriteLine("Удаление элемента:");
             darr.Remove(5);
-            printDynamicArray<int>(darr);            
+            printDynamicArray<int>(darr);
+            Console.WriteLine("Вывод элемента с отрицательным индексом -2:");
+            Console.WriteLine(darr[-2]);
             Console.WriteLine("\r\nВывод с помощью Итератора:");
             IEnumerator<int> edarr = darr.GetEnumerator();
             while (edarr.MoveNext())
