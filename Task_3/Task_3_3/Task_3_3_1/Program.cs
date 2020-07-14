@@ -12,7 +12,7 @@ namespace Task_3_3_1
         {
             int[] array = new int[]{ 1, 2, 3, 4, 5, 6, 7 , 8, 1};
             array.SuperArray(MultiplyToTwo);
-            Console.WriteLine("МАссив после умножения его элементов на 2:");
+            Console.WriteLine("Массив после умножения его элементов на 2:");
             PrintArray(array);
             Console.WriteLine("\n\rСреднее значение массива:");
             Console.WriteLine(array.FindAverage());
