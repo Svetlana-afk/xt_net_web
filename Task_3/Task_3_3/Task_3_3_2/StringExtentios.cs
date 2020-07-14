@@ -26,8 +26,7 @@ namespace Task_3_3_2
             if (Regex.IsMatch(text, "[a-zA-Z]"))
             {                
                 eng = 1;                
-            }
-            
+            }            
             if (rus + num + eng > 1) 
             {
                 return "Mixed";
@@ -46,7 +45,5 @@ namespace Task_3_3_2
             }
             return "Unknown language";
         }
-
-
     }
 }

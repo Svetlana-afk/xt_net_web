@@ -11,19 +11,29 @@ namespace Task_3_3_1
         static void Main(string[] args)
         {
             int[] array = new int[]{ 1, 2, 3, 4, 5, 6, 7 , 8, 1};
-            array.SuperArray(MultiplyToTwo);
+            double[] array1 = new double[] { 11.5, 12.3, 14.8, 12.3 };
+            array1.SuperArray(MultiplyToTwo);
             Console.WriteLine("Массив после умножения его элементов на 2:");
-            PrintArray(array);
+            PrintArray(array1);
             Console.WriteLine("\n\rСреднее значение массива:");
-            Console.WriteLine(array.FindAverage());
+            Console.WriteLine(array1.FindAverage());
             Console.WriteLine("\n\rСумма всех элементов массива:");
-            Console.WriteLine(array.FindSum());
+            Console.WriteLine(array1.FindSum());
             Console.WriteLine("\n\rСамый часто встречающийся элемент массива:");
-            Console.WriteLine(array.FindMostFrequent());
-            
+            Console.WriteLine(array1.FindMostFrequent());            
         }
         static int MultiplyToTwo(int A) => A * 2;
-        static void PrintArray(int[] array) 
+        static int? MultiplyToTwo(int? A) => A * 2;
+        static float MultiplyToTwo(float A) => A * 2;
+        static float? MultiplyToTwo(float? A) => A * 2;
+        static double MultiplyToTwo(double A) => A * 2;
+        static double? MultiplyToTwo(double? A) => A * 2;
+        static long MultiplyToTwo(long A) => A * 2;
+        static long? MultiplyToTwo(long? A) => A * 2;
+        static decimal MultiplyToTwo(decimal A) => A * 2;
+        static decimal? MultiplyToTwo(decimal? A) => A * 2;
+
+        static void PrintArray<T>(T[] array) 
         {
             foreach (var item in array)
             {
