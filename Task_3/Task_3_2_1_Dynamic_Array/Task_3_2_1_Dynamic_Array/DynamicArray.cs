@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Task_3_2_1_Dynamic_Array
 {
-    public class DynamicArray<T> : IEnumerable<T>, IEnumerable
+    public class DynamicArray<T> : IEnumerable<T>, IEnumerable, ICloneable
     {
         private T[] Arr { get; set; }        
         public int Capasity 
@@ -55,7 +55,7 @@ namespace Task_3_2_1_Dynamic_Array
             } 
         }
         /// <summary>
-        /// Возвращает или задает элемент по указанному индексу.
+        /// Возвращает или задает элемент по указанному индексу, включая отрицательный индекс.
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
@@ -177,16 +177,25 @@ namespace Task_3_2_1_Dynamic_Array
             }
             return array;
         }
-
         public IEnumerator<T> GetEnumerator()
         {            
             return new DynamicArrayEnumerator(Arr, Length);
         }
-
         IEnumerator IEnumerable.GetEnumerator()
         {
             return new DynamicArrayEnumerator(Arr, Length);
         }
+
+        public object Clone()
+        {
+            return new DynamicArray<T>() 
+            { 
+                Capasity = this.Capasity, 
+                Length = this.Length,
+                Arr = (T[])this.Arr.Clone()
+            };
+        }
+
         public class DynamicArrayEnumerator : IEnumerator, IEnumerator<T>
         {
             T[] dArray;
