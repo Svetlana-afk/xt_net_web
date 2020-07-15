@@ -6,13 +6,19 @@ using System.Threading.Tasks;
 
 namespace Task_3_3_3
 {
-    class Pizza
+    public class Pizza
     {
-        PizzaTypes type { get; set; }
+        public PizzaTypes PizzaType { get; set; }
+        public int PreparingTime { get; set; }
+
+        public Pizza(PizzaTypes pizzaType) 
+        {
+            PizzaType = pizzaType;
+        }
     }
     public enum PizzaTypes
     {
-        Margaria,
+        Margarita,
         QuattroFormaggi
     }
 }

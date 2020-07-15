@@ -44,6 +44,10 @@ namespace Task_3_1_2
             }
         }
         
+        /// <summary>
+        /// Вывод Dictionary в консоль
+        /// </summary>
+        /// <param name="result"></param>
         static void PrintDictionary(Dictionary<string, int> result) 
         {
             foreach (KeyValuePair<string, int> keyValue in result)

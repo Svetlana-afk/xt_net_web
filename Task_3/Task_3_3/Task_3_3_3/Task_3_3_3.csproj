@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Order.cs" />
+    <Compile Include="ReadyToEatEventArgs.cs" />
     <Compile Include="Pizza.cs" />
     <Compile Include="Pizzeria.cs" />
     <Compile Include="Program.cs" />
