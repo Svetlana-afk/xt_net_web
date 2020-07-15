@@ -103,7 +103,7 @@ namespace Task_3_3_1
             }
             return mass.Average();
         }
-
+        
         public static double FindSum(this double[] mass)
         {
             if (mass == null)
