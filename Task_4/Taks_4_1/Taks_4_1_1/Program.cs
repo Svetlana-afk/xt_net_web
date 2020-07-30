@@ -13,7 +13,7 @@ namespace Taks_4_1_1
         static void Main(string[] args)
         {            
             int choise;
-            bool succes = true;
+            bool succes = true;           
             while (succes) 
             {
                 Console.WriteLine("Пожалуйста, выберите режим работы: " +
@@ -24,7 +24,8 @@ namespace Taks_4_1_1
                     switch (choise)
                     {
                         case 1:
-                            Watcher(directoryPath);
+                            MakeTmpCopy(directoryPath);
+                            Watcher.Watch(directoryPath);
                             break;
                         case 2:
                             Console.WriteLine("Введите дату и время к которому нужно совершить откат.");
@@ -37,65 +38,29 @@ namespace Taks_4_1_1
                 {
                     Console.WriteLine("Некорректный ввод.");
                 }
-            }  
+            }
+            RemoveTmpCopy(directoryPath);
         }
-        private static void Watcher(string directoryPath) 
-        {     
-            //  Create a FileSystemWatcher
-            using (var watcher = new FileSystemWatcher(directoryPath, "*.txt"))
+        public static void MakeTmpCopy(string directoryPath) 
+        {
+            string[] fileEntries = Directory.GetFiles(directoryPath, "*.txt", SearchOption.AllDirectories);
+            foreach (string fileName in fileEntries) 
             {
-                // Watch for changes
-                watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName;
+                File.Copy(fileName, fileName + ".tmp", true);
+            }
+               
+        }
 
-                //watcher.Changed += new FileSystemEventHandler(OnChanged);
-                watcher.Changed += new FileSystemEventHandler(OnChanged);
-                watcher.Created += new FileSystemEventHandler(OnChanged);
-                watcher.Deleted += new FileSystemEventHandler(OnChanged);
-                watcher.Renamed += new RenamedEventHandler(OnRenamed);
-                watcher.Error += new ErrorEventHandler(OnError);
+        public static void RemoveTmpCopy(string directoryPath)
+        {
+            string[] fileEntries = Directory.GetFiles(directoryPath, "*.tmp", SearchOption.AllDirectories);
+            foreach (string fileName in fileEntries)
+            {
+                File.Delete(fileName);
+            }
 
-                watcher.IncludeSubdirectories = true;
-                watcher.EnableRaisingEvents = true;
+        }
 
-                Console.WriteLine("Press 'q' to quit the sample.");
-                while (Console.Read() != 'q') ;
-            }
-        }
-        private static void OnChanged(object source, FileSystemEventArgs e) 
-        {
-            if (e.ChangeType == WatcherChangeTypes.Created && String.IsNullOrEmpty(File.ReadAllText(e.FullPath)))
-            {
-                return;
-            }
-            WatcherChangeTypes changeTypes = e.ChangeType;
-            string logMessage = String.Format("File {0} {1}", e.FullPath, changeTypes.ToString());
-            Log(logMessage);
-            Console.WriteLine(logMessage);
-        }
-        private static void OnRenamed(object source, RenamedEventArgs e)
-        {
-            WatcherChangeTypes changeTypes = e.ChangeType;
-            Console.WriteLine("File {0} {1} to {2}", e.OldFullPath, e.FullPath, changeTypes.ToString());
-        }
-        private static void OnError(object source, ErrorEventArgs e) 
-        {
-            Console.WriteLine("The FileSystemWatcher has detected an error");
-            if (e.GetException().GetType() == typeof(InternalBufferOverflowException))
-            {
-                Console.WriteLine(("The file system watcher experienced an internal buffer overflow: " + e.GetException().Message));
-            }
-        }
-        public static void Log(string logMessage)
-        {
-            using (var w = new StreamWriter(directoryPath + @"\logg", true))
-            {
-                w.Write("\r\nLog Entry : ");
-                w.WriteLine($"{DateTime.Now.ToLongTimeString()} {DateTime.Now.ToLongDateString()}");
-                w.WriteLine("  :");
-                w.WriteLine($"  :{logMessage}");
-                w.WriteLine("-------------------------------");
-            }
-        }
-          
+
     }
 }
