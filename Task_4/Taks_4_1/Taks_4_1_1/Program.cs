@@ -27,9 +27,9 @@ namespace Taks_4_1_1
                             Watcher.Watch(directoryPath);
                             break;
                         case 2:
-                            Console.WriteLine("Введите дату и время к которому нужно совершить откат.");
-                            var str = Console.ReadLine();
-                            succes = false;
+                            Console.WriteLine("Введите дату и время к которому нужно совершить откат. 08/18/2018 07:22:16");
+                            DateTime dateTime = DateTime.Parse(Console.ReadLine());
+                            Watcher.UndoToData(dateTime.Ticks);
                             break;
                     }
                 }

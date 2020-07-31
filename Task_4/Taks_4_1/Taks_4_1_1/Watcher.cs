@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,8 +13,7 @@ namespace Taks_4_1_1
         public static string directoryPath = @"D:\epam\xt_net_web\Task_4\File storage";
 
         public static void Watch(string directoryPath)
-        {
-            //  Create a FileSystemWatcher
+        {            
             using (var watcher = new FileSystemWatcher(directoryPath, "*.txt"))
             {
                 watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName;
@@ -43,9 +43,8 @@ namespace Taks_4_1_1
             if (e.ChangeType == WatcherChangeTypes.Changed) 
             {
                 var fm = CompareFiles(e.FullPath, e.FullPath+".tmp");
-            }
-
-            Log(logMessage);
+                Log(JsonConvert.SerializeObject(fm));
+            }            
             Console.WriteLine(logMessage);
             MakeTmpCopy(directoryPath);
         }
@@ -64,31 +63,28 @@ namespace Taks_4_1_1
         }
         private static FileModification CompareFiles(string newFileName, string oldFileName) 
         {
-            var fm = new FileModification() { Data = DateTime.Now.ToString(), FileName = newFileName };
+            var fm = new FileModification() { Data = DateTime.Now.Ticks, FileName = newFileName };
             fm.Changes = new List<StringModification>();
             List<string> newFileToListString;
             List<string> oldFileToListString;
-            ConverFileToListString(newFileName, out newFileToListString);
-            ConverFileToListString(oldFileName, out oldFileToListString);
+            ConvertFileToListString(newFileName, out newFileToListString);
+            ConvertFileToListString(oldFileName, out oldFileToListString);
             for (int i = 0; i < oldFileToListString.Count; i++)
             {
                 if (i >= newFileToListString.Count) 
                 {
                     fm.Changes.Add(new StringModification(i, oldFileToListString[i], ""));
-                    //fm.Changes.Add(String.Format("{0}" + oldFileToListString[i] + "=>" + "", i));
                 }
                 else if (newFileToListString[i] != oldFileToListString[i])
                 {
                     fm.Changes.Add(new StringModification(i, oldFileToListString[i], newFileToListString[i]));
-                    //fm.Changes.Add(String.Format("{0}" + oldFileToListString[i] + "=>" + newFileToListString[i], i));
                 }
             }
             if (newFileToListString.Count > oldFileToListString.Count)
             {
                 for (int i = oldFileToListString.Count; i < newFileToListString.Count; i++) 
                 {
-                    fm.Changes.Add(new StringModification(i, "", newFileToListString[i]));
-                    //fm.Changes.Add(String.Format("{0}" + "" + "=>" + newFileToListString[i], i));                        
+                    fm.Changes.Add(new StringModification(i, "", newFileToListString[i]));                        
                 }
             }
             Console.WriteLine(fm.FileName);
@@ -99,7 +95,7 @@ namespace Taks_4_1_1
             }
             return fm;
         }
-        private static bool ConverFileToListString(string filename, out List<string> LS)
+        private static bool ConvertFileToListString(string filename, out List<string> LS)
         {               
             StreamReader sr;
             try
@@ -119,15 +115,39 @@ namespace Taks_4_1_1
             sr.Close();
             return true;
         }
-        public static void Log(string logMessage)
+        public static void UndoToData(long data) 
+        {
+            List<string> logToString = new List<string>();
+            if (ConvertFileToListString(directoryPath + @"\logg", out logToString)) 
+            {
+                for (int i = logToString.Count-1; i >= 0; i--)
+                {
+                    FileModification fm = JsonConvert.DeserializeObject<FileModification>(logToString[i]);
+                    if (fm.Data > data)
+                    {
+                        List<string> fileToString = new List<string>();
+                        ConvertFileToListString(fm.FileName, out fileToString);
+                        foreach (var item in fm.Changes)
+                        {
+                            fileToString[item.NumberOfString] = item.OldString;
+                        }                        
+                        using (var undoFile = new StreamWriter(fm.FileName))
+                        {
+                            foreach (var item in fileToString)
+                            {
+                                undoFile.WriteLine(item);
+                            }                            
+                        }
+                    }
+                }
+            }
+
+        }
+        public static void Log(string fileModificationJSON)
         {
             using (var w = new StreamWriter(directoryPath + @"\logg", true))
             {
-                w.Write("\r\nLog Entry : ");
-                w.WriteLine($"{DateTime.Now.ToLongTimeString()} {DateTime.Now.ToLongDateString()}");
-                w.WriteLine("  :");
-                w.WriteLine($"  :{logMessage}");
-                w.WriteLine("-------------------------------");
+                w.WriteLine(fileModificationJSON);
             }
         }
         public static void MakeTmpCopy(string directoryPath)
