@@ -24,7 +24,6 @@ namespace Taks_4_1_1
                     switch (choise)
                     {
                         case 1:
-                            MakeTmpCopy(directoryPath);
                             Watcher.Watch(directoryPath);
                             break;
                         case 2:
@@ -41,15 +40,7 @@ namespace Taks_4_1_1
             }
             RemoveTmpCopy(directoryPath);
         }
-        public static void MakeTmpCopy(string directoryPath) 
-        {
-            string[] fileEntries = Directory.GetFiles(directoryPath, "*.txt", SearchOption.AllDirectories);
-            foreach (string fileName in fileEntries) 
-            {
-                File.Copy(fileName, fileName + ".tmp", true);
-            }
-               
-        }
+        
 
         public static void RemoveTmpCopy(string directoryPath)
         {
@@ -58,7 +49,6 @@ namespace Taks_4_1_1
             {
                 File.Delete(fileName);
             }
-
         }
 
 
