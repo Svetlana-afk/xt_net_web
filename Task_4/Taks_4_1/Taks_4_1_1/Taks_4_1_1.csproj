@@ -49,8 +49,6 @@
     <Compile Include="FileModification.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RenameModification.cs" />
-    <Compile Include="IUnoFileModification.cs" />
     <Compile Include="StringModification.cs" />
     <Compile Include="Watcher.cs" />
   </ItemGroup>

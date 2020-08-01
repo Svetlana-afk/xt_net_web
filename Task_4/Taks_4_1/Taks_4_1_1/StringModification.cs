@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Taks_4_1_1
 {
-    public class StringModification : IUnoFileModification
+    public class StringModification
     {
         public int NumberOfString { get; private set; }
         public string OldString { get; private set; }

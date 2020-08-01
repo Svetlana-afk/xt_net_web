@@ -23,7 +23,7 @@ namespace Taks_4_1_1
             CTRL_SHUTDOWN_EVENT = 6
         }
 
-        public static string directoryPath = @"D:\epam\xt_net_web\Task_4\File storage";
+        private static string directoryPath = @"D:\epam\xt_net_web\Task_4\File storage";
         static void Main(string[] args)
         {            
             int choise;
@@ -31,6 +31,7 @@ namespace Taks_4_1_1
 
             // Register the close program handler
             SetConsoleCtrlHandler(CloseProgramHandler, true);
+            Watcher watcher = new Watcher(directoryPath);
 
             while (succes) 
             {
@@ -44,7 +45,7 @@ namespace Taks_4_1_1
                         case 1:
                             if (Directory.Exists(directoryPath))
                             {
-                                Watcher.Watch(directoryPath);
+                                watcher.Watch(directoryPath);
                             }
                             else 
                             {
@@ -53,9 +54,15 @@ namespace Taks_4_1_1
                             
                             break;
                         case 2:
-                            Console.WriteLine("Введите дату и время к которому нужно совершить откат. 08/18/2018 07:22:16");
-                            DateTime dateTime = DateTime.Parse(Console.ReadLine());
-                            Watcher.UndoToData(dateTime.Ticks);
+                            try
+                            {
+                                Console.WriteLine("Введите дату и время к которому нужно совершить откат. 08/07/2020 07:22:16");
+                                DateTime dateTime = DateTime.Parse(Console.ReadLine());
+                                watcher.UndoToData(dateTime.Ticks);
+                            } catch (Exception ex) 
+                            {
+                                Console.WriteLine("Вы ввели неверную дату или ввели ее в неверном формате");
+                            }
                             break;
                     }
                 }
@@ -91,7 +98,6 @@ namespace Taks_4_1_1
                 case CtrlType.CTRL_CLOSE_EVENT:
                     Console.WriteLine("Closing");
                     RemoveTmpCopy(directoryPath);
-                    // TODO Cleanup resources
                     Environment.Exit(0);
                     return false;
 

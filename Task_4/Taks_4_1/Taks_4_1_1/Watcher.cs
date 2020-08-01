@@ -7,9 +7,14 @@ namespace Taks_4_1_1
 {
     class Watcher
     {
-        public static string directoryPath = @"D:\epam\xt_net_web\Task_4\File storage";
+        private string directoryPath = @"D:\epam\xt_net_web\Task_4\File storage";
 
-        public static void Watch(string directoryPath)
+        public Watcher(string directoryPath) 
+        {
+            this.directoryPath = directoryPath;
+        }
+
+        public void Watch(string directoryPath)
         {
             using (var watcher = new FileSystemWatcher(directoryPath, "*.txt"))
             {
@@ -29,7 +34,7 @@ namespace Taks_4_1_1
                 while (Console.Read() != 'q') ;
             }
         }
-        private static void OnChanged(object source, FileSystemEventArgs e)
+        private void OnChanged(object source, FileSystemEventArgs e)
         {
             switch (e.ChangeType)
             {
@@ -59,19 +64,19 @@ namespace Taks_4_1_1
             Console.WriteLine(logMessage);
             MakeTmpCopy(directoryPath);
         }
-        private static void OnRenamed(object source, RenamedEventArgs e)
+        private void OnRenamed(object source, RenamedEventArgs e)
         {
             WatcherChangeTypes changeTypes = e.ChangeType;
             Console.WriteLine("File {0} {1} to {2}", e.OldFullPath, e.FullPath, changeTypes.ToString());
 
-            var fm = new FileModification() { Data = DateTime.Now.Ticks, FileName = e.OldFullPath, ModType = ModifType.Renamed };
-            fm.Changes.Add(new RenameModification(e.FullPath));
+            var fm = new FileModification() { Data = DateTime.Now.Ticks, FileName = e.OldFullPath, NewFileName = e.FullPath,
+                ModType = ModifType.Renamed };
             Log(JsonConvert.SerializeObject(fm));
 
             File.Copy(e.FullPath, e.FullPath + ".tmp", true);
             File.Delete(e.OldFullPath + ".tmp");
         }
-        private static void OnError(object source, ErrorEventArgs e)
+        private void OnError(object source, ErrorEventArgs e)
         {
             Console.WriteLine("The FileSystemWatcher has detected an error");
             if (e.GetException().GetType() == typeof(InternalBufferOverflowException))
@@ -80,22 +85,23 @@ namespace Taks_4_1_1
             }
         }
 
-        private static FileModification FmCreateFile(string fileName)
+        private FileModification FmCreateFile(string fileName)
         {
             var fm = new FileModification() { Data = DateTime.Now.Ticks, FileName = fileName, ModType = ModifType.Created };
             File.Copy(fileName, fileName + ".tmp", true);
             return fm;
         }
-        private static FileModification FmDeleteFile(string fileName)
+        private FileModification FmDeleteFile(string fileName)
         {
             var fm = new FileModification() { Data = DateTime.Now.Ticks, FileName = fileName, ModType = ModifType.Deleted };
+            File.Copy(fileName + ".tmp", fileName + ".del", true);
             return fm;
         }
 
-        private static FileModification FmCompareFiles(string newFileName, string oldFileName)
+        private FileModification FmCompareFiles(string newFileName, string oldFileName)
         {
             var fm = new FileModification() { Data = DateTime.Now.Ticks, FileName = newFileName, ModType = ModifType.Changed };
-            fm.Changes = new List<IUnoFileModification>();
+            fm.Changes = new List<StringModification>();
             List<string> newFileToListString;
             List<string> oldFileToListString;
             ConvertFileToListString(newFileName, out newFileToListString);
@@ -132,12 +138,17 @@ namespace Taks_4_1_1
             }
             return fm;
         }
-        private static bool ConvertFileToListString(string filename, out List<string> LS)
+        private bool ConvertFileToListString(string filename, out List<string> LS)
         {
-            StreamReader sr;
             try
             {
-                sr = new StreamReader(filename);
+                StreamReader sr = new StreamReader(filename);
+                LS = new List<string>();
+                string s;
+                while ((s = sr.ReadLine()) != null)
+                    LS.Add(s);
+                sr.Close();
+                return true;
             }
             catch (FileNotFoundException e)
             {
@@ -145,14 +156,27 @@ namespace Taks_4_1_1
                 LS = null;
                 return false;
             }
-            LS = new List<string>(0);
-            string s;
-            while ((s = sr.ReadLine()) != null)
-                LS.Add(s);
-            sr.Close();
-            return true;
+            
         }
-        public static void UndoToData(long data)
+
+        private void UndoChangesInFile(FileModification fm) 
+        {
+            List<string> fileToString = new List<string>();
+            ConvertFileToListString(fm.FileName, out fileToString);
+            foreach (var item in fm.Changes)
+            {
+                StringModification sm = (StringModification)item;
+                fileToString[sm.NumberOfString] = sm.OldString;
+            }
+            using (var undoFile = new StreamWriter(fm.FileName))
+            {
+                foreach (var item in fileToString)
+                {
+                    undoFile.WriteLine(item);
+                }
+            }
+        }
+        public void UndoToData(long data)
         {
             List<string> logToString = new List<string>();
             if (ConvertFileToListString(directoryPath + @"\logg", out logToString))
@@ -160,43 +184,53 @@ namespace Taks_4_1_1
                 for (int i = logToString.Count - 1; i >= 0; i--)
                 {
                     FileModification fm = JsonConvert.DeserializeObject<FileModification>(logToString[i]);
-                    if (fm.Data > data)
+                    if (fm != null && fm.Data > data)
                     {
                         switch (fm.ModType)
                         {
                             case ModifType.Changed:
                                 {
-                                    List<string> fileToString = new List<string>();
-                                    ConvertFileToListString(fm.FileName, out fileToString);
-                                    foreach (var item in fm.Changes)
-                                    {
-                                        StringModification sm = (StringModification)item;
-                                        fileToString[sm.NumberOfString] = sm.OldString;
-                                    }
-                                    using (var undoFile = new StreamWriter(fm.FileName))
-                                    {
-                                        foreach (var item in fileToString)
-                                        {
-                                            undoFile.WriteLine(item);
-                                        }
-                                    }
+                                    Console.WriteLine("UndoChangesInFile: " + fm.FileName);
+                                    UndoChangesInFile(fm);
                                     break;
                                 }
+                            case ModifType.Created: 
+                                {
+                                    Console.WriteLine("UndoDelete: " + fm.FileName);
+                                    File.Delete(fm.FileName);                                   
+                                    break;
+                                }
+                            case ModifType.Renamed:
+                                {
+                                    Console.WriteLine("UndoRenamed: " + fm.FileName);
+                                    File.Move(fm.NewFileName, fm.FileName);                                                                 
+                                    break;
+                                }
+                            case ModifType.Deleted:
+                                {
+                                    Console.WriteLine("UndoDeleted: " + fm.FileName);
+                                    File.Move(fm.FileName + ".del", fm.FileName);                                   
+                                    break;
+                                }
+                            default:
+                                break;
                         }
 
                     }
                 }
             }
 
+            File.Delete(directoryPath + @"\logg");
+
         }
-        public static void Log(string fileModificationJSON)
+        private void Log(string fileModificationJSON)
         {
             using (var w = new StreamWriter(directoryPath + @"\logg", true))
             {
                 w.WriteLine(fileModificationJSON);
             }
         }
-        public static void MakeTmpCopy(string directoryPath)
+        private void MakeTmpCopy(string directoryPath)
         {
             string[] fileEntries = Directory.GetFiles(directoryPath, "*.txt", SearchOption.AllDirectories);
             foreach (string fileName in fileEntries)
