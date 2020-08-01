@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Taks_4_1_1
 {
@@ -13,7 +10,7 @@ namespace Taks_4_1_1
         public static string directoryPath = @"D:\epam\xt_net_web\Task_4\File storage";
 
         public static void Watch(string directoryPath)
-        {            
+        {
             using (var watcher = new FileSystemWatcher(directoryPath, "*.txt"))
             {
                 watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName;
@@ -29,22 +26,36 @@ namespace Taks_4_1_1
                 MakeTmpCopy(directoryPath);
 
                 Console.WriteLine("Press 'q' to quit the sample.");
-                while (Console.Read() != 'q') ;            
+                while (Console.Read() != 'q') ;
             }
         }
         private static void OnChanged(object source, FileSystemEventArgs e)
         {
-            if (e.ChangeType == WatcherChangeTypes.Created && String.IsNullOrEmpty(File.ReadAllText(e.FullPath)))
+            switch (e.ChangeType)
             {
-                return;
-            }            
-            WatcherChangeTypes changeTypes = e.ChangeType;
-            string logMessage = String.Format("File {0} {1}", e.FullPath, changeTypes.ToString());
-            if (e.ChangeType == WatcherChangeTypes.Changed) 
-            {
-                var fm = CompareFiles(e.FullPath, e.FullPath+".tmp");
-                Log(JsonConvert.SerializeObject(fm));
-            }            
+                case WatcherChangeTypes.Changed:
+                    {
+                        var fm = FmCompareFiles(e.FullPath, e.FullPath + ".tmp");
+                        Log(JsonConvert.SerializeObject(fm));
+                        break;
+                    }
+                case WatcherChangeTypes.Deleted:
+                    {
+                        var fm = FmDeleteFile(e.FullPath);
+                        Log(JsonConvert.SerializeObject(fm));
+                        break;
+                    }
+                case WatcherChangeTypes.Created:
+                    {
+                        var fm = FmCreateFile(e.FullPath);
+                        Log(JsonConvert.SerializeObject(fm));
+                        break;
+                    }
+                default:
+                    return;
+            }
+
+            string logMessage = String.Format("File {0} {1}", e.FullPath, e.ChangeType.ToString());
             Console.WriteLine(logMessage);
             MakeTmpCopy(directoryPath);
         }
@@ -52,6 +63,13 @@ namespace Taks_4_1_1
         {
             WatcherChangeTypes changeTypes = e.ChangeType;
             Console.WriteLine("File {0} {1} to {2}", e.OldFullPath, e.FullPath, changeTypes.ToString());
+
+            var fm = new FileModification() { Data = DateTime.Now.Ticks, FileName = e.OldFullPath, ModType = ModifType.Renamed };
+            fm.Changes.Add(new RenameModification(e.FullPath));
+            Log(JsonConvert.SerializeObject(fm));
+
+            File.Copy(e.FullPath, e.FullPath + ".tmp", true);
+            File.Delete(e.OldFullPath + ".tmp");
         }
         private static void OnError(object source, ErrorEventArgs e)
         {
@@ -61,17 +79,30 @@ namespace Taks_4_1_1
                 Console.WriteLine(("The file system watcher experienced an internal buffer overflow: " + e.GetException().Message));
             }
         }
-        private static FileModification CompareFiles(string newFileName, string oldFileName) 
+
+        private static FileModification FmCreateFile(string fileName)
         {
-            var fm = new FileModification() { Data = DateTime.Now.Ticks, FileName = newFileName };
-            fm.Changes = new List<StringModification>();
+            var fm = new FileModification() { Data = DateTime.Now.Ticks, FileName = fileName, ModType = ModifType.Created };
+            File.Copy(fileName, fileName + ".tmp", true);
+            return fm;
+        }
+        private static FileModification FmDeleteFile(string fileName)
+        {
+            var fm = new FileModification() { Data = DateTime.Now.Ticks, FileName = fileName, ModType = ModifType.Deleted };
+            return fm;
+        }
+
+        private static FileModification FmCompareFiles(string newFileName, string oldFileName)
+        {
+            var fm = new FileModification() { Data = DateTime.Now.Ticks, FileName = newFileName, ModType = ModifType.Changed };
+            fm.Changes = new List<IUnoFileModification>();
             List<string> newFileToListString;
             List<string> oldFileToListString;
             ConvertFileToListString(newFileName, out newFileToListString);
             ConvertFileToListString(oldFileName, out oldFileToListString);
             for (int i = 0; i < oldFileToListString.Count; i++)
             {
-                if (i >= newFileToListString.Count) 
+                if (i >= newFileToListString.Count)
                 {
                     fm.Changes.Add(new StringModification(i, oldFileToListString[i], ""));
                 }
@@ -82,21 +113,27 @@ namespace Taks_4_1_1
             }
             if (newFileToListString.Count > oldFileToListString.Count)
             {
-                for (int i = oldFileToListString.Count; i < newFileToListString.Count; i++) 
+                for (int i = oldFileToListString.Count; i < newFileToListString.Count; i++)
                 {
-                    fm.Changes.Add(new StringModification(i, "", newFileToListString[i]));                        
+                    fm.Changes.Add(new StringModification(i, "", newFileToListString[i]));
                 }
             }
+
             Console.WriteLine(fm.FileName);
             Console.WriteLine(fm.Data);
             foreach (var item in fm.Changes)
             {
-                Console.WriteLine("{0} : {1} => {2}", item.NumberOfString, item.OldString, item.NewString);
+                if (item is StringModification)
+                {
+                    StringModification sm = (StringModification)item;
+                    Console.WriteLine("{0} : {1} => {2}", sm.NumberOfString, sm.OldString, sm.NewString);
+                }
+
             }
             return fm;
         }
         private static bool ConvertFileToListString(string filename, out List<string> LS)
-        {               
+        {
             StreamReader sr;
             try
             {
@@ -115,29 +152,38 @@ namespace Taks_4_1_1
             sr.Close();
             return true;
         }
-        public static void UndoToData(long data) 
+        public static void UndoToData(long data)
         {
             List<string> logToString = new List<string>();
-            if (ConvertFileToListString(directoryPath + @"\logg", out logToString)) 
+            if (ConvertFileToListString(directoryPath + @"\logg", out logToString))
             {
-                for (int i = logToString.Count-1; i >= 0; i--)
+                for (int i = logToString.Count - 1; i >= 0; i--)
                 {
                     FileModification fm = JsonConvert.DeserializeObject<FileModification>(logToString[i]);
                     if (fm.Data > data)
                     {
-                        List<string> fileToString = new List<string>();
-                        ConvertFileToListString(fm.FileName, out fileToString);
-                        foreach (var item in fm.Changes)
+                        switch (fm.ModType)
                         {
-                            fileToString[item.NumberOfString] = item.OldString;
-                        }                        
-                        using (var undoFile = new StreamWriter(fm.FileName))
-                        {
-                            foreach (var item in fileToString)
-                            {
-                                undoFile.WriteLine(item);
-                            }                            
+                            case ModifType.Changed:
+                                {
+                                    List<string> fileToString = new List<string>();
+                                    ConvertFileToListString(fm.FileName, out fileToString);
+                                    foreach (var item in fm.Changes)
+                                    {
+                                        StringModification sm = (StringModification)item;
+                                        fileToString[sm.NumberOfString] = sm.OldString;
+                                    }
+                                    using (var undoFile = new StreamWriter(fm.FileName))
+                                    {
+                                        foreach (var item in fileToString)
+                                        {
+                                            undoFile.WriteLine(item);
+                                        }
+                                    }
+                                    break;
+                                }
                         }
+
                     }
                 }
             }
