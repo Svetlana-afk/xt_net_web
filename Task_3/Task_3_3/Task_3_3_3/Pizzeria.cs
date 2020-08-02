@@ -21,7 +21,7 @@ namespace Task_3_3_3
         public Order MakeOrder(String customer, PizzaTypes pizzaType) 
         {
             Order order = new Order(customer, pizzaType);
-            MakePizzaAsync(order);
+            Task task = MakePizzaAsync(order);
             return order;
         }
 

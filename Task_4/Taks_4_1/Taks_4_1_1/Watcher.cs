@@ -7,7 +7,7 @@ namespace Taks_4_1_1
 {
     class Watcher
     {
-        private string directoryPath = @"D:\epam\xt_net_web\Task_4\File storage";
+        private string directoryPath;
 
         public Watcher(string directoryPath) 
         {
@@ -28,8 +28,15 @@ namespace Taks_4_1_1
 
                 watcher.IncludeSubdirectories = true;
                 watcher.EnableRaisingEvents = true;
-                MakeTmpCopy(directoryPath);
-
+                try
+                {
+                    MakeTmpCopy(directoryPath);
+                } catch(Exception ex) 
+                {
+                    Console.Error.WriteLine(ex.Message);
+                    throw new MakeTmpCopyException("Can't create temporary file copies.", ex);
+                }
+                
                 Console.WriteLine("Press 'q' to quit the sample.");
                 while (Console.Read() != 'q') ;
             }
@@ -150,30 +157,43 @@ namespace Taks_4_1_1
                 sr.Close();
                 return true;
             }
-            catch (FileNotFoundException e)
+            catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.Error.WriteLine(e.Message);
                 LS = null;
                 return false;
             }
             
         }
 
-        private void UndoChangesInFile(FileModification fm) 
+        private void UndoChangesInFile(FileModification fm)
         {
             List<string> fileToString = new List<string>();
-            ConvertFileToListString(fm.FileName, out fileToString);
-            foreach (var item in fm.Changes)
+            if (ConvertFileToListString(fm.FileName, out fileToString))
             {
-                StringModification sm = (StringModification)item;
-                fileToString[sm.NumberOfString] = sm.OldString;
-            }
-            using (var undoFile = new StreamWriter(fm.FileName))
-            {
-                foreach (var item in fileToString)
+                foreach (var item in fm.Changes)
                 {
-                    undoFile.WriteLine(item);
+                    StringModification sm = (StringModification)item;
+                    fileToString[sm.NumberOfString] = sm.OldString;
                 }
+                try
+                {
+                    using (var undoFile = new StreamWriter(fm.FileName))
+                    {
+                        foreach (var item in fileToString)
+                        {
+                            undoFile.WriteLine(item);
+                        }
+                    }
+                } catch (Exception ex) 
+                {
+                    Console.Error.WriteLine(ex.Message);
+                    Console.WriteLine("Can't undo changes in file {0} because of error in file", fm.FileName);
+                }
+            }
+            else 
+            {
+                Console.WriteLine("Can't undo changes in file {0} because of error in file", fm.FileName);
             }
         }
         public void UndoToData(long data)
@@ -183,40 +203,43 @@ namespace Taks_4_1_1
             {
                 for (int i = logToString.Count - 1; i >= 0; i--)
                 {
-                    FileModification fm = JsonConvert.DeserializeObject<FileModification>(logToString[i]);
-                    if (fm != null && fm.Data > data)
+                    try
                     {
-                        switch (fm.ModType)
+                        FileModification fm = JsonConvert.DeserializeObject<FileModification>(logToString[i]);
+                        if (fm != null && fm.Data > data)
                         {
-                            case ModifType.Changed:
-                                {
-                                    Console.WriteLine("UndoChangesInFile: " + fm.FileName);
-                                    UndoChangesInFile(fm);
+                            switch (fm.ModType)
+                            {
+                                case ModifType.Changed:
+                                    {
+                                        UndoChangesInFile(fm);
+                                        break;
+                                    }
+                                case ModifType.Created:
+                                    {
+                                        File.Delete(fm.FileName);
+                                        break;
+                                    }
+                                case ModifType.Renamed:
+                                    {
+                                        File.Move(fm.NewFileName, fm.FileName);
+                                        break;
+                                    }
+                                case ModifType.Deleted:
+                                    {
+                                        File.Move(fm.FileName + ".del", fm.FileName);
+                                        break;
+                                    }
+                                default:
                                     break;
-                                }
-                            case ModifType.Created: 
-                                {
-                                    Console.WriteLine("UndoDelete: " + fm.FileName);
-                                    File.Delete(fm.FileName);                                   
-                                    break;
-                                }
-                            case ModifType.Renamed:
-                                {
-                                    Console.WriteLine("UndoRenamed: " + fm.FileName);
-                                    File.Move(fm.NewFileName, fm.FileName);                                                                 
-                                    break;
-                                }
-                            case ModifType.Deleted:
-                                {
-                                    Console.WriteLine("UndoDeleted: " + fm.FileName);
-                                    File.Move(fm.FileName + ".del", fm.FileName);                                   
-                                    break;
-                                }
-                            default:
-                                break;
+                            }
                         }
-
-                    }
+                    } 
+                    catch (Exception ex) 
+                    {
+                        Console.Error.WriteLine(ex.Message);
+                        Console.WriteLine("Can't undo changes in file because of internal error");
+                    }                  
                 }
             }
 

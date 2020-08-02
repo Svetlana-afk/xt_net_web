@@ -25,13 +25,15 @@ namespace Taks_4_1_1
 
         private static string directoryPath = @"D:\epam\xt_net_web\Task_4\File storage";
         static void Main(string[] args)
-        {            
+        {
+            Watcher watcher = new Watcher(directoryPath);
             int choise;
             bool succes = true;
 
             // Register the close program handler
             SetConsoleCtrlHandler(CloseProgramHandler, true);
-            Watcher watcher = new Watcher(directoryPath);
+            
+            
 
             while (succes) 
             {
@@ -44,8 +46,23 @@ namespace Taks_4_1_1
                     {
                         case 1:
                             if (Directory.Exists(directoryPath))
-                            {
-                                watcher.Watch(directoryPath);
+                            { 
+                                try
+                                {
+                                    watcher.Watch(directoryPath);
+                                }
+                                catch (MakeTmpCopyException ex)
+                                {
+                                    Console.Error.WriteLine(ex.Message);
+                                    Console.WriteLine("Oops. Something wrong with the process of making temp copies. Please ask developers help.");
+                                    return;
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.Error.WriteLine(ex.Message);
+                                    Console.WriteLine("Oops. Something wrong with directory path. Please ask developers help.");
+                                    return;
+                                }
                             }
                             else 
                             {
@@ -61,6 +78,7 @@ namespace Taks_4_1_1
                                 watcher.UndoToData(dateTime.Ticks);
                             } catch (Exception ex) 
                             {
+                                Console.Error.WriteLine(ex.Message);
                                 Console.WriteLine("Вы ввели неверную дату или ввели ее в неверном формате");
                             }
                             break;
@@ -75,15 +93,31 @@ namespace Taks_4_1_1
                     Console.WriteLine("Некорректный ввод.");
                 }
             }
-            RemoveTmpCopy(directoryPath);
+            try
+            {
+                RemoveTmpCopies(directoryPath);
+            } catch (Exception ex) 
+            {
+                Console.Error.WriteLine(ex.Message);
+                Console.WriteLine("An error is occured on deleting tmp files from directory: {0}", directoryPath);
+            }
+            
         }      
 
-        public static void RemoveTmpCopy(string directoryPath)
+        public static void RemoveTmpCopies(string directoryPath)
         {
             string[] fileEntries = Directory.GetFiles(directoryPath, "*.tmp", SearchOption.AllDirectories);
             foreach (string fileName in fileEntries)
             {
-                File.Delete(fileName);
+                try
+                {
+                    File.Delete(fileName);
+                }
+                catch (Exception ex) 
+                {
+                    Console.Error.WriteLine(ex.Message);
+                    Console.WriteLine("An error is occured on deleting tmp file: {0}", fileName);
+                }             
             }
         }
 
@@ -97,7 +131,15 @@ namespace Taks_4_1_1
                 case CtrlType.CTRL_SHUTDOWN_EVENT:
                 case CtrlType.CTRL_CLOSE_EVENT:
                     Console.WriteLine("Closing");
-                    RemoveTmpCopy(directoryPath);
+                    try
+                    {
+                        RemoveTmpCopies(directoryPath);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Error.WriteLine(ex.Message);
+                        Console.WriteLine("An error is occured on deleting tmp files from directory: {0}", directoryPath);
+                    }
                     Environment.Exit(0);
                     return false;
 
