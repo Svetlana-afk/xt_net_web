@@ -1,0 +1,28 @@
+element.style {
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.container {
+  color: brown;
+  background: rgb(233, 214, 153);
+  width: 200;
+  border-radius: 5px;
+  border: 1px solid black;
+  box-shadow: 5px 5px 0px brown;
+}
+
+ul {
+  font-family: 'Times New Roman';
+  font-size: 11pt;
+  list-style-type: none;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 0px;
+  padding-top: 10px;
+  margin: 1;
+}
+li {
+  line-height: 15px;
+  margin-bottom: 10px;
+  }

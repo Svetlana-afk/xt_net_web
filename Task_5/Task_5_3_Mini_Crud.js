@@ -59,6 +59,11 @@ class Service {
 }
 
 var storage = new Service();
+var katya = {
+    name: "Katya",
+    age: 15,
+    height: 175
+};
 var id1 = storage.add({
     name: "Sveta",
     age: "ne skaju",
@@ -76,11 +81,8 @@ var id3 = storage.add({
     weight: 54
 });
 
-var katya = {
-    name : "Katya",
-    age : 15,
-    height : 175
-};
+
+
 console.log(storage.getById(id1));
 console.log(storage.getAll());
 console.log(storage.deleteById(id2));
