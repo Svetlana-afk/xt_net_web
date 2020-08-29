@@ -1,0 +1,52 @@
+body {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.pointing_block {
+    top: 100px;
+    width: 100%;
+    height: 200px;
+    background-color: rgb(107, 184, 209);
+    border: 4px solid lightblue;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.triangle_area {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.triangle {
+    position: absolute;
+    top: 6px;
+    width: 0;
+    height: 0;
+    border: 45px solid transparent;
+    border-bottom-color: rgb(107, 184, 209);
+}
+
+.triangle2 {
+    width: 0;
+    height: 0;
+    border: 45px solid transparent;
+    border-bottom-color: lightblue;
+}
+.block::before {
+    z-index: 1;
+}
+
+p {
+    color: white;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 200%;
+}
