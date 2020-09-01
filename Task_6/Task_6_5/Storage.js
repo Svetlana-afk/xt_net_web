@@ -4,7 +4,7 @@ class Service {
 
     add(obj) {
 
-        let id = (Date.now() + Math.random()).toString();
+        let id = Date.now().toString();
         let nObj = {
             id: id,
             obj: obj
@@ -25,6 +25,9 @@ class Service {
             resultStorage.push(this.storage[i].obj);
         }
         return resultStorage;
+    }
+    getAllWithId() {
+        return this.storage;
     }
     deleteById(id) {
         for (let i = 0; i < this.storage.length; i++) {

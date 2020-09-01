@@ -26,36 +26,32 @@
     </div>
 
     <div id="notes" class="notes-container">
-        <div class="note">
-            <div class="note-header">
-                jhjkhjkhjkh
-            </div>
-            <div class="note-msg">
-                jgjgjkgjkgjkgkyfhdhgdhg
-            </div>
-            <div class="fixedTrash" id="fixedTrash">
-                <i class="far fa-trash-alt"></i>
-            </div>
-        </div>
-        <div class="note">
-            <div class="note-header">
-                <h1>Sveta</h1>
-            </div>
-            <div class="note-msg">
-                <h2>Все сложно</h2>
+
+    </div>
+    
+    <div id="addModal" class="modal">
+        <div class="add-content">
+            <input class="add-header" id="add-header" placeholder="Введите заголовок" type="text">
+            <p><textarea rows="10" id="add-msg" cols="45" class="add-msg" name="add-msg"
+                    placeholder="Текст заметки"></textarea></p>
+            <div class="modal-footer">
+                <div class="modal-buttons">
+                    <button id="create">Создать</button>
+                    <button id="close_add">Закрыть</button>
+                </div>
             </div>
         </div>
     </div>
-
-    <!-- The Add Modal -->
-    <div id="addModal" class="modal">
-        <div class="add-content">
-            <span class="close">&times;</span>
-            <input class="add-header" name="add-header" placeholder="Введите заголовок" type="text">
-            <p><textarea rows="10" cols="45" class="add-msg" name="add-msg" placeholder="Текст заметки"></textarea></p>
-            <div class="add-buttons">
-                <button id="create">Создать</button>
-                <button id="close_add">Закрыть</button>
+    <div id="changeModal" class="modal">
+        <div class="change-content">
+            <input class="add-header" id="change-header" placeholder="Введите заголовок" type="text">
+            <p><textarea rows="10" id="change-msg" cols="45" class="add-msg" name="add-msg"
+                    placeholder="Текст заметки"></textarea></p>
+            <div class="modal-footer">
+                <div class="modal-buttons">
+                    <button id="change">Изменить</button>
+                    <button id="close_change">Закрыть</button>
+                </div>
             </div>
         </div>
     </div>
