@@ -86,6 +86,7 @@
     font-size: 16px;
     margin: 5px;
     font-weight: bolder;
+    overflow: auto;
 }
 
 .note-msg {
@@ -190,4 +191,5 @@ button:hover{
 .add-header{ 
     outline: none;   
     font-size: 16px;
+    overflow: auto;
 }
