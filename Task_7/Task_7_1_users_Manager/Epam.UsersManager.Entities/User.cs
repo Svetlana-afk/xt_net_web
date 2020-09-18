@@ -12,7 +12,7 @@ namespace Epam.UsersManager.Entities
         public string Name { get; set; }
         public DateTime DateOfBirth { get; set; }
         public int Age { get; private set; }
-        //public List<Award> Awards { get; set; }
+        public List<Guid> AwardsId { get; set; }
 
 
         public User(string name, DateTime dateOfBirth)
@@ -24,6 +24,7 @@ namespace Epam.UsersManager.Entities
             {
                 Age++;
             }
+            AwardsId = new List<Guid>();
         }
     }
 }

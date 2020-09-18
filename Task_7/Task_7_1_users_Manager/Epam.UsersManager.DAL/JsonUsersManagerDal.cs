@@ -34,8 +34,6 @@ namespace Epam.UsersManager.DAL
             {
                 writer.Write(users);
             }
-
-
         }
 
         public IEnumerable<User> GetAllUsers()
@@ -62,13 +60,197 @@ namespace Epam.UsersManager.DAL
             using (var writer = new StreamWriter(userDataPath, true))
             {
                 writer.WriteLine(userStr);
-                //writer.Write(Environment.NewLine);
             }
             return true;
         }
-        public User GetById(Guid id) 
+        public User GetUserById(Guid id) 
         {
             return GetAllUsers().FirstOrDefault(user=>user.ID==id);
+        }
+        public IEnumerable<Award> GetUserAwards(Guid userId)
+        {
+            foreach (var awardId in GetUserById(userId).AwardsId)
+            {
+                yield return GetAwardById(awardId);
+            }
+             
+        }
+        public IEnumerable<Award> GetAwards()
+        {
+            var awardDataPath = DataPath + LocalDataPath + "Awards.json";
+            using (StreamReader reader = new StreamReader(awardDataPath))
+            {
+                string s;
+                while ((s = reader.ReadLine()) != null)
+                {
+                    yield return JsonConvert.DeserializeObject<Award>(s);
+                }
+            }
+        }
+
+        public bool Reward(Guid userId, Guid awardId) 
+        {
+            bool success = false;
+            var userDataPath = DataPath + LocalDataPath + "Users.json";
+            StringBuilder users = new StringBuilder("");
+            string str = "";
+            using (StreamReader reader = new StreamReader(userDataPath))
+            {
+                while ((str = reader.ReadLine()) != null)
+                {
+                    if (!str.Contains(userId.ToString()))
+                    {
+                        users.Append(str);
+                        users.Append(Environment.NewLine);
+                    }
+                    else
+                    {
+                        var user = JsonConvert.DeserializeObject<User>(str);
+                        user.AwardsId.Add(awardId);
+                        users.Append(JsonConvert.SerializeObject(user));
+                        users.Append(Environment.NewLine);
+                        success = true;
+                    }
+                }
+            }
+            using (StreamWriter writer = new StreamWriter(userDataPath, false))
+            {
+                writer.Write(users);
+            }
+            return success;
+        }
+
+        public bool AddUserIdToAward(Guid userId, Guid awardId) 
+        {
+            bool success = false;
+            var awardDataPath = DataPath + LocalDataPath + "Awards.json";
+            StringBuilder awards = new StringBuilder("");
+            string str = "";
+            using (StreamReader reader = new StreamReader(awardDataPath))
+            {
+                while ((str = reader.ReadLine()) != null)
+                {
+                    if (!str.Contains(awardId.ToString()))
+                    {
+                        awards.Append(str);
+                        awards.Append(Environment.NewLine);
+                    }
+                    else
+                    {
+                        var award = JsonConvert.DeserializeObject<Award>(str);
+                        award.UsersId.Add(userId);
+                        awards.Append(JsonConvert.SerializeObject(award));
+                        awards.Append(Environment.NewLine);
+                        success = true;
+                    }
+                }
+            }
+            using (StreamWriter writer = new StreamWriter(awardDataPath, false))
+            {
+                writer.Write(awards);
+            }
+            return success;
+        }
+        public bool DeleteUserIdFromAward(Guid userId, Guid awardId) 
+        {
+            bool success = false;
+            var awardDataPath = DataPath + LocalDataPath + "Awards.json";
+            StringBuilder awards = new StringBuilder("");
+            string str = "";
+            using (StreamReader reader = new StreamReader(awardDataPath))
+            {
+                while ((str = reader.ReadLine()) != null)
+                {
+                    if (!str.Contains(awardId.ToString()))
+                    {
+                        awards.Append(str);
+                        awards.Append(Environment.NewLine);
+                    }
+                    else
+                    {
+                        var award = JsonConvert.DeserializeObject<Award>(str);
+                        award.UsersId.Remove(userId);
+                        awards.Append(JsonConvert.SerializeObject(award));
+                        awards.Append(Environment.NewLine);
+                        success = true;
+                    }
+                }
+            }
+            using (StreamWriter writer = new StreamWriter(awardDataPath, false))
+            {
+                writer.Write(awards);
+            }
+            return success;
+        }
+        public Award GetAwardById(Guid awardId)
+        {
+            return GetAwards().FirstOrDefault(award => award.ID == awardId);            
+        }
+
+        public bool DepriveAward(Guid userId, Guid awardId)
+        {
+            bool success = false;
+            var userDataPath = DataPath + LocalDataPath + "Users.json";            
+            StringBuilder users = new StringBuilder("");
+            string str = "";
+            using (StreamReader reader = new StreamReader(userDataPath))
+            {                
+                while ((str = reader.ReadLine()) != null)
+                {
+                    if (!str.Contains(userId.ToString()))
+                    {
+                        users.Append(str);
+                        users.Append(Environment.NewLine);
+                    }
+                    else 
+                    { 
+                        var user = JsonConvert.DeserializeObject<User>(str);
+                        success = user.AwardsId.Remove(awardId);
+                        users.Append(JsonConvert.SerializeObject(user));
+                    }
+                }
+            }
+            using (StreamWriter writer = new StreamWriter(userDataPath, false))
+            {
+                writer.Write(users);
+            }
+            return success;
+        }
+        public Award RemoveAward(Guid awardId) 
+        {
+            var awardDataPath = DataPath + LocalDataPath + "Awards.json";
+            Award awardToDelete = null;
+            StringBuilder awards = new StringBuilder("");
+            string awardStr;
+            using (StreamReader awardsReader = new StreamReader(awardDataPath))
+            {
+                while ((awardStr = awardsReader.ReadLine()) != null)
+                {
+                    if (!awardStr.Contains(awardId.ToString()))
+                    {
+                        awards.Append(awardStr);
+                        awards.Append(Environment.NewLine);
+                    }
+                    else
+                    {
+                        return awardToDelete = JsonConvert.DeserializeObject<Award>(awardStr);
+                    }
+                }
+            }
+            using (StreamWriter writer = new StreamWriter(awardDataPath, false))
+            {
+                writer.Write(awards);
+            }
+            return awardToDelete;
+        }
+        public void AddAward(Award award) 
+        {
+            var awardDataPath = DataPath + LocalDataPath + "Awards.json";            
+            var awardStr = JsonConvert.SerializeObject(award);
+            using (var writer = new StreamWriter(awardDataPath, true))
+            {
+                writer.WriteLine(awardStr);
+            }
         }
     }
 }

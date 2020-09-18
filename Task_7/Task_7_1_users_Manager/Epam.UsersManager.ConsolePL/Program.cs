@@ -16,13 +16,18 @@ namespace Epam.UsersManager.ConsolePL
         {
             var usersManagerLogic = DependencyResolver.DependencyResolver.UsersManagerBll;
             //AddUser(usersManagerLogic);            
-            DeleteUserById(usersManagerLogic, usersManagerLogic.GetAllUsers().FirstOrDefault(us=>us.Name == "me").ID);
+            //DeleteUserById(usersManagerLogic, Guid.Parse("c19e9793-12bf-4735-86d4-c03e20231b18"));
+            Award award = new Award { ID = Guid.NewGuid(), Title = "Good Girl", UsersId = new List<Guid>() };
+            usersManagerLogic.AddAward(award);
 
-            DisplayAllUsers(usersManagerLogic.GetAllUsers());
+            DisplayAllUsers(usersManagerLogic.GetAllUsers());            
+            User dmitriy = usersManagerLogic.GetUserById(Guid.Parse("c19e9793-12bf-4735-86d4-c03e20231b18"));
+            usersManagerLogic.Reward(dmitriy.ID, Guid.Parse("60361b47-5e12-456a-9229-336e5f4836c3"));
+            Console.WriteLine("User by id:");
+            DisplayUser(dmitriy);
             Console.ReadLine();
         }
-        private IUsersManagerBll _usersManagerBll;
-
+        
         public static bool AddUser(IUsersManagerBll umb)
         {
             Console.WriteLine("Adding new User." + Environment.NewLine);
@@ -48,6 +53,10 @@ namespace Epam.UsersManager.ConsolePL
             {
                 Console.WriteLine(string.Format("User {0}, Age {1}, B-Day {2}", user.Name, user.Age, user.DateOfBirth));
             }
+        }
+        public static void DisplayUser(User user) 
+        {
+            Console.WriteLine(string.Format("User {0}, Age {1}, B-Day {2}", user.Name, user.Age, user.DateOfBirth));
         }
     }
 
