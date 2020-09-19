@@ -12,11 +12,13 @@ namespace Epam.UsersManager.DependencyResolver
 {
     public static class DependencyResolver
     {
-        private static IUsersManagerDal _usersManagerDal;
+        private static IUserDal _usersDal;
+        private static IAwardDal _awardsDal;
         private static IUsersManagerBll _usersManagerBll;
 
 
-        public static IUsersManagerDal UsersManagerDal => _usersManagerDal ?? (_usersManagerDal = new JsonUsersManagerDal());
-        public static IUsersManagerBll UsersManagerBll => _usersManagerBll ?? (_usersManagerBll = new UsersManagerBll(UsersManagerDal));
+        public static IUserDal UsersDal => _usersDal ?? (_usersDal = new JsonUserDal());
+        public static IAwardDal AwardsDal => _awardsDal ?? (_awardsDal = new JsonAwardDal());
+        public static IUsersManagerBll UsersManagerBll => _usersManagerBll ?? (_usersManagerBll = new UsersManagerBll(UsersDal, AwardsDal));
     }
 }

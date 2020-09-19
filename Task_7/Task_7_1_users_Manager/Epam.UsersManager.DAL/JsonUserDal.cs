@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Epam.UsersManager.DAL
 {
-    public class JsonUsersManagerDal : IUsersManagerDal
+    public class JsonUserDal : IUserDal
     {
         public const string LocalDataPath = "Users\\";
         public static string DataPath => "D:\\epam\\xt_net_web\\Task_7\\Data\\";
@@ -67,26 +67,14 @@ namespace Epam.UsersManager.DAL
         {
             return GetAllUsers().FirstOrDefault(user=>user.ID==id);
         }
-        public IEnumerable<Award> GetUserAwards(Guid userId)
+        public IEnumerable<Guid> GetUserAwardsId(Guid userId)
         {
             foreach (var awardId in GetUserById(userId).AwardsId)
             {
-                yield return GetAwardById(awardId);
+                yield return awardId;
             }
              
-        }
-        public IEnumerable<Award> GetAwards()
-        {
-            var awardDataPath = DataPath + LocalDataPath + "Awards.json";
-            using (StreamReader reader = new StreamReader(awardDataPath))
-            {
-                string s;
-                while ((s = reader.ReadLine()) != null)
-                {
-                    yield return JsonConvert.DeserializeObject<Award>(s);
-                }
-            }
-        }
+        }        
 
         public bool Reward(Guid userId, Guid awardId) 
         {
@@ -118,74 +106,9 @@ namespace Epam.UsersManager.DAL
                 writer.Write(users);
             }
             return success;
-        }
-
-        public bool AddUserIdToAward(Guid userId, Guid awardId) 
-        {
-            bool success = false;
-            var awardDataPath = DataPath + LocalDataPath + "Awards.json";
-            StringBuilder awards = new StringBuilder("");
-            string str = "";
-            using (StreamReader reader = new StreamReader(awardDataPath))
-            {
-                while ((str = reader.ReadLine()) != null)
-                {
-                    if (!str.Contains(awardId.ToString()))
-                    {
-                        awards.Append(str);
-                        awards.Append(Environment.NewLine);
-                    }
-                    else
-                    {
-                        var award = JsonConvert.DeserializeObject<Award>(str);
-                        award.UsersId.Add(userId);
-                        awards.Append(JsonConvert.SerializeObject(award));
-                        awards.Append(Environment.NewLine);
-                        success = true;
-                    }
-                }
-            }
-            using (StreamWriter writer = new StreamWriter(awardDataPath, false))
-            {
-                writer.Write(awards);
-            }
-            return success;
-        }
-        public bool DeleteUserIdFromAward(Guid userId, Guid awardId) 
-        {
-            bool success = false;
-            var awardDataPath = DataPath + LocalDataPath + "Awards.json";
-            StringBuilder awards = new StringBuilder("");
-            string str = "";
-            using (StreamReader reader = new StreamReader(awardDataPath))
-            {
-                while ((str = reader.ReadLine()) != null)
-                {
-                    if (!str.Contains(awardId.ToString()))
-                    {
-                        awards.Append(str);
-                        awards.Append(Environment.NewLine);
-                    }
-                    else
-                    {
-                        var award = JsonConvert.DeserializeObject<Award>(str);
-                        award.UsersId.Remove(userId);
-                        awards.Append(JsonConvert.SerializeObject(award));
-                        awards.Append(Environment.NewLine);
-                        success = true;
-                    }
-                }
-            }
-            using (StreamWriter writer = new StreamWriter(awardDataPath, false))
-            {
-                writer.Write(awards);
-            }
-            return success;
-        }
-        public Award GetAwardById(Guid awardId)
-        {
-            return GetAwards().FirstOrDefault(award => award.ID == awardId);            
-        }
+        }        
+       
+       
 
         public bool DepriveAward(Guid userId, Guid awardId)
         {
@@ -216,41 +139,7 @@ namespace Epam.UsersManager.DAL
             }
             return success;
         }
-        public Award RemoveAward(Guid awardId) 
-        {
-            var awardDataPath = DataPath + LocalDataPath + "Awards.json";
-            Award awardToDelete = null;
-            StringBuilder awards = new StringBuilder("");
-            string awardStr;
-            using (StreamReader awardsReader = new StreamReader(awardDataPath))
-            {
-                while ((awardStr = awardsReader.ReadLine()) != null)
-                {
-                    if (!awardStr.Contains(awardId.ToString()))
-                    {
-                        awards.Append(awardStr);
-                        awards.Append(Environment.NewLine);
-                    }
-                    else
-                    {
-                        return awardToDelete = JsonConvert.DeserializeObject<Award>(awardStr);
-                    }
-                }
-            }
-            using (StreamWriter writer = new StreamWriter(awardDataPath, false))
-            {
-                writer.Write(awards);
-            }
-            return awardToDelete;
-        }
-        public void AddAward(Award award) 
-        {
-            var awardDataPath = DataPath + LocalDataPath + "Awards.json";            
-            var awardStr = JsonConvert.SerializeObject(award);
-            using (var writer = new StreamWriter(awardDataPath, true))
-            {
-                writer.WriteLine(awardStr);
-            }
-        }
+        
+        
     }
 }

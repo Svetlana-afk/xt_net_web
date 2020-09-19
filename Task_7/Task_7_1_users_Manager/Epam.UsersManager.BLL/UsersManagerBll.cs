@@ -11,46 +11,51 @@ namespace Epam.UsersManager.BLL
 {
     public class UsersManagerBll : IUsersManagerBll
     {
-        private IUsersManagerDal _usersManagerDal;
-        public UsersManagerBll(IUsersManagerDal users_ManagerDAL)
+        private IUserDal _usersDal;
+        private IAwardDal _awardsDal;
+        public UsersManagerBll(IUserDal usersDAL, IAwardDal awardsDAL)
         {
-            _usersManagerDal = users_ManagerDAL;
+            _usersDal = usersDAL;
+            _awardsDal = awardsDAL;
         }
         public void DeleteUserById(Guid id)
         {
-            _usersManagerDal.DeleteUser(id);
+            _usersDal.DeleteUser(id);
         }
 
         public IEnumerable<User> GetAllUsers()
         {
-            return _usersManagerDal.GetAllUsers();
+            return _usersDal.GetAllUsers();
         }
 
         public Guid AddUser(User user)
         {            
             user.ID = Guid.NewGuid();
-            _usersManagerDal.AddUser(user);
+            _usersDal.AddUser(user);
             return user.ID;
         }
         public User GetUserById(Guid id) 
         {
-            return _usersManagerDal.GetUserById(id);
+            return _usersDal.GetUserById(id);
         }
         public IEnumerable<Award> GetUserAwards(Guid userId) 
         {
-            return _usersManagerDal.GetUserAwards(userId);
+            foreach (var awardId in GetUserById(userId).AwardsId)
+            {
+                yield return _awardsDal.GetAwardById(awardId);
+            }            
         }
 
         public bool DepriveAward(Guid userId, Guid awardsId)
         {
-            if (!_usersManagerDal.GetUserById(userId).AwardsId.Contains(awardsId))
+            if (!_usersDal.GetUserById(userId).AwardsId.Contains(awardsId))
             {
                 Console.WriteLine("User does not have such an award");
                 return false;
             }
 
-            bool successByUser = _usersManagerDal.DepriveAward(userId, awardsId);
-            bool successByAward = _usersManagerDal.DeleteUserIdFromAward(userId, awardsId);
+            bool successByUser = _usersDal.DepriveAward(userId, awardsId);
+            bool successByAward = _awardsDal.DeleteUserIdFromAward(userId, awardsId);
             return successByAward && successByUser;
         }
         
@@ -60,9 +65,9 @@ namespace Epam.UsersManager.BLL
             {
                 throw new ArgumentNullException(nameof(Award));
             }
-            if (_usersManagerDal.GetAwards().Count()>0)
+            if (_awardsDal.GetAwards().Count()>0)
             {
-                foreach (var item in _usersManagerDal.GetAwards())
+                foreach (var item in _awardsDal.GetAwards())
                 {
                     if (item.Title == award.Title)
                     {
@@ -71,29 +76,29 @@ namespace Epam.UsersManager.BLL
                     }
                 }
             }            
-            _usersManagerDal.AddAward(award);
+            _awardsDal.AddAward(award);
         }
 
         public bool Reward(Guid userId, Guid awardId)
         {
-            if (_usersManagerDal.GetUserById(userId).AwardsId.Contains(awardId))
+            if (_usersDal.GetUserById(userId).AwardsId.Contains(awardId))
             {
                 Console.WriteLine("the user has already been awarded this award");
                 return false;
             }
-            bool successByUser = _usersManagerDal.Reward(userId, awardId);
-            bool successByAward = _usersManagerDal.AddUserIdToAward(userId, awardId);
+            bool successByUser = _usersDal.Reward(userId, awardId);
+            bool successByAward = _awardsDal.AddUserIdToAward(userId, awardId);
             return successByAward && successByUser;
         }
 
         public Award GetAwardById(Guid awardId)
         {
-            return _usersManagerDal.GetAwardById(awardId);
+            return _awardsDal.GetAwardById(awardId);
         }
 
         public Award RemoveAward(Guid awardId)
         {
-            throw new NotImplementedException();
+            return _awardsDal.RemoveAward(awardId);
         }
     }
 }

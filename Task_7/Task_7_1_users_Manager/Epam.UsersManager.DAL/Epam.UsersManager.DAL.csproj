@@ -44,8 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JsonAwardDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="JsonUsersManagerDal.cs" />
+    <Compile Include="JsonUserDal.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Epam.UsersManager.DAL.Interfaces\Epam.UsersManager.DAL.Interfaces.csproj">
