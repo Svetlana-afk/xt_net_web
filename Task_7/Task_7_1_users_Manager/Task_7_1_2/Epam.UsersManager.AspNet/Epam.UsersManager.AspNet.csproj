@@ -91,17 +91,43 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\UsersManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="index.cshtml" />
+    <Content Include="Pages\index.cshtml" />
     <None Include="packages.config" />
+    <Content Include="Pages\Users.cshtml" />
+    <Content Include="Pages\Awards.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <Content Include="_Layout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\" />
+    <Folder Include="Scripts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Epam.UsersManager.BLL.Interfaces\Epam.UsersManager.BLL.Interfaces.csproj">
+      <Project>{41ade61d-1f8c-4181-bd2b-4ccc747f6db1}</Project>
+      <Name>Epam.UsersManager.BLL.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Epam.UsersManager.BLL\Epam.UsersManager.BLL.csproj">
+      <Project>{2bc10e4c-bdd4-4024-9199-764a06cc5931}</Project>
+      <Name>Epam.UsersManager.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Epam.UsersManager.DependencyResolver\Epam.UsersManager.DependencyResolver.csproj">
+      <Project>{b8333d87-a81f-4de2-a406-21d147e61c06}</Project>
+      <Name>Epam.UsersManager.DependencyResolver</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Epam.UsersManager.Entities\Epam.UsersManager.Entities.csproj">
+      <Project>{BF38FDD2-8091-428D-9238-8CBBEB66025F}</Project>
+      <Name>Epam.UsersManager.Entities</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

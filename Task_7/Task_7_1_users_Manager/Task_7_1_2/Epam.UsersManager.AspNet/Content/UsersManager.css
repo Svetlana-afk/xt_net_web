@@ -1,0 +1,108 @@
+.header {
+    width: 100%;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+    padding: 5px;
+    height: 50px;
+    /*display: inline-block;*/
+}
+.search-container {
+    background-color: rgb(230, 230, 230);
+    border-radius: 5px;
+    display: flex;
+    width: 90%;
+    height: 33px;
+    margin: 0 auto;
+    /*display: inline-block;*/
+}
+.menu{
+    background-color: rgb(230, 230, 230);
+    border: none;
+    border-radius: 5px;
+    display: inline-block;
+}
+.search-field {
+    
+    background-color: rgba(219, 219, 219, 0);
+    border: none;
+    width: 100%;
+    padding: 10px;
+    outline: none;
+}
+.search-field:focus {
+    border: 2px solid dodgerblue;
+}
+.search{
+    position: relative;
+    top: -25px;
+    width: 70%;
+    display: inline-block;
+}
+.logo {
+    width: 15%;
+    display: inline-block;
+    cursor: pointer;
+}
+.icon {
+    padding: 10px;
+    background: rgba(255, 255, 255, 0);
+    color: grey;
+    min-width: 50px;
+    text-align: center;
+    border: none;
+}  
+  .select-wrapper {
+    display: inline-block;
+    position: relative;
+    top: 1px;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+  }
+  .select-wrapper:before {
+    content: "☰";
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    position: absolute;
+    width: 33px;
+    height: 33px;
+    background-color:  rgb(230, 230, 230);;
+    color:grey;
+    font-size: 20px;
+    line-height: 26px;
+    text-align: center;
+    border-radius: 5px;
+    border: none;
+    pointer-events: none;
+  }
+  .select-wrapper select {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    opacity: 0.00001;
+  }
+  .userBlock {
+    padding: 10px;
+    margin: 5px;
+    background-color: rgb(230, 230, 230);
+    border-radius: 5px; 
+    width: 10%;
+  }
+  .fixedTrash {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    border-radius: 3px;
+    border: 1px solid gray;
+    right: 5px;
+    margin: 5px 0 5px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.fixedTrash:hover{
+    background-color: rgb(230, 230, 230);
+    cursor: pointer;
+}

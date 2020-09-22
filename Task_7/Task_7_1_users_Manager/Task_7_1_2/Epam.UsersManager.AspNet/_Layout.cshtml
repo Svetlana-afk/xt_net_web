@@ -1,0 +1,54 @@
+﻿@using Epam.UsersManager.BLL;
+@using Epam.UsersManager.BLL.Interfaces;
+@using Epam.UsersManager.DependencyResolver;
+@using Epam.UsersManager.Entities;
+@{
+    Layout = null;
+    string search = null;
+    if (IsPost)
+    {
+        search = Request["search"];
+    }
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/Content/fontawesome/css/all.css" />
+    <link rel="stylesheet" href="~/Content/UsersManager.css" />
+    <title></title>
+</head>
+<body>
+    <div>
+        <div class="header" id="header">
+            <div class="logo" id="logo"><img src="~/Content/UsersManager.png" width="100"></div>
+            <div class="search">
+                <form action="" method="post">
+                    <div class="search-container">
+                        <i class="fas fa-search icon"></i>
+                        <input class="search-field" name="search" placeholder="Поиск" type="search" value="">
+                    </div>
+                </form>
+            </div>
+
+            <div class="select-wrapper">
+                <select id="main_menu">
+                    <option disabled="disabled" selected="selected">Pick a choice!</option>
+                    <option>Users</option>
+                    <option>Awards</option>
+                </select>
+            </div>
+
+
+        </div>
+        @search
+
+        @RenderBody()
+
+    </div>
+    <script type="module" src="~/Content/UM_Layout.js"></script>
+</body>
+</html>

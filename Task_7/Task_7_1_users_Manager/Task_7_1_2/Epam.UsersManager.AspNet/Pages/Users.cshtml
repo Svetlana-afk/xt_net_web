@@ -1,0 +1,45 @@
+﻿@using Epam.UsersManager.BLL;
+@using Epam.UsersManager.BLL.Interfaces;
+@using Epam.UsersManager.DependencyResolver;
+@using Epam.UsersManager.Entities;
+@{
+    Layout = "~/_Layout.cshtml";
+    var usersManagerLogic = DependencyResolver.UsersManagerBll;
+}
+
+<p>All users</p>
+<div class="UsersContainer" id="u_container"></div>
+@foreach (var user in usersManagerLogic.GetAllUsers())
+{
+    <script>
+        var trashClick = (event) => {
+            if (event.target.className == "fixedTrash" || event.target.className == "far fa-trash-alt") {
+                @usersManagerLogic.
+                var child = document.getElementById(event.currentTarget.id);
+                child.removeEventListener('click', trashClick);
+                child.parentNode.removeChild(child);
+            }
+        }
+        (function () {
+            let a = "@user.Name";
+            let UsersContainer = document.getElementById("u_container");
+            let userBlock = document.createElement('div');
+            userBlock.className = "userBlock";
+            userBlock.id ="@user.ID";
+            let trash = document.createElement('div');
+            trash.className = "fixedTrash";
+
+            let icon = document.createElement('i');
+            icon.className = 'far fa-trash-alt';
+            trash.appendChild(icon);
+            userBlock.addEventListener('click', trashClick);
+            let name = document.createElement('p');
+            name.innerText = a;
+            userBlock.appendChild(name);
+            userBlock.appendChild(trash);
+            UsersContainer.appendChild(userBlock);
+        }())
+
+    </script >
+}
+<script type="module" src="~/Scripts/Users.js"></script>

@@ -1,0 +1,31 @@
+﻿@using Epam.UsersManager.BLL;
+@using Epam.UsersManager.BLL.Interfaces;
+@using Epam.UsersManager.DependencyResolver;
+@using Epam.UsersManager.Entities;
+@{
+
+    Layout = "~/_Layout.cshtml";
+    var usersManagerLogic = DependencyResolver.UsersManagerBll;
+
+}
+
+
+<p>
+    By Sveta...
+</p>
+@*@for (int i = 0; i < usersManagerLogic.GetAllUsers().Count(); i++)
+    {
+        var user = usersManagerLogic.GetAllUsers().First();
+        <text>  Name @user.Name </text>
+    };*@
+@foreach (var user in usersManagerLogic.GetAllUsers())
+{
+    <text>  Name: @user.Name  Awards:
+    @foreach (var item in user.AwardsId)
+    {
+        <text> Awards: @usersManagerLogic.GetAwardById(item).Title </text>
+    }
+    <br> </text>
+}
+
+
