@@ -5,22 +5,68 @@
 @{
     Layout = "~/_Layout.cshtml";
     var usersManagerLogic = DependencyResolver.UsersManagerBll;
+    string search = null;
+    string name = null;
+    string userDel = null;
+    string birthDay = null;
+    int day = 0;
+    int month = 0;
+    int year = 0;
+
+    DateTime bday = new DateTime();
+    if (IsPost)
+    {
+        search = Request["search"];
+        name = Request["userName"];
+        birthDay = Request["userBirthday"];
+        userDel = Request["userDel"];
+
+        if (birthDay != null && name != null)
+        {
+            string[] dates = birthDay.Split('.');
+
+            Int32.TryParse(dates[0], out day);
+
+            Int32.TryParse(dates[1], out month);
+
+            Int32.TryParse(dates[2], out year);
+
+            bday = new DateTime(year, month, day);
+
+            @usersManagerLogic.AddUser(new User(name, bday));
+        }
+        if (userDel != null)
+        {
+            usersManagerLogic.DeleteUserById(Guid.Parse(userDel));
+        }
+
+    }
 }
 
-<p>All users</p>
-<div class="UsersContainer" id="u_container"></div>
-@foreach (var user in usersManagerLogic.GetAllUsers())
-{
-    <script>
-        var trashClick = (event) => {
+<p>All users:</p>
+<div class="UsersContainer" id="u_container">
+    @foreach (var user in usersManagerLogic.GetAllUsers())
+    {
+        if ((search != null && user.Name.Contains(search)) || (search == null))
+        {
+            <script>
+            var trashClick = (event) => {
             if (event.target.className == "fixedTrash" || event.target.className == "far fa-trash-alt") {
-                @usersManagerLogic.
-                var child = document.getElementById(event.currentTarget.id);
-                child.removeEventListener('click', trashClick);
-                child.parentNode.removeChild(child);
+                var xhr = new XMLHttpRequest();
+                var body = 'userDel=' + encodeURIComponent(event.currentTarget.id);
+                xhr.open("POST", '/Pages/Users.cshtml', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.onreadystatechange = function () { // listen for state changes
+                    if (xhr.readyState == 4 && xhr.status == 200) { // when completed we can move away
+                        window.location = "/Pages/Users.cshtml";
+                    }
+                }
+                xhr.send(body);
             }
         }
+
         (function () {
+
             let a = "@user.Name";
             let UsersContainer = document.getElementById("u_container");
             let userBlock = document.createElement('div');
@@ -38,8 +84,30 @@
             userBlock.appendChild(name);
             userBlock.appendChild(trash);
             UsersContainer.appendChild(userBlock);
-        }())
 
-    </script >
-}
+        }())
+            </script>
+        }
+    }  
+</div>
+<div id="addModal" class="modal">
+    <div class="add-content">
+        <form id="addUserForm" action="" method="post">
+            <input class="add-header" id="add-name" placeholder="User Name" type="text" name="userName" />
+            <br>
+            <input class="add-header" id="mydata" placeholder="01.12.2001" maxlength="10" type="text" name="userBirthday" />
+        </form>
+        <div class="modal-footer">
+            <div class="modal-buttons">
+                <button id="create" type="submit" form="addUserForm">Создать</button>
+                <button id="close_add">Закрыть</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="fixedplus" id="fixedplus">
+    <i class="fas fa-plus icon"></i>
+</div>
 <script type="module" src="~/Scripts/Users.js"></script>

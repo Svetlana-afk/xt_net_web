@@ -18,6 +18,7 @@ namespace Epam.UsersManager.BLL.Interfaces
         bool Reward(Guid userId, Guid awardId);
         Award GetAwardById(Guid awardId);
         bool DepriveAward(Guid userId, Guid awardId);
-        Award RemoveAward(Guid awardId);   
+        Award RemoveAward(Guid awardId);
+        bool UpdateUser(Guid userId, string newUserName, DateTime newBirthday);
     }
 }

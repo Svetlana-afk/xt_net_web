@@ -100,5 +100,10 @@ namespace Epam.UsersManager.BLL
         {
             return _awardsDal.RemoveAward(awardId);
         }
+
+        public bool UpdateUser(Guid userId, string newUserName, DateTime newBirthday)
+        {
+            return _usersDal.UpdateUser(userId, newUserName, newBirthday);
+        }
     }
 }

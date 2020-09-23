@@ -16,5 +16,6 @@ namespace Epam.UsersManager.DAL.Interfaces
         IEnumerable<Guid> GetUserAwardsId(Guid userId);
         bool Reward(Guid userId, Guid awardId);
         bool DepriveAward(Guid userId, Guid awardId);
+        bool UpdateUser(Guid userId, string newUserName, DateTime newBirthday);
     }
 }

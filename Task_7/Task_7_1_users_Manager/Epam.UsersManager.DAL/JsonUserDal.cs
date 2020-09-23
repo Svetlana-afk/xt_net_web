@@ -106,9 +106,7 @@ namespace Epam.UsersManager.DAL
                 writer.Write(users);
             }
             return success;
-        }        
-       
-       
+        } 
 
         public bool DepriveAward(Guid userId, Guid awardId)
         {
@@ -139,7 +137,37 @@ namespace Epam.UsersManager.DAL
             }
             return success;
         }
-        
-        
+
+        public bool UpdateUser(Guid userId, string newUserName, DateTime newBirthday)
+        {
+            bool success = false;
+            var userDataPath = DataPath + LocalDataPath + "Users.json";
+            StringBuilder users = new StringBuilder("");
+            string str = "";
+            using (StreamReader reader = new StreamReader(userDataPath))
+            {
+                while ((str = reader.ReadLine()) != null)
+                {
+                    if (!str.Contains(userId.ToString()))
+                    {
+                        users.Append(str);
+                        users.Append(Environment.NewLine);
+                    }
+                    else
+                    {
+                        var user = JsonConvert.DeserializeObject<User>(str);
+                        user.Name = newUserName;
+                        user.DateOfBirth = newBirthday;
+                        users.Append(JsonConvert.SerializeObject(user));
+                        success = true;
+                    }
+                }
+            }
+            using (StreamWriter writer = new StreamWriter(userDataPath, false))
+            {
+                writer.Write(users);
+            }
+            return success;
+        }
     }
 }
