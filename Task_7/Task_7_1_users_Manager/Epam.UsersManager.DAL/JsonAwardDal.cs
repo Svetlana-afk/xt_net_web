@@ -84,10 +84,9 @@ namespace Epam.UsersManager.DAL
             }
             return success;
         }
-        public Award RemoveAward(Guid awardId)
+        public void RemoveAward(Guid awardId)
         {
             var awardDataPath = DataPath + "Awards.json";
-            Award awardToDelete = null;
             StringBuilder awards = new StringBuilder("");
             string awardStr;
             using (StreamReader awardsReader = new StreamReader(awardDataPath))
@@ -98,18 +97,13 @@ namespace Epam.UsersManager.DAL
                     {
                         awards.Append(awardStr);
                         awards.Append(Environment.NewLine);
-                    }
-                    else
-                    {
-                        return awardToDelete = JsonConvert.DeserializeObject<Award>(awardStr);
-                    }
+                    }                    
                 }
             }
             using (StreamWriter writer = new StreamWriter(awardDataPath, false))
             {
                 writer.Write(awards);
             }
-            return awardToDelete;
         }
         public IEnumerable<Award> GetAwards()
         {
@@ -127,5 +121,6 @@ namespace Epam.UsersManager.DAL
         {
             return GetAwards().FirstOrDefault(award => award.ID == awardId);
         }
+        
     }
 }

@@ -158,7 +158,9 @@ namespace Epam.UsersManager.DAL
                         var user = JsonConvert.DeserializeObject<User>(str);
                         user.Name = newUserName;
                         user.DateOfBirth = newBirthday;
+                        user.countAge();
                         users.Append(JsonConvert.SerializeObject(user));
+                        users.Append(Environment.NewLine);
                         success = true;
                     }
                 }

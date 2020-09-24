@@ -136,7 +136,7 @@
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-.add-content {
+.add-content, .change-content {
   position: relative;
   background-color: #fefefe;
   margin: 15% auto;
@@ -190,4 +190,16 @@ button:hover{
 #mydata{
   z-index: 2;
 
+}
+.awardBlock{
+  width: 15%;
+  margin: 10px;
+  border-radius: 5px;
+  background-color:  rgb(230, 230, 230);
+}
+.UsersContainer{
+  display: flex;
+}
+.awardTitle{
+  text-align: center;
 }

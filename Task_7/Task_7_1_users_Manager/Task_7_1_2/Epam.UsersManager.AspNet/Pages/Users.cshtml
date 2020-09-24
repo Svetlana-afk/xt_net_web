@@ -2,44 +2,47 @@
 @using Epam.UsersManager.BLL.Interfaces;
 @using Epam.UsersManager.DependencyResolver;
 @using Epam.UsersManager.Entities;
+@using System;
 @{
     Layout = "~/_Layout.cshtml";
     var usersManagerLogic = DependencyResolver.UsersManagerBll;
     string search = null;
     string name = null;
     string userDel = null;
+    string userChange = null;
     string birthDay = null;
-    int day = 0;
-    int month = 0;
-    int year = 0;
+    string changeUserBday = null;
+    string changeUserName = null;
 
-    DateTime bday = new DateTime();
+
     if (IsPost)
     {
         search = Request["search"];
         name = Request["userName"];
         birthDay = Request["userBirthday"];
         userDel = Request["userDel"];
+        userChange = Request["changedUserId"];
+        changeUserBday = Request["changedUserBirthday"];
+        changeUserName = Request["changedUserName"];
 
         if (birthDay != null && name != null)
         {
-            string[] dates = birthDay.Split('.');
-
-            Int32.TryParse(dates[0], out day);
-
-            Int32.TryParse(dates[1], out month);
-
-            Int32.TryParse(dates[2], out year);
-
-            bday = new DateTime(year, month, day);
-
+            DateTime bday = Convert.ToDateTime(birthDay);
             @usersManagerLogic.AddUser(new User(name, bday));
         }
         if (userDel != null)
         {
             usersManagerLogic.DeleteUserById(Guid.Parse(userDel));
         }
+        if (userChange != null)
+        {
+            if (changeUserBday != null && changeUserName != null)
+            {
+                DateTime changedBday = Convert.ToDateTime(changeUserBday);
 
+                usersManagerLogic.UpdateUser(Guid.Parse(userChange), changeUserName, changedBday);
+            }
+        }
     }
 }
 
@@ -51,21 +54,23 @@
         {
             <script>
             var trashClick = (event) => {
-            if (event.target.className == "fixedTrash" || event.target.className == "far fa-trash-alt") {
+                if (event.target.className == "fixedTrash" || event.target.className == "far fa-trash-alt")
+                {
                 var xhr = new XMLHttpRequest();
                 var body = 'userDel=' + encodeURIComponent(event.currentTarget.id);
                 xhr.open("POST", '/Pages/Users.cshtml', true);
                 xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                xhr.onreadystatechange = function () { // listen for state changes
-                    if (xhr.readyState == 4 && xhr.status == 200) { // when completed we can move away
-                        window.location = "/Pages/Users.cshtml";
+                xhr.onreadystatechange = function ()
+                    { // listen for state changes
+                    if (xhr.readyState == 4 && xhr.status == 200)
+                    { // when completed we can move away
+                            window.location = "/Pages/Users.cshtml";
                     }
-                }
+                    }
                 xhr.send(body);
+                }
             }
-        }
-
-        (function () {
+            (function () {
 
             let a = "@user.Name";
             let UsersContainer = document.getElementById("u_container");
@@ -79,16 +84,22 @@
             icon.className = 'far fa-trash-alt';
             trash.appendChild(icon);
             userBlock.addEventListener('click', trashClick);
-            let name = document.createElement('p');
+            let name = document.createElement('div');
+            name.className = "userNamePlace";
             name.innerText = a;
+            let bday = document.createElement('div');
+            bday.className = "userBday";
+            bday.innerText = "@user.DateOfBirth.ToShortDateString()";
+
             userBlock.appendChild(name);
+            userBlock.appendChild(bday);
             userBlock.appendChild(trash);
             UsersContainer.appendChild(userBlock);
 
         }())
             </script>
         }
-    }  
+    }
 </div>
 <div id="addModal" class="modal">
     <div class="add-content">
@@ -99,14 +110,29 @@
         </form>
         <div class="modal-footer">
             <div class="modal-buttons">
-                <button id="create" type="submit" form="addUserForm">Создать</button>
-                <button id="close_add">Закрыть</button>
+                <button id="create" type="submit" form="addUserForm">Add User</button>
+                <button id="close_add">Close</button>
             </div>
         </div>
 
     </div>
 </div>
-
+<div id="changeModal" class="modal">
+    <div class="change-content">
+        <form id="updateUserForm" action="" method="post">
+            <input id="change-id" name="changedUserId" type="hidden" />
+            <input class="add-header" id="change-name" type="text" name="changedUserName" />
+            <br>
+            <input class="add-header" id="change-bday" maxlength="10" type="text" name="changedUserBirthday" />
+        </form>
+        <div class="modal-footer">
+            <div class="modal-buttons">
+                <button id="change" type="submit" form="updateUserForm">Update</button>
+                <button id="close_change">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="fixedplus" id="fixedplus">
     <i class="fas fa-plus icon"></i>
 </div>

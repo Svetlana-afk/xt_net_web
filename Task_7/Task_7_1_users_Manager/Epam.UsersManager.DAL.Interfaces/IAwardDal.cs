@@ -12,8 +12,8 @@ namespace Epam.UsersManager.DAL.Interfaces
         void AddAward(Award award);
         bool AddUserIdToAward(Guid userId, Guid awardId);
         bool DeleteUserIdFromAward(Guid userId, Guid awardId);
-        Award RemoveAward(Guid awardId);
+        void RemoveAward(Guid awardId);
         IEnumerable<Award> GetAwards();
-        Award GetAwardById(Guid awardId);        
+        Award GetAwardById(Guid awardId);
     }
 }

@@ -59,7 +59,7 @@ namespace Epam.UsersManager.BLL
             return successByAward && successByUser;
         }
         
-        public void AddAward(Award award)
+        public Guid? AddAward(Award award)
         {
             if (award == null)
             {
@@ -72,11 +72,13 @@ namespace Epam.UsersManager.BLL
                     if (item.Title == award.Title)
                     {
                         Console.WriteLine("An award with the same title already exists");
-                        return;
+                        return null;
                     }
                 }
-            }            
+            } 
+            award.ID = Guid.NewGuid();
             _awardsDal.AddAward(award);
+            return award.ID;
         }
 
         public bool Reward(Guid userId, Guid awardId)
@@ -96,14 +98,19 @@ namespace Epam.UsersManager.BLL
             return _awardsDal.GetAwardById(awardId);
         }
 
-        public Award RemoveAward(Guid awardId)
+        public void RemoveAward(Guid awardId)
         {
-            return _awardsDal.RemoveAward(awardId);
+            _awardsDal.RemoveAward(awardId);
         }
 
         public bool UpdateUser(Guid userId, string newUserName, DateTime newBirthday)
         {
             return _usersDal.UpdateUser(userId, newUserName, newBirthday);
+        }
+
+        public IEnumerable<Award> GetAwards()
+        {
+            return _awardsDal.GetAwards();
         }
     }
 }

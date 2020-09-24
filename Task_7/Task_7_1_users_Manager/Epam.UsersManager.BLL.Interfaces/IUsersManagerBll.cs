@@ -13,12 +13,14 @@ namespace Epam.UsersManager.BLL.Interfaces
         void DeleteUserById(Guid id);
         IEnumerable<User> GetAllUsers();
         User GetUserById(Guid id);
-        void AddAward(Award award);
+        Guid? AddAward(Award award);
         IEnumerable<Award> GetUserAwards(Guid userId);
         bool Reward(Guid userId, Guid awardId);
         Award GetAwardById(Guid awardId);
         bool DepriveAward(Guid userId, Guid awardId);
-        Award RemoveAward(Guid awardId);
+        void RemoveAward(Guid awardId);
         bool UpdateUser(Guid userId, string newUserName, DateTime newBirthday);
+        IEnumerable<Award> GetAwards();
+
     }
 }

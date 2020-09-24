@@ -26,5 +26,14 @@ namespace Epam.UsersManager.Entities
             }
             AwardsId = new List<Guid>();
         }
+
+        public void countAge() 
+        {
+            this.Age = DateTime.Now.Year - DateOfBirth.Year;
+            if (DateTime.Now.DayOfYear < DateOfBirth.DayOfYear)
+            {
+                Age++;
+            }
+        }
     }
 }

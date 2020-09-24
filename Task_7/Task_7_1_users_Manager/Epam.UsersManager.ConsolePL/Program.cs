@@ -17,7 +17,7 @@ namespace Epam.UsersManager.ConsolePL
             var usersManagerLogic = DependencyResolver.DependencyResolver.UsersManagerBll;
             //AddUser(usersManagerLogic);            
             //DeleteUserById(usersManagerLogic, Guid.Parse("c19e9793-12bf-4735-86d4-c03e20231b18"));
-            Award award = new Award { ID = Guid.NewGuid(), Title = "Good Girl", UsersId = new List<Guid>() };
+            Award award = new Award("Real Hero!");
             usersManagerLogic.AddAward(award);
 
             DisplayAllUsers(usersManagerLogic.GetAllUsers());            
@@ -26,6 +26,13 @@ namespace Epam.UsersManager.ConsolePL
             Console.WriteLine("User by id:");
             DisplayUser(dmitriy);
             Console.ReadLine();
+            Console.WriteLine("Real Hero");
+            award = usersManagerLogic.GetAwardById(usersManagerLogic.GetAwards().FirstOrDefault(awards => awards.Title == "Real Hero!").ID);
+            usersManagerLogic.Reward(dmitriy.ID, award.ID);
+            DisplayUser(dmitriy);
+            Console.ReadLine();
+            usersManagerLogic.RemoveAward(Guid.Parse("ea601359-9769-4bb7-83cb-f96d39eb3bd1"));
+
         }
         
         public static bool AddUser(IUsersManagerBll umb)

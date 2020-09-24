@@ -11,10 +11,10 @@ namespace Epam.UsersManager.Entities
         public Guid ID { get; set; }
         public string Title { get; set; }
         public List<Guid> UsersId { get; set; }
-        //public Award(string title) 
-        //{
-        //    this.Title = title;
-        //    UsersId = new List<Guid>();
-        //}
+        public Award(string title) 
+        {
+            this.Title = title;
+            UsersId = new List<Guid>();
+        }
     }
 }
