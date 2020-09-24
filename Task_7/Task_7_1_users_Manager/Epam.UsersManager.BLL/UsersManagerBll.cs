@@ -100,6 +100,10 @@ namespace Epam.UsersManager.BLL
 
         public void RemoveAward(Guid awardId)
         {
+            foreach (var userId in GetAwardById(awardId).UsersId)
+            {
+                Reward(userId, awardId);
+            }
             _awardsDal.RemoveAward(awardId);
         }
 

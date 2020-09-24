@@ -13,19 +13,20 @@
 
     if (IsPost)
     {
-        awardDel = Request["awardDel"];
+        awardDel = Request["deleteAwardId"];
         search = Request["search"];
         title = Request["awardTitle"];
         if (title != null)
         {
             managerLogic.AddAward(new Award(title));
         }
-    }
-    if (awardDel != null)
-    {
-        managerLogic.RemoveAward(Guid.Parse(awardDel));
-    }
 
+        if (awardDel != null)
+        {
+            managerLogic.RemoveAward(Guid.Parse(awardDel));
+        }
+        else { Console.WriteLine(awardDel); }
+    }
 }
 
 <p>All Awards</p>
@@ -35,7 +36,34 @@
         if ((search != null && award.Title.Contains(search)) || (search == null))
         {
             <script>
-                var trashClick = (event) => {                    
+
+                var openDelAWardModal = (event) => {
+                    if (event.target.className == "fixedTrash" || event.target.className == "far fa-trash-alt")
+                    {
+                        var delAwardModal = document.getElementById("delAwardModal");
+                        var deleteAwardId = document.getElementById("deleteAward-id");
+                        var awardToDeleteId = event.currentTarget.id;
+                        delAwardModal.style.display = "block";
+                        deleteAwardId.value = awardToDeleteId;
+                    }
+                }
+                var submitDeleteAward = document.getElementById('submit_delAward');
+                //submitDeleteAward.onclick = function () {
+                //    var xhr = new XMLHttpRequest();
+                //var body = 'awardDel=' + encodeURIComponent(event.currentTarget.id);
+                //xhr.open("POST", '/Pages/Awards.cshtml', true);
+                //    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                //    alert(body);
+                //xhr.onreadystatechange = function ()
+                //    { // listen for state changes
+                //    if (xhr.readyState == 4 && xhr.status == 200)
+                //    { // when completed we can move away
+                //            window.location = "/Pages/awards.cshtml";
+                //    }
+                //    }
+                //xhr.send(body);
+                //}
+                var trashClick = (event) => {
                 if (event.target.className == "fixedTrash" || event.target.className == "far fa-trash-alt")
                 {
                 var xhr = new XMLHttpRequest();
@@ -66,7 +94,7 @@
             let icon = document.createElement('i');
             icon.className = 'far fa-trash-alt';
             trash.appendChild(icon);
-                awardBlock.addEventListener('click', trashClick);
+                awardBlock.addEventListener('click', openDelAWardModal);
                 let pictureContainer = document.createElement('div');
                 pictureContainer.innerHTML = "<img src='/Content/Award.png' style= width:100%;'>";
                 let footer = document.createElement('div');
@@ -74,9 +102,9 @@
             let title = document.createElement('div');
                 title.className = "awardTitle";
                 title.innerText = a;
-            let bday = document.createElement('div');  
-                
-                footer.appendChild(title);            
+            let bday = document.createElement('div');
+
+                footer.appendChild(title);
                 footer.appendChild(trash);
                 awardBlock.appendChild(pictureContainer);
                 awardBlock.appendChild(footer);
@@ -102,7 +130,20 @@
                 <button id="close_addAward">Close</button>
             </div>
         </div>
-
+    </div>
+</div>
+<div id="delAwardModal" class="modal">
+    <div class="add-content">
+        <form id="delAwardForm" action="" method="post">
+            <input id="deleteAward-id" name="deleteAwardId" type="hidden" />
+        </form>
+        <div class="areYouSure">Are you sure?</div>
+        <div class="modal-footer">
+            <div class="modal-buttons">
+                <button id="submit_delAward" type="submit" form="delAwardForm">Yes</button>
+                <button id="close_delAward">No</button>
+            </div>
+        </div>
     </div>
 </div>
 <script type="module" src="~/Scripts/Awards.js"></script>

@@ -25,7 +25,7 @@
         changeUserBday = Request["changedUserBirthday"];
         changeUserName = Request["changedUserName"];
 
-        if (birthDay != null && name != null)
+        if (birthDay != null && name != null && birthDay != "" && name != "")
         {
             DateTime bday = Convert.ToDateTime(birthDay);
             @usersManagerLogic.AddUser(new User(name, bday));
