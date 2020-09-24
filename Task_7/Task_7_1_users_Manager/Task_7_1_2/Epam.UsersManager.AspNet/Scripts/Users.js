@@ -25,7 +25,7 @@ close_change.onclick = function () {
 
 userContainer.onclick = function (e) {
     let target = e.target;
-    if (target.className == "userBlock") {
+    if (target.className == "userBlock"||target.className =="picContainer") {
         change_modal.style.display = "block";
         document.getElementById("change-name").value = target.querySelector(".userNamePlace").innerText;
         document.getElementById("change-bday").value = target.querySelector(".userBday").innerText;

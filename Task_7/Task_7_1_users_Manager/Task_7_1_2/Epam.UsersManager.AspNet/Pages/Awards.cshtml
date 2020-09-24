@@ -29,13 +29,15 @@
     }
 }
 
-<p>All Awards</p>
-<div class="UsersContainer" id="awards-container">
-    @foreach (var award in managerLogic.GetAwards())
-    {
-        if ((search != null && award.Title.Contains(search)) || (search == null))
+@if (User.Identity.IsAuthenticated)
+{
+    <p>All Awards</p>
+    <div class="UsersContainer" id="awards-container">
+        @foreach (var award in managerLogic.GetAwards())
         {
-            <script>
+            if ((search != null && award.Title.Contains(search)) || (search == null))
+            {
+                <script>
 
                 var openDelAWardModal = (event) => {
                     if (event.target.className == "fixedTrash" || event.target.className == "far fa-trash-alt")
@@ -48,21 +50,6 @@
                     }
                 }
                 var submitDeleteAward = document.getElementById('submit_delAward');
-                //submitDeleteAward.onclick = function () {
-                //    var xhr = new XMLHttpRequest();
-                //var body = 'awardDel=' + encodeURIComponent(event.currentTarget.id);
-                //xhr.open("POST", '/Pages/Awards.cshtml', true);
-                //    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                //    alert(body);
-                //xhr.onreadystatechange = function ()
-                //    { // listen for state changes
-                //    if (xhr.readyState == 4 && xhr.status == 200)
-                //    { // when completed we can move away
-                //            window.location = "/Pages/awards.cshtml";
-                //    }
-                //    }
-                //xhr.send(body);
-                //}
                 var trashClick = (event) => {
                 if (event.target.className == "fixedTrash" || event.target.className == "far fa-trash-alt")
                 {
@@ -102,7 +89,6 @@
             let title = document.createElement('div');
                 title.className = "awardTitle";
                 title.innerText = a;
-            let bday = document.createElement('div');
 
                 footer.appendChild(title);
                 footer.appendChild(trash);
@@ -112,38 +98,45 @@
             awardsContainer.appendChild(awardBlock);
 
         }())
-            </script>
+                </script>
+            }
         }
-    }
-</div>
-<div class="fixedplus" id="AwardsFixedplus">
-    <i class="fas fa-plus icon"></i>
-</div>
-<div id="addAwardModal" class="modal">
-    <div class="add-content">
-        <form id="addAwardForm" action="" method="post">
-            <input class="add-header" id="add-title" placeholder="Title" type="text" name="awardTitle" />
-        </form>
-        <div class="modal-footer">
-            <div class="modal-buttons">
-                <button id="createAward" type="submit" form="addAwardForm">Add</button>
-                <button id="close_addAward">Close</button>
+    </div>
+    <div class="fixedplus" id="AwardsFixedplus">
+        <i class="fas fa-plus icon"></i>
+    </div>
+    <div id="addAwardModal" class="modal">
+        <div class="add-content">
+            <form id="addAwardForm" action="" method="post">
+                <input class="add-header" id="add-title" placeholder="Title" type="text" name="awardTitle" />
+            </form>
+            <div class="modal-footer">
+                <div class="modal-buttons">
+                    <button id="createAward" type="submit" form="addAwardForm">Add</button>
+                    <button id="close_addAward">Close</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div id="delAwardModal" class="modal">
-    <div class="add-content">
-        <form id="delAwardForm" action="" method="post">
-            <input id="deleteAward-id" name="deleteAwardId" type="hidden" />
-        </form>
-        <div class="areYouSure">Are you sure?</div>
-        <div class="modal-footer">
-            <div class="modal-buttons">
-                <button id="submit_delAward" type="submit" form="delAwardForm">Yes</button>
-                <button id="close_delAward">No</button>
+    <div id="delAwardModal" class="modal">
+        <div class="add-content">
+            <form id="delAwardForm" action="" method="post">
+                <input id="deleteAward-id" name="deleteAwardId" type="hidden" />
+            </form>
+            <div class="areYouSure">Are you sure?</div>
+            <div class="modal-footer">
+                <div class="modal-buttons">
+                    <button id="submit_delAward" type="submit" form="delAwardForm">Yes</button>
+                    <button id="close_delAward">No</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+}
+else
+{
+    <div class="alertInfo">Sorry, isn't available for Guest!</div>
+}
+
 <script type="module" src="~/Scripts/Awards.js"></script>

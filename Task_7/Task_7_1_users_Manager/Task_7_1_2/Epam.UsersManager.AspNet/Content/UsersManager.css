@@ -89,14 +89,14 @@
     border-radius: 5px; 
     width: 10%;
   }
-  .fixedTrash {
+  .fixedTrash, .updateIcon, .awardsIcon {
     width: 30px;
     height: 30px;
     position: relative;
     border-radius: 3px;
     border: 1px solid gray;
     right: 5px;
-    margin: 5px 0 5px auto;
+    margin: 5px 0 5px 2px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -114,8 +114,8 @@
     justify-content: center;
    align-items: center;
 }
-.fixedTrash:hover{
-    background-color: rgb(230, 230, 230);
+.fixedTrash:hover, .updateIcon:hover, .awardsIcon:hover{
+    background-color: rgb(196, 164, 206);
     cursor: pointer;
 }
 .fixedplus:hover{
@@ -199,6 +199,7 @@ button:hover{
 }
 .UsersContainer{
   display: flex;
+  flex-wrap: wrap;
 }
 .awardTitle{
   text-align: center;
@@ -206,4 +207,35 @@ button:hover{
 .areYouSure{
   text-align: center;
   margin-top: 40px;
+}
+.sixUserBlock{
+  display: flex;
+}
+.alertInfo{
+  margin-top: 50px;
+  text-align: center;
+  font-size: larger;
+  font-weight: bolder;
+  color: rgb(65, 22, 105);
+}
+.link{
+  text-align: center;
+  font-size: large;
+}
+.loginForm{
+  background-color: #fefefe;
+  margin: 15% auto;
+  border: 1px solid #888;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 -2px 2px rgba(128, 128, 128, 0.349);
+  width: 30%;
+  height: 160px;
+}
+.logPas{
+  margin: 10px;
+}
+.buttons{
+  display: flex;
 }

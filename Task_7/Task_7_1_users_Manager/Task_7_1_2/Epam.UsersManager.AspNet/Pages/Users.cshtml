@@ -45,15 +45,16 @@
         }
     }
 }
-
-<p>All users:</p>
-<div class="UsersContainer" id="u_container">
-    @foreach (var user in usersManagerLogic.GetAllUsers())
-    {
-        if ((search != null && user.Name.Contains(search)) || (search == null))
+@if (User.Identity.IsAuthenticated&&User.IsInRole("admin"))
+{
+    <p>All users:</p>
+    <div class="UsersContainer" id="u_container">
+        @foreach (var user in usersManagerLogic.GetAllUsers())
         {
-            <script>
-            var trashClick = (event) => {
+            if ((search != null && user.Name.Contains(search)) || (search == null))
+            {
+                <script>
+                var trashClick = (event) => {
                 if (event.target.className == "fixedTrash" || event.target.className == "far fa-trash-alt")
                 {
                 var xhr = new XMLHttpRequest();
@@ -69,71 +70,99 @@
                     }
                 xhr.send(body);
                 }
-            }
-            (function () {
+                }
+                (function () {
 
-            let a = "@user.Name";
-            let UsersContainer = document.getElementById("u_container");
-            let userBlock = document.createElement('div');
-            userBlock.className = "userBlock";
-            userBlock.id ="@user.ID";
-            let trash = document.createElement('div');
-            trash.className = "fixedTrash";
-
-            let icon = document.createElement('i');
-            icon.className = 'far fa-trash-alt';
-            trash.appendChild(icon);
-            userBlock.addEventListener('click', trashClick);
-            let name = document.createElement('div');
-            name.className = "userNamePlace";
-            name.innerText = a;
-            let bday = document.createElement('div');
-            bday.className = "userBday";
-            bday.innerText = "@user.DateOfBirth.ToShortDateString()";
-
-            userBlock.appendChild(name);
-            userBlock.appendChild(bday);
-            userBlock.appendChild(trash);
-            UsersContainer.appendChild(userBlock);
+                let a = "@user.Name";
+                let UsersContainer = document.getElementById("u_container");
+                let userBlock = document.createElement('div');
+                userBlock.className = "userBlock";
+                    userBlock.id = "@user.ID";
+                    let buttons = document.createElement('div');
+                    buttons.className = "buttons";
+                let trash = document.createElement('div');
+                trash.className = "fixedTrash";
+                let pictureContainer = document.createElement('div');
+                pictureContainer.className = "picContainer";
+                pictureContainer.innerHTML = "<img src='/Content/User.png' style= width:100%;'>";
+                let footer = document.createElement('div');
+                let trashIcon = document.createElement('i');
+                trashIcon.className = 'far fa-trash-alt';
+                trash.appendChild(trashIcon);
+                    let update = document.createElement('div');
+                    update.className = "updateIcon";
+                    let updateIcon = document.createElement('i');
+                    updateIcon.className = 'far fa-edit';
+                    update.appendChild(updateIcon);
+                    let awards = document.createElement('div');
+                    awards.className = "awardsIcon";
+                    let awardsIcon = document.createElement('i');
+                    awardsIcon.className = 'fas fa-award';
+                    awards.appendChild(awardsIcon);
+                    
+                userBlock.addEventListener('click', trashClick);
+                let name = document.createElement('div');
+                name.className = "userNamePlace";
+                name.innerText = a;
+                let bday = document.createElement('div');
+                bday.className = "userBday";
+                    bday.innerText = "@user.DateOfBirth.ToShortDateString()";
+                    buttons.appendChild(awards);
+                    buttons.appendChild(update);
+                    buttons.appendChild(trash);
+                footer.appendChild(name);
+                    footer.appendChild(bday);
+                    footer.appendChild(buttons);
+                userBlock.appendChild(pictureContainer);
+                userBlock.appendChild(footer);
+                UsersContainer.appendChild(userBlock);
 
         }())
-            </script>
-        }
-    }
-</div>
-<div id="addModal" class="modal">
-    <div class="add-content">
-        <form id="addUserForm" action="" method="post">
-            <input class="add-header" id="add-name" placeholder="User Name" type="text" name="userName" />
-            <br>
-            <input class="add-header" id="mydata" placeholder="01.12.2001" maxlength="10" type="text" name="userBirthday" />
-        </form>
-        <div class="modal-footer">
-            <div class="modal-buttons">
-                <button id="create" type="submit" form="addUserForm">Add User</button>
-                <button id="close_add">Close</button>
-            </div>
-        </div>
+                </script>
 
+            }
+        }
     </div>
-</div>
-<div id="changeModal" class="modal">
-    <div class="change-content">
-        <form id="updateUserForm" action="" method="post">
-            <input id="change-id" name="changedUserId" type="hidden" />
-            <input class="add-header" id="change-name" type="text" name="changedUserName" />
-            <br>
-            <input class="add-header" id="change-bday" maxlength="10" type="text" name="changedUserBirthday" />
-        </form>
-        <div class="modal-footer">
-            <div class="modal-buttons">
-                <button id="change" type="submit" form="updateUserForm">Update</button>
-                <button id="close_change">Close</button>
+    <div id="addModal" class="modal">
+        <div class="add-content">
+            <form id="addUserForm" action="" method="post">
+                <input class="add-header" id="add-name" placeholder="User Name" type="text" name="userName" />
+                <br>
+                <input class="add-header" id="mydata" placeholder="01.12.2001" maxlength="10" type="text" name="userBirthday" />
+            </form>
+            <div class="modal-footer">
+                <div class="modal-buttons">
+                    <button id="create" type="submit" form="addUserForm">Add User</button>
+                    <button id="close_add">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div id="changeModal" class="modal">
+        <div class="change-content">
+            <form id="updateUserForm" action="" method="post">
+                <input id="change-id" name="changedUserId" type="hidden" />
+                <input class="add-header" id="change-name" type="text" name="changedUserName" />
+                <br>
+                <input class="add-header" id="change-bday" maxlength="10" type="text" name="changedUserBirthday" />
+            </form>
+            <div class="modal-footer">
+                <div class="modal-buttons">
+                    <button id="change" type="submit" form="updateUserForm">Update</button>
+                    <button id="close_change">Close</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="fixedplus" id="fixedplus">
-    <i class="fas fa-plus icon"></i>
-</div>
+    <div class="fixedplus" id="fixedplus">
+        <i class="fas fa-plus icon"></i>
+    </div>
+
+}
+else
+{
+    <div class="alertInfo">Sorry, isn't available for Guest!</div>
+}
+
 <script type="module" src="~/Scripts/Users.js"></script>
