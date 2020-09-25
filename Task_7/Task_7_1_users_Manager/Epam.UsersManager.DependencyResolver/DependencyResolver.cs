@@ -17,8 +17,10 @@ namespace Epam.UsersManager.DependencyResolver
         private static IUsersManagerBll _usersManagerBll;
 
 
-        public static IUserDal UsersDal => _usersDal ?? (_usersDal = new JsonUserDal());
-        public static IAwardDal AwardsDal => _awardsDal ?? (_awardsDal = new JsonAwardDal());
+        //public static IUserDal UsersDal => _usersDal ?? (_usersDal = new JsonUserDal());
+        //public static IAwardDal AwardsDal => _awardsDal ?? (_awardsDal = new JsonAwardDal());
+        public static IUserDal UsersDal => _usersDal ?? (_usersDal = new DbUserDal());
+        public static IAwardDal AwardsDal => _awardsDal ?? (_awardsDal = new DbAwardDal());
         public static IUsersManagerBll UsersManagerBll => _usersManagerBll ?? (_usersManagerBll = new UsersManagerBll(UsersDal, AwardsDal));
     }
 }

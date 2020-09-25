@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B8333D87-A81F-4DE2-A406-21D147E61C06}</ProjectGuid>
+    <ProjectGuid>{DCE63A21-967A-4D85-AFFE-472DC8058D3F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Epam.UsersManager.DependencyResolver</RootNamespace>
-    <AssemblyName>Epam.UsersManager.DependencyResolver</AssemblyName>
+    <RootNamespace>Epam.UsersManager.DAL.Db</RootNamespace>
+    <AssemblyName>Epam.UsersManager.DAL.Db</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -41,29 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DependencyResolver.cs" />
+    <Compile Include="DbAwardDal.cs" />
+    <Compile Include="DbUserDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Epam.UsersManager.BLL.Interfaces\Epam.UsersManager.BLL.Interfaces.csproj">
-      <Project>{41ADE61D-1F8C-4181-BD2B-4CCC747F6DB1}</Project>
-      <Name>Epam.UsersManager.BLL.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Epam.UsersManager.BLL\Epam.UsersManager.BLL.csproj">
-      <Project>{2BC10E4C-BDD4-4024-9199-764A06CC5931}</Project>
-      <Name>Epam.UsersManager.BLL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Epam.UsersManager.DAL.Db\Epam.UsersManager.DAL.Db.csproj">
-      <Project>{dce63a21-967a-4d85-affe-472dc8058d3f}</Project>
-      <Name>Epam.UsersManager.DAL.Db</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Epam.UsersManager.DAL.Interfaces\Epam.UsersManager.DAL.Interfaces.csproj">
-      <Project>{D1DF18FF-D250-4640-9757-10DC2B2C80D1}</Project>
+      <Project>{d1df18ff-d250-4640-9757-10dc2b2c80d1}</Project>
       <Name>Epam.UsersManager.DAL.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Epam.UsersManager.DAL\Epam.UsersManager.DAL.csproj">
-      <Project>{B7239BD1-23E8-4E5F-91A4-E5212657C080}</Project>
-      <Name>Epam.UsersManager.DAL</Name>
+    <ProjectReference Include="..\Epam.UsersManager.Entities\Epam.UsersManager.Entities.csproj">
+      <Project>{bf38fdd2-8091-428d-9238-8cbbeb66025f}</Project>
+      <Name>Epam.UsersManager.Entities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

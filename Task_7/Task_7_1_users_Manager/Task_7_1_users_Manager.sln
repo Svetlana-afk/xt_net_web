@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epam.UsersManager.Dependenc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epam.UsersManager.AspNet", "Task_7_1_2\Epam.UsersManager.AspNet\Epam.UsersManager.AspNet.csproj", "{FDA3E776-52E6-4294-9307-EA28627C3CF9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epam.UsersManager.DAL.Db", "Epam.UsersManager.DAL.Db\Epam.UsersManager.DAL.Db.csproj", "{DCE63A21-967A-4D85-AFFE-472DC8058D3F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,10 @@ Global
 		{FDA3E776-52E6-4294-9307-EA28627C3CF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDA3E776-52E6-4294-9307-EA28627C3CF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDA3E776-52E6-4294-9307-EA28627C3CF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCE63A21-967A-4D85-AFFE-472DC8058D3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCE63A21-967A-4D85-AFFE-472DC8058D3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCE63A21-967A-4D85-AFFE-472DC8058D3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCE63A21-967A-4D85-AFFE-472DC8058D3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,6 +84,7 @@ Global
 		{BF38FDD2-8091-428D-9238-8CBBEB66025F} = {A95D9522-9FA8-45D2-8F06-11BAF5A281C7}
 		{B8333D87-A81F-4DE2-A406-21D147E61C06} = {A95D9522-9FA8-45D2-8F06-11BAF5A281C7}
 		{FDA3E776-52E6-4294-9307-EA28627C3CF9} = {5841DB8E-5D6B-4D4E-A684-EC73F297DFEF}
+		{DCE63A21-967A-4D85-AFFE-472DC8058D3F} = {762FEE27-9CF4-4884-A482-460A3FEFAF87}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {62722393-AD93-4E09-BCF3-264AB1699637}
