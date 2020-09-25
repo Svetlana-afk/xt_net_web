@@ -89,8 +89,8 @@ namespace Epam.UsersManager.BLL
                 return false;
             }
             bool successByUser = _usersDal.Reward(userId, awardId);
-            bool successByAward = _awardsDal.AddUserIdToAward(userId, awardId);
-            return successByAward && successByUser;
+            //bool successByAward = _awardsDal.AddUserIdToAward(userId, awardId);
+            return successByUser;
         }
 
         public Award GetAwardById(Guid awardId)

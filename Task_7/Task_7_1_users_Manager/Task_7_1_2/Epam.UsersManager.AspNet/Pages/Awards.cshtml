@@ -50,8 +50,6 @@
                         }
                         if (event.target.className == "updateIcon" || event.target.className == "far fa-edit") {
                             alert("UPD");
-                        var delAwardModal = document.getElementById("delAwardModal");
-                        var deleteAwardId = document.getElementById("deleteAward-id");
                         var awardToDeleteId = event.currentTarget.id;
                         delAwardModal.style.display = "block";
                         deleteAwardId.value = awardToDeleteId;

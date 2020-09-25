@@ -89,7 +89,7 @@
     border-radius: 5px; 
     width: 10%;
   }
-  .fixedTrash, .updateIcon, .awardsIcon {
+  .fixedTrash, .updateIcon, .awardsIcon, .fixedTrophy, .fixedCross {
     width: 30px;
     height: 30px;
     position: relative;
@@ -115,7 +115,7 @@
     justify-content: center;
    align-items: center;
 }
-.fixedTrash:hover, .updateIcon:hover, .awardsIcon:hover{
+.fixedTrash:hover, .updateIcon:hover, .awardsIcon:hover, .fixedTrophy:hover, .fixedCross:hover{
     background-color: rgb(196, 164, 206);
     cursor: pointer;
 }

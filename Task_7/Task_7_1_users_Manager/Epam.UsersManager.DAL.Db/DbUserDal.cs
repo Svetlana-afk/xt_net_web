@@ -160,10 +160,12 @@ namespace Epam.UsersManager.DAL
                 SqlCommand command = new SqlCommand(sqlAward, connection);
                 SqlDataReader reader = command.ExecuteReader();
                 if (!reader.HasRows) return false;
+                reader.Close();
 
                 command = new SqlCommand(sqlUser, connection);
                 reader = command.ExecuteReader();
                 if (!reader.HasRows) return false;
+                reader.Close();
 
                 command = new SqlCommand(sqlAddAward, connection);
                 int number = command.ExecuteNonQuery();

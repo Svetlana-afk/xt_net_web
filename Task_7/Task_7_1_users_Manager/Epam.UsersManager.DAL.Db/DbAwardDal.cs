@@ -23,7 +23,7 @@ namespace Epam.UsersManager.DAL
 
         public bool AddUserIdToAward(Guid userId, Guid awardId)
         {
-            string sqlUserIdToAward = String.Format("INSERT INTO UsersAwards (UserId, AwardId) VALUES ('{0}', {1})", userId, awardId);
+            string sqlUserIdToAward = String.Format("INSERT INTO UsersAwards (UserId, AwardId) VALUES ('{0}', '{1}')", userId, awardId);
             string sqlAwards = String.Format("SELECT * FROM Awards WHERE Id='{0}'", awardId);
             string sqlUsers = String.Format("SELECT * FROM Users WHERE Id='{0}'", userId);
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -33,10 +33,12 @@ namespace Epam.UsersManager.DAL
                 SqlCommand command = new SqlCommand(sqlAwards, connection);
                 SqlDataReader reader = command.ExecuteReader();
                 if (!reader.HasRows) return false;
+                reader.Close();
 
                 command = new SqlCommand(sqlUsers, connection);
                 reader = command.ExecuteReader();
                 if (!reader.HasRows) return false;
+                reader.Close();
 
                 command = new SqlCommand(sqlUserIdToAward, connection);
                 command.ExecuteNonQuery();

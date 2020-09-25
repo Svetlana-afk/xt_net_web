@@ -74,13 +74,18 @@
                         let target = event.currentTarget;
                         var change_modal = document.getElementById("changeModal");
                         change_modal.style.display = "block";
-                        console.log(target)
                         document.getElementById("change-name").value = target.querySelector(".userNamePlace").innerText;
                         document.getElementById("change-bday").value = target.querySelector(".userBday").innerText;
                         curChangeId = target.id;
 
                         let changedUserIdInput = document.getElementById("change-id");
                         changedUserIdInput.value = curChangeId;
+                    }
+                    if (event.target.className == "awardsIcon" || event.target.className == "fas fa-award") {
+                        let target = event.currentTarget;
+                        curChangeId = target.id;
+                        window.location.assign("/Pages/UsersAwards.cshtml?userId=" + curChangeId);
+
                     }
                 }
                 (function () {

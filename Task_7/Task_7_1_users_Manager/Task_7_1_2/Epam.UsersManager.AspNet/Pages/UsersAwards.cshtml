@@ -1,0 +1,150 @@
+﻿@using Epam.UsersManager.BLL;
+@using Epam.UsersManager.BLL.Interfaces;
+@using Epam.UsersManager.DependencyResolver;
+@using Epam.UsersManager.Entities;
+@using System;
+@{
+    Layout = null;
+    Layout = "~/_Layout.cshtml";
+    Page.Title = "Awards";
+    var managerLogic = DependencyResolver.UsersManagerBll;
+    string userID = null;
+    if (IsPost)
+    {
+        userID = Request["userId"];
+        string rewardID = Request["rewardId"];
+        string depriveAwardID = Request["depriveAwardId"];
+        if (depriveAwardID != null && !depriveAwardID.IsEmpty())
+        {
+            managerLogic.DepriveAward(Guid.Parse(userID), Guid.Parse(depriveAwardID));
+        }
+
+        if (rewardID != null && !rewardID.IsEmpty())
+        {
+            managerLogic.Reward(Guid.Parse(userID), Guid.Parse(rewardID));
+        }
+    }
+    else
+    {
+        userID = Request["userId"];
+    }
+}
+
+<p>All Awards from @managerLogic.GetUserById(Guid.Parse(userID)).Name</p>
+<div class="UsersContainer" id="userAwardsContainer">
+    @foreach (var item in managerLogic.GetUserAwards(Guid.Parse(userID)))
+    {
+        <script>
+
+          var depriveAwardFromUser = (event) => {
+              if (event.target.className == "fixedCross" || event.target.className == "fa fa-times") {
+                  let awardToDeprive = event.currentTarget.id;
+                  var xhrDeprive = new XMLHttpRequest();
+                  var body = 'depriveAwardId=' + encodeURIComponent(awardToDeprive) + '&userId=' + encodeURIComponent("@userID");
+                  xhrDeprive.open("POST", '/Pages/UsersAwards.cshtml', true);
+                  xhrDeprive.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                  xhrDeprive.onreadystatechange = function () { // listen for state changes
+                      if (xhrDeprive.readyState == 4 && xhrDeprive.status == 200) { // when completed we can move away
+                    window.location = "/Pages/UsersAwards.cshtml?userId=" + "@userID";
+                    }
+            }
+                  xhrDeprive.send(body);
+                  @*@managerLogic.DepriveAward(Guid.Parse(userID), Guid.Parse(target.id))*@
+              }
+          }
+
+      (function () {
+
+
+
+      let awardTitle = "@item.Title";
+          let awardsContainer = document.getElementById("userAwardsContainer");
+      let awardBlock = document.createElement('div');
+      awardBlock.className = "awardBlock";
+      awardBlock.id ="@item.ID";
+      let cross = document.createElement('div');
+      cross.className = "fixedCross";
+      let icon = document.createElement('i');
+      icon.className = 'fa fa-times';
+      cross.appendChild(icon);
+      awardBlock.addEventListener('click', depriveAwardFromUser);
+      let pictureContainer = document.createElement('div');
+      pictureContainer.innerHTML = " <img src='/Content/Award.png' style=width:100%;'>";
+      let footer = document.createElement('div');
+      footer.className = "awardFooter";
+      let buttons = document.createElement('div');
+      buttons.className = "buttons";
+      buttons.appendChild(cross);
+      let title = document.createElement('div');
+      title.className = "awardTitle";
+      title.innerText = awardTitle;
+
+      footer.appendChild(title);
+      footer.appendChild(buttons);
+      awardBlock.appendChild(pictureContainer);
+      awardBlock.appendChild(footer);
+
+      awardsContainer.appendChild(awardBlock);
+
+  }())
+        </script>
+
+    }
+</div>
+<div class="header"></div>
+<p>All Awards</p>
+<div class="UsersContainer" id="awardsForRewardcontainer">
+    @foreach (var award in managerLogic.GetAwards())
+    {
+        <script>
+    var rewardUser = (event) => {
+        if (event.target.className == "fixedTrophy" || event.target.className == "fa fa-trophy") {
+            var awardToReward = event.currentTarget.id;
+
+            var xhr = new XMLHttpRequest();
+            var body = 'rewardId=' + encodeURIComponent(awardToReward) + '&userId=' + encodeURIComponent("@userID");
+            xhr.open("POST", '/Pages/UsersAwards.cshtml', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function () { // listen for state changes
+                if (xhr.readyState == 4 && xhr.status == 200) { // when completed we can move away
+                    window.location = "/Pages/UsersAwards.cshtml?userId=" + "@userID";
+                }
+            }
+            xhr.send(body);
+        }
+    }
+        (function() {
+
+            let a = "@award.Title";
+            let awardsContainer = document.getElementById("awardsForRewardcontainer");
+            let awardBlock = document.createElement('div');
+            awardBlock.className = "awardBlock";
+            awardBlock.id = "@award.ID";
+            let trophy = document.createElement('div');
+            trophy.className = "fixedTrophy";
+            let icon = document.createElement('i');
+            icon.className = 'fa fa-trophy';
+            trophy.appendChild(icon);
+            awardBlock.addEventListener('click', rewardUser);
+            let pictureContainer = document.createElement('div');
+            pictureContainer.innerHTML = "<img src='/Content/Award.png' style= width:100%;'>";
+            let footer = document.createElement('div');
+            footer.className = "awardFooter";
+            let buttons = document.createElement('div');
+            buttons.className = "buttons";
+            buttons.appendChild(trophy);
+            let title = document.createElement('div');
+            title.className = "awardTitle";
+            title.innerText = a;
+            footer.appendChild(title);
+            footer.appendChild(buttons);
+            awardBlock.appendChild(pictureContainer);
+            awardBlock.appendChild(footer);
+            awardsContainer.appendChild(awardBlock);
+
+        }())
+        </script>
+    }
+</div>
+
+
