@@ -101,6 +101,7 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    left: 3px;
 }
 .fixedplus {
     width: 40px;

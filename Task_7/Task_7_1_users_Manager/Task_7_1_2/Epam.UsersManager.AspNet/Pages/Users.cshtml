@@ -45,7 +45,7 @@
         }
     }
 }
-@if (User.Identity.IsAuthenticated&&User.IsInRole("admin"))
+@if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
 {
     <p>All users:</p>
     <div class="UsersContainer" id="u_container">
@@ -54,7 +54,7 @@
             if ((search != null && user.Name.Contains(search)) || (search == null))
             {
                 <script>
-                var trashClick = (event) => {
+                var userClick = (event) => {
                 if (event.target.className == "fixedTrash" || event.target.className == "far fa-trash-alt")
                 {
                 var xhr = new XMLHttpRequest();
@@ -69,7 +69,19 @@
                     }
                     }
                 xhr.send(body);
-                }
+                    }
+                    if (event.target.className == "updateIcon" || event.target.className == "far fa-edit") {
+                        let target = event.currentTarget;
+                        var change_modal = document.getElementById("changeModal");
+                        change_modal.style.display = "block";
+                        console.log(target)
+                        document.getElementById("change-name").value = target.querySelector(".userNamePlace").innerText;
+                        document.getElementById("change-bday").value = target.querySelector(".userBday").innerText;
+                        curChangeId = target.id;
+
+                        let changedUserIdInput = document.getElementById("change-id");
+                        changedUserIdInput.value = curChangeId;
+                    }
                 }
                 (function () {
 
@@ -99,8 +111,8 @@
                     let awardsIcon = document.createElement('i');
                     awardsIcon.className = 'fas fa-award';
                     awards.appendChild(awardsIcon);
-                    
-                userBlock.addEventListener('click', trashClick);
+
+                userBlock.addEventListener('click', userClick);
                 let name = document.createElement('div');
                 name.className = "userNamePlace";
                 name.innerText = a;
