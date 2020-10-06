@@ -23,7 +23,7 @@ close_change.onclick = function () {
     document.getElementById("change-bday").value = "";
 }
 
-userContainer.onclick = function (e) {
+/*userContainer.onclick = function (e) {
     let target = e.target;
     if (target.className == "userBlock"||target.className =="picContainer") {
         change_modal.style.display = "block";
@@ -34,7 +34,7 @@ userContainer.onclick = function (e) {
         let changedUserIdInput = document.getElementById("change-id");
         changedUserIdInput.value = curChangeId;
     }
-}
+}*/
 
 
      

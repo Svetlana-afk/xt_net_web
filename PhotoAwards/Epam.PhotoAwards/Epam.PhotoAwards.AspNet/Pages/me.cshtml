@@ -1,0 +1,127 @@
+﻿@using Epam.PhotoAwards.DependencyResolver;
+@{
+    Layout = null;
+    var logic = DependencyResolver.PhotoAwardsBll;
+    var user = logic.GetUserByEmail(User.Identity.Name);
+    var photographer = logic.GetPhotographerByUser(user);
+    var username = photographer.Name;
+    var photoDescribtion = "";
+    var userPicPath = photographer.Logo;
+
+    WebImage photo = null;
+    var newFileName = "";
+    var imagePath = "";
+
+    if (IsPost)
+    {
+        photoDescribtion = Request["picDescription"];
+
+        photo = WebImage.GetImageFromRequest();
+        if (photo != null)
+        {
+            var fileNameArr = Path.GetFileName(photo.FileName).Split('.');
+            var ext = fileNameArr[fileNameArr.Length - 1];
+            newFileName = Guid.NewGuid().ToString() + "." + ext;
+            imagePath = @"Content\photos\" + newFileName;
+
+            photo.Save(@"~\" + imagePath);
+
+            logic.AddNewPhoto(photographer.ID, Guid.Parse("afa371c3-98c8-43c1-a498-1e6711790111"), newFileName, photoDescribtion);
+        }
+    }
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/Content/PhotoAwards.css" />
+    <link rel="stylesheet" href="~/Content/UserPage.css" />
+    <title>@username</title>
+</head>
+<body class="loginBody">
+    <div class="loginHeader">
+        <div class="gray-logo-container" id="logo"> <img src="~/Content/AwardLogoGray.png" alt="Photo Awards">  </div>
+    </div>
+    <div class="userPage">
+        <div class="userpicConteiner" id="userpicContainer"><img src="@userPicPath" alt="userpic"></div>
+        <div class="userInfo">
+            <h1>@photographer.Name</h1>
+            <p>Age: @photographer.Age</p>
+            <p>Countru: Russia</p>
+            <p>City: Saratov</p>
+        </div>
+    </div>
+    <div class="photoContainer" id="photoContainer">
+        <div class="picture" id="plusPic">
+            <img src="~/Content/PlusPic.jpg" alt="plus">
+        </div>
+        @foreach (var pic in photographer.Photos)
+        {
+            <script>
+                    var photoContainer = document.getElementById("photoContainer");
+                    var picture = document.createElement('div');
+                    picture.className = "picture";
+                    picture.innerHTML = "<img src='@pic.Path'>";
+                    photoContainer.appendChild(picture);
+            </script>
+
+        }
+
+    </div>
+    <div id="addPicture" class="modal">
+        <div class="content">
+            <form id="pictureDescription" action="" method="post" enctype="multipart/form-data">
+                <fieldset>
+                    <legend> Upload Image </legend>
+                    <label for="Image">Image</label>
+                    <input id="imageInput" type="file" name="Image" />
+                    <input id="description" placeholder="Description for photo" name="picDescription" type="text" />
+                    <br />
+                    <input type="submit" value="Upload" />
+                </fieldset>
+                @if (imagePath != "")
+                {
+                    <div class="result">
+                        <img src="@imagePath" alt="image" />
+                    </div>
+                }
+
+            </form>
+            <script>
+                (function () {
+                    var modal = document.getElementById('addPicture');
+                    if (modal.style.display == "none") {
+                        document.getElementById("imageInput").value = "";
+                        document.getElementById("description").value = "";
+                    }
+                }
+                )
+            </script>
+        </div>
+    </div>
+    <div id="addUserpic" class="modal">
+        @*<div class="content">
+                <form id="userPict" action="" method="post" enctype="multipart/form-data">
+                    <fieldset>
+                        <legend> Upload your new Userpic </legend>
+                        <label for="Image">Image</label>
+                        <input type="file" name="userPict" />
+                        <br />
+                        <input type="submit" value="Upload" />
+                    </fieldset>
+                    @if (imagePath != "")
+                    {
+                        <div class="result">
+                            <img src="@imagePath" alt="image" />
+                        </div>
+                    }
+
+                </form>
+            </div>*@
+    </div>
+</body>
+
+</html>
+<script type="module" src="~/Scripts/PhotographerPage.js"></script>

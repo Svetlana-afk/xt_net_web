@@ -1,0 +1,186 @@
+.homePageBody{
+    overflow: auto;
+    height: auto;
+    background-color: #272323;
+    margin: 10%;    
+    margin-top: 2%;
+    margin-bottom: 0%;
+}
+.loginBody{
+    background-color:whitesmoke;
+}
+.loginHeader{
+    background-color: white;
+    padding-left: 15%;
+
+}
+.gray-logo-container{
+    width: 33%;
+}
+.full_width_inner{
+    background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    margin: 0;
+    outline: medium none;
+    padding: 0;
+    vertical-align: baseline;    
+}
+.intro{
+    padding-top: 70px;
+    padding-bottom: 90px;
+    text-align: left;
+    background-image: url(https://www.photoawards.com/wp-content/uploads/top-section-statue.jpg);
+}
+body{
+    display: block;    
+    color: #818181;
+    font-family: "Raleway",sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 26px;
+    overflow-x: hidden!important;
+    overflow-y: scroll;
+    margin: 0px;
+}
+img{
+    max-width: 100%;
+}
+.logo-container{    
+    width: 50%;
+    margin: 5px;
+}
+.header-menu{
+    color: #999;
+    /*display: inline-block;*/
+    float: right;
+    line-height: 14px;
+    margin: 10px 0 0;    
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    padding: 10px;
+    
+}
+.main-menu{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center
+
+}
+ul, li{
+    display: inline;
+    color: #999;
+    
+}
+li{
+    border-right: 1px solid #999;   
+    padding-right: 5px;
+}
+li.menu-item{
+    padding: 30px;
+    border: none;
+}
+a{
+    color: #999;
+    text-decoration: none;
+}
+.header{    
+    height: 30px;
+}
+.picture-container{
+display:block;
+width:100%;
+height:auto;
+}
+h1, h3{
+    font-family: 'BureauEagle',sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+    margin: 10px;
+    margin-left: 25px;
+    color: rgb(218, 188, 156);
+
+}
+h2{
+    font-family: 'BureauEagle',sans-serif;
+    font-weight: bold;    
+    margin: 20px;
+    margin-left: 25px;    
+    color:  #818181;
+    font-size: 30px;
+}
+h3{
+    color: white;
+    font-size: 24px;
+}
+p, strong{
+    display: block;
+    margin: 30px;
+}
+.white-div{
+    height: auto;
+    background: url(/epam/xt_net_web/PhotoAwards/Content/backgrpund.jpg) rgb(240, 240, 239);
+    padding-top: 10px;
+    padding-bottom: 60px;
+    display: block;
+    background-color: rgb(240, 240, 239);
+    color:  #818181;
+}
+.yellow-div{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: rgb(218, 188, 156);
+}
+.footer{
+    background-color: white;
+    margin-top: 20px;
+    height: 50px;
+}
+.leftimg {
+    float:left; 
+    margin: 0px 20px 0 30px;
+    width: 25%;
+}
+.citata{
+    text-align: right;
+    color: #272323;
+    margin-bottom: 10px;
+    font-style: italic;
+    font-weight: bolder;
+}
+.caption{
+    text-align: left;
+    color:#272323; 
+    font-weight: bold; 
+    color: #b39475;
+    font-family: 'Raleway', sans-serif;
+}
+form label {
+    font-size: 13px;
+    font-weight: bold;
+    display: block;
+    width: 100%;
+}
+form p, h2{
+    margin-left: 0px;
+    display: block;
+}
+.forForm{
+    max-width: 650px;
+    position: relative;
+    width: 100%;
+    text-align: left;
+    margin: 0 auto;
+    padding: 0 70px;
+    display: block;
+    margin-top: 50px;
+}
+form input {
+    width: 60%;
+}
+.button-submit{
+    background-color: mediumaquamarine;
+    border-radius: 5px;
+    padding: 3px;
+    border: none;
+}

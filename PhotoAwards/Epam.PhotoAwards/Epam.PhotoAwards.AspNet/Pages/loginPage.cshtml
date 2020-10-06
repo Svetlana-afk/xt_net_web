@@ -1,0 +1,49 @@
+﻿@using Epam.PhotoAwards.BLL;
+@{
+    Layout = null;
+    if (IsPost)
+    {
+        var login = Request["login"];
+        var password = Request["password"];
+        if (Auth.CanLogin(login, password))
+        {
+            FormsAuthentication.SetAuthCookie(login, createPersistentCookie: true);
+            Response.Redirect("/Pages/index.cshtml");
+        }
+
+    }
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/Content/PhotoAwards.css" />
+    <title>login</title>
+</head>
+<body class="loginBody">
+    <div class="loginHeader">
+        <div class="gray-logo-container" id="gray-logo"> <img src="~/Content/AwardLogoGray.png" alt="Photo Awards">  </div>
+    </div>
+    <div class="forForm">
+        <form method="POST" action="">
+            <h2>Account Login</h2>
+            <p>If you don't have an account you can create it <a href="~/Pages/registration_page.cshtml">here</a> </p>
+            <label for="login">Login </label>
+            <input type="text" name="login" id="login" value="">
+
+            <label for="password">Password </label>
+            <input type="password" name="password" id="password" value="">
+            <input type="submit" class="button-submit" name="submit" value="login">
+        </form>
+        <a href="~/Pages/registration_page.cshtml">Or create Account</a>
+    </div>
+</body>
+</html>
+<script>
+    var logo = document.getElementById('gray-logo');
+    logo.onclick = function () {
+        window.location.assign("index.cshtml");
+    }
+</script>

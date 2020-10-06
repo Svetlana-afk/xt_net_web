@@ -1,0 +1,87 @@
+﻿@using Epam.PhotoAwards.DependencyResolver;
+@using Epam.PhotoAwards.Entities;
+@{
+    Layout = "~/_Layout.cshtml";
+    Page.Title = "Participants";
+    var usersManagerLogic = DependencyResolver.PhotoAwardsBll;
+    string search = null;
+
+
+
+    if (IsPost)
+    {
+        search = Request["search"];
+
+    }
+}
+
+<div class="search">
+    <form action="" method="post">
+        <div class="search-container">
+            <i class="fas fa-search icon"></i>
+            <input class="search-field" name="search" placeholder="Поиск" type="search" value="">
+        </div>
+    </form>
+</div>
+<div class="UsersContainer" id="u_container">
+    @foreach (var photographer in usersManagerLogic.GetAllPhotographers())
+    {
+        if ((search != null && photographer.Name.Contains(search)) || (search == null))
+        {
+    <script>
+                var userClick = (event) => {
+                    window.location.assign("/Pages/photographer");
+                }
+
+                (function () {
+
+                let a = "@photographer.Name";
+                let UsersContainer = document.getElementById("u_container");
+                let userBlock = document.createElement('div');
+                userBlock.className = "userBlock";
+                    userBlock.id = "@photographer.ID";
+                    let buttons = document.createElement('div');
+                    buttons.className = "buttons";
+                let trash = document.createElement('div');
+                trash.className = "fixedTrash";
+                let pictureContainer = document.createElement('div');
+                pictureContainer.className = "picContainer";
+                pictureContainer.innerHTML = "<img src='@photographer.Logo' style= width:100%;'>";
+                let footer = document.createElement('div');
+                let trashIcon = document.createElement('i');
+                trashIcon.className = 'far fa-trash-alt';
+                trash.appendChild(trashIcon);
+                    let update = document.createElement('div');
+                    update.className = "updateIcon";
+                    let updateIcon = document.createElement('i');
+                    updateIcon.className = 'far fa-edit';
+                    update.appendChild(updateIcon);
+                    let awards = document.createElement('div');
+                    awards.className = "awardsIcon";
+                    let awardsIcon = document.createElement('i');
+                    awardsIcon.className = 'fas fa-award';
+                    awards.appendChild(awardsIcon);
+
+                userBlock.addEventListener('click', userClick);
+                let name = document.createElement('div');
+                name.className = "userNamePlace";
+                name.innerText = a;
+                let bday = document.createElement('div');
+                bday.className = "userBday";
+                    bday.innerText = "@photographer.DateOfBirth.ToShortDateString()";
+                    buttons.appendChild(awards);
+                    buttons.appendChild(update);
+                    buttons.appendChild(trash);
+                footer.appendChild(name);
+                    footer.appendChild(bday);
+                    footer.appendChild(buttons);
+                userBlock.appendChild(pictureContainer);
+                userBlock.appendChild(footer);
+                UsersContainer.appendChild(userBlock);
+
+        }())
+    </script>
+
+        }
+    }
+</div>

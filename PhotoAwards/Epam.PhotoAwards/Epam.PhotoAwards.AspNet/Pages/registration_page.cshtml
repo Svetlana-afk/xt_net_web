@@ -1,0 +1,101 @@
+﻿@using Epam.PhotoAwards.BLL;
+@using Epam.PhotoAwards.DependencyResolver;
+@using Epam.PhotoAwards.Entities
+@{
+    Layout = null;
+    var photoAwardsManagerLogic = DependencyResolver.PhotoAwardsBll;
+    string email = null;
+    string name = null;
+    string birthDay = null;
+    string pass = null;
+    string userpic = "~/Content/Userpic.jpg";
+    string role = null;
+    string addMessage = "User has been registered";
+
+    if (IsPost)
+    {
+        email = Request["email"];
+        name = Request["name"];
+        birthDay = Request["bday"];
+        pass = Request["password"];
+        role = Request["role"];
+
+        if (role == "photographer")
+        {
+            try
+            {
+                photoAwardsManagerLogic.AddPhotographer(email, pass, name, Convert.ToDateTime(birthDay), userpic);
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Equals("Already exists"))
+                {
+                    addMessage = "User with this e-mail already exists";
+                }
+            }
+        }
+        else if (role == "jury")
+        {
+            try
+            {
+                photoAwardsManagerLogic.AddJury(email, pass, name);
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Equals("Already exists"))
+                {
+                    addMessage = "User with this e-mail already exists";
+                }
+            }
+        }
+        else
+        {
+            addMessage = "You have not chosen a role";
+        }
+
+    }
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/Content/PhotoAwards.css" />
+    <title>registration</title>
+</head>
+<body class="loginBody">
+    <div class="loginHeader">
+        <div class="gray-logo-container" id="logo"> <img src="~/Content/AwardLogoGray.png" alt="Photo Awards">  </div>
+    </div>
+    <div class="forForm">
+        <form method="POST" action="">
+            <h2>Registration</h2>
+            <label for="email">E-mail: </label>
+            <input type="text" name="email" id="email">
+            <label for="name">Name: </label>
+            <input type="text" name="name" id="newUserName">
+            <label for="name">Date of birth: </label>
+            <input type="text" name="bday" id="bday" maxlength="10">
+            <label for="password">Password: </label>
+            <input type="password" name="password" id="password">
+            <br>
+            <select id="roles" name="role">
+                <option disabled="disabled" selected="selected">Choose the role:</option>
+                <option value="photographer">Photographer</option>
+                <option value="jury">Jury</option>
+            </select>
+            <br>
+            <input type="submit" id="regButton" class="button-submit" name="submit" value="login">
+            <input type="button" class="button-submit" value="Cancel" onClick='location.href="/Pages/index.cshtml"'>
+        </form>
+    </div>
+</body>
+</html>
+<script type="module" src="~/Scripts/Registration.js"></script>
+<script>    
+    var regButton = document.getElementById('regButton');
+    regButton.onclick = function () {
+        alert("@addMessage");
+    }
+</script>

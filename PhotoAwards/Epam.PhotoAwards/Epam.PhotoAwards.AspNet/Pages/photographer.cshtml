@@ -1,0 +1,77 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/Content/PhotoAwards.css" />
+    <link rel="stylesheet" href="~/Content/UserPage.css" />
+    <title>Photographer</title>
+</head>
+<body class="loginBody">
+    <div class="loginHeader">
+        <div class="gray-logo-container" id="logo"> <img src="~/Content/AwardLogoGray.png" alt="Photo Awards">  </div>
+    </div>
+    <div class="userPage">
+        <div class="userpicConteiner"><img src="~/Content/Userpic.jpg" alt=""></div>
+        <div class="userInfo">
+            <h1>User Name</h1>
+            <p>Age: 20 years</p>
+            <p>Countru: Russia</p>
+            <p>City: Saratov</p>
+        </div>
+    </div>
+    <div class="photoContainer">
+        <div class="picture" id="plusPic">
+            <img src="~/Content/PlusPic.jpg" alt="plus">
+        </div>
+        <div class="picture">
+            <img src="~/Content/cara-delevingne-for-interview-magazine-april-2013-2.jpg" alt="plus">
+        </div>
+
+        <div class="picture">
+            <img src="~/Content/Pudikov.jpg" alt="plus">
+        </div>
+        <div class="picture">
+            <img src="~/Content/PlusPic.jpg" alt="plus">
+        </div>
+        <div class="picture">
+            <img src="~/Content/PlusPic.jpg" alt="plus">
+        </div>
+        <div class="picture">
+            <img src="~/Content/Userpic.jpg" alt="plus">
+        </div>
+        <div class="picture">
+            <img src="~/Content/PlusPic.jpg" alt="plus">
+        </div>
+        <div class="picture">
+            <img src="~/Content/PlusPic.jpg" alt="plus">
+        </div>
+        <div class="picture">
+            <img src="~/Content/PlusPic.jpg" alt="plus">
+        </div>
+        <div class="picture">
+            <img src="~/Content/PlusPic.jpg" alt="plus">
+        </div>
+    </div>
+    <div id="addPicture" class="modal">
+        <div class="content">
+            <form id="pictureDescription" action="" method="post">
+                <div>UPLOAD PHOTO</div>
+                <input id="description"  placeholder ="Description for photo" name="picDescription" type="text" />                
+            </form>
+            <div class="modal-footer">
+                <div class="modal-buttons">
+                    <button id="change" type="submit" form="pictureDescription">Upload</button>
+                    <button id="close_add">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script type="module" src="~/Scripts/PhotographerPage.js"></script>
